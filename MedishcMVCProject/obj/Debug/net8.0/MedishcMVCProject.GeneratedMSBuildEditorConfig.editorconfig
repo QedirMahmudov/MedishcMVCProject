@@ -1,0 +1,133 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = MedishcMVCProject
+build_property.RootNamespace = MedishcMVCProject
+build_property.ProjectDir = C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/AboutUs/AboutService.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRVc1xBYm91dFNlcnZpY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/AboutUs/AboutUs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRVc1xBYm91dFVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/AboutUs/Appointments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRVc1xBcHBvaW50bWVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/AboutUs/FAQS.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRVc1xGQVFTLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/AboutUs/Gallery.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRVc1xHYWxsZXJ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/AboutUs/MedicalServices.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRVc1xNZWRpY2FsU2VydmljZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/AboutUs/PricingAndPlans.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvdXRVc1xQcmljaW5nQW5kUGxhbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Blog/BlogDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmxvZ1xCbG9nRGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Blog/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmxvZ1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Cardiac/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FyZGlhY1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Contact/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Doctor/DoctorDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdG9yXERvY3RvckRldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Doctor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdG9yXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Home/PharmacyIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQaGFybWFjeUluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Laboratory/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFib3JhdG9yeVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Neurology/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV1cm9sb2d5XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Ophthalmology/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3BodGhhbG1vbG9neVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Pathology/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aG9sb2d5XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Pediatric/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVkaWF0cmljXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Shared/_PharmacyLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QaGFybWFjeUxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Shop/Checkout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcFxDaGVja291dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Shop/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Shop/ProductDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcFxQcm9kdWN0RGV0YWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/Shop/ViewCart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcFxWaWV3Q2FydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

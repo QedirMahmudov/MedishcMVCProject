@@ -1,0 +1,274 @@
+﻿@model DoctorDetailVM
+
+<section class="hero hero-4 bg-overlay bg-overlay-theme">
+    <div class="bg-section"> <img src="~/assets/images/sliders/1.jpg" alt="background" /></div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <div class="team-modern team-modern-2">
+                        <div class="team-member">
+                            <div class="team-member-holder">
+                                <div class="team-img"><a class="link" href="javascript:void(0)"></a><img src="~/assets/images/team/grid/@Model.Doctor.Image" alt="team member" /></div>
+                                <!-- End .team-img-->
+                                <div class="team-content-holder">
+                                    <div class="team-content">
+                                        <div class="team-title">
+                                            <h4><a href="javascript:void(0)">@Model.Doctor.Name @Model.Doctor.Surname</a></h4>
+                                        </div>
+                                        <div class="team-cat"><a href="javascript:void(0)">@Model.Doctor.Specialist.Name Specialist</a></div>
+                                        <div class="team-desc">
+                                            <p>@Model.Doctor.MainDescription</p>
+                                        </div>
+                                        <div class="team-social"> <a href="javascript:void(0)"><i class="fab fa-facebook-f"> </i></a><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a><a href="javascript:void(0)"><i class="fas fa-envelope"></i></a><a href="javascript:void(0)"><i class="fas fa-phone-alt"></i></a></div>
+                                    </div>
+                                    <!-- End .team-content-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 content-merged order-2 order-lg-0">
+                    <div class="hero-rating">
+                        <span class="num">@Model.Doctor.ZodocRating</span>
+                        <div class="rating-body">
+                            <p><a href="#">zodoc</a> Overall Rating, based on @Model.Doctor.ReviewCount reviews</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-5 content-merged">
+                    <div class="hero-action"><a class="btn btn--secondary btn--inversed btn-line btn-line-after" href="#"> <span>make apponitment</span><span class="line"><span></span></span></a><a class="btn btn--transparent btn--inversed" href="#">doctors timetable</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--
+============================
+Doctor Profile Modern Section
+============================
+-->
+<section class="team-single team-single-modern">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                <!--
+                ============================
+                Sidebar Doctors #01
+                ============================
+                -->
+                <div class="sidebar sidebar-doctors">
+                    <!-- Reservation-->
+                    <div class="widget widget-reservation">
+                        <img src="~/assets/images/blog/sidebar/reservation.jpg" alt="image" />
+                        <div class="widget-content">
+                            <i class="flaticon-022-medical"></i>
+                            <h5>emergency cases</h5>
+                            <p>Please feel welcome to contact our friendly reception staff with any general or medical enquiry call us</p><a href="tel:0106123214"><span class="fas fa-phone-alt"></span> 0106123214</a>
+                        </div>
+                    </div>
+                    <!-- End .widget-reservation-->
+                    <!-- Opening-hours-->
+                    <div class="widget widget-opening-hours">
+                        <div class="widget-content">
+                            <i class="flaticon-014-uniform"></i>
+                            <h5>opening hours </h5>
+                            <ul class="list-unstyled">
+                                @foreach (var item in Model.OpeningHours)
+                                {
+                                    <li>
+                                        <span>@item.DayOfWeek</span>
+                                        @if (!item.OpenTime.HasValue || !item.CloseTime.HasValue)
+                                        {
+                                            <span>Closed</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@item.OpenTime - @item.CloseTime</span>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End .widget-opening-hours-->
+                    <!-- Download-->
+                    <div class="widget widget-download">
+                        <div class="widget-content">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" width="18" height="18">
+                                            <g>
+                                                <g>
+                                                    <g>
+                                                        <path class="shp0" d="M10 10L8 10L8 4L10 4L10 10ZM9 14.3C8.28 14.3 7.7 13.72 7.7 13C7.7 12.28 8.28 11.7 9 11.7C9.72 11.7 10.3 12.28 10.3 13C10.3 13.72 9.72 14.3 9 14.3ZM12.73 0L5.27 0L0 5.27L0 12.73L5.27 18L12.73 18L18 12.73L18 5.27L12.73 0Z"></path>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg><span>covid-19 latest update</span>
+                                    </a>
+                                </li>
+                                <li class="inversed">
+                                    <a href="javascript:void(0)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" width="18" height="18">
+                                            <g>
+                                                <g>
+                                                    <g>
+                                                        <path class="shp0" d="M2.12 2L2.93 1L14.93 1L15.87 2L2.12 2ZM9 14.5L3.5 9L7 9L7 7L11 7L11 9L14.5 9L9 14.5ZM17.54 2.23L16.15 0.55C15.88 0.21 15.47 0 15 0L3 0C2.53 0 2.12 0.21 1.84 0.55L0.46 2.23C0.17 2.57 0 3.02 0 3.5L0 16C0 17.1 0.9 18 2 18L16 18C17.1 18 18 17.1 18 16L18 3.5C18 3.02 17.83 2.57 17.54 2.23Z"></path>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </svg><span>2020 patient reports</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End .widget-download-->
+                </div>
+                <!-- End .sidebar-->
+            </div>
+            <div class="col-12 col-lg-8">
+                <div class="entry-bio">
+                    <h5 class="entry-heading">biography</h5>
+                    <p class="entry-desc strong">@Model.Doctor.MainDescription</p>
+                    <p class="entry-desc">@Model.Doctor.AdditionalDescription</p>
+                </div>
+                <div class="entry-table">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="content head">speciality </div>
+                                </td>
+                                <td>
+                                    <div class="content">@Model.Doctor.Specialist.Name</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="content head">degrees</div>
+                                </td>
+                                <td>
+                                    <div class="content">@Model.Doctor.Degree.Name</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="content head">area of experties</div>
+                                </td>
+                                <td>
+                                    <div class="content">
+                                        <ul class="list-unstyled experties-list">
+                                            <li><i class="fas fa-check"></i>  Cardiac Imaging – Non-invasive.</li>
+                                            <li><i class="fas fa-check"></i>  Cardiac Rehabilitation and Exercise.</li>
+                                            <li><i class="fas fa-check"></i>  Hypertrophic Cardiomyopathy.</li>
+                                            <li><i class="fas fa-check"></i>  Inherited Heart Diseases.</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="content head">office</div>
+                                </td>
+                                <td>
+                                    <div class="content">2307 Beverley Rd Brooklyn, New York 11226 United States.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="content head">university</div>
+                                </td>
+                                <td>
+                                    <div class="content">@Model.Doctor.University.Name</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="entry-bio entry-services">
+                    <h5 class="entry-heading">doctor's services</h5>
+                    <p class="entry-desc">He actively participates in clinical research trials and has been published in peer reviewed journals such as the Journal of the State Medical Society and Baylor University Medical Center's Proceedings. At Hahnemann Hospital in conjunction with Drexel University, where he received extensive training in coronary as well as peripheral interventions and limb salvage procedures.</p>
+                    <div class="prices-panel">
+                        <h6>treatments price list </h6>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <ul class="list-unstyled">
+                                    @foreach (var item in Model.PriceLists)
+                                    {
+                                        <li>@item.Name <span class="price">$@item.Price</span></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="entry-contact">
+                    <div class="contact-panel bg-overlay bg-overlay-theme">
+                        <div class="bg-section"> <img src="~/assets/images/sliders/1.jpg" alt="background" /></div>
+                        <div class="contact-card">
+                            <div class="contact-body">
+                                <h5 class="card-heading">book an appointment</h5>
+                                <p class="card-desc">Please feel welcome to contact our staff with any general or medical enquiry. Our doctors will receive or return any urgent calls.</p>
+                                <form class="contactForm" method="post" action="https://demo.zytheme.com/medisch/assets/php/contact.php">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="select-holder">
+                                                <select class="form-control">
+                                                    <option value="default">bathology clinic</option>
+                                                    <option value="AL">neurology clinic </option>
+                                                    <option value="AK">cardiology clinic </option>
+                                                </select>
+                                                <div class="badge">department</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="select-holder">
+                                                <select class="form-control">
+                                                    <option value="default">michael brian</option>
+                                                    <option value="AL">maria andoloro</option>
+                                                    <option value="AK">richard muldoone</option>
+                                                </select>
+                                                <div class="badge">choose doctor</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-lg-6">
+                                            <input class="form-control" type="text" name="contact-name" placeholder="Name" required="" />
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-6">
+                                            <input class="form-control" type="text" name="contact-email" placeholder="Email" required="" />
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-4">
+                                            <input class="form-control" type="text" name="contact-phone" placeholder="Phone" required="" />
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-4">
+                                            <div class="date-select">
+                                                <input class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="select date" name="contact-date" value="" required="" /><i class="fas fa-calendar-day"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-4">
+                                            <div class="time-select">
+                                                <input class="form-control" type="text" onfocus="(this.type='time')" onblur="(this.type='text')" placeholder="select time" name="contact-date" value="" required="" /><i class="fas fa-clock"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="btn btn--secondary btn-line btn-line-before btn--block"><span class="line"> <span> </span></span><span>make appointment</span></button>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="contact-result"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- End .contact-body -->
+                        </div>
+                    </div>
+                    <!-- End .contact-panel-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

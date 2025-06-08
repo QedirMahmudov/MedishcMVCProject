@@ -1,0 +1,272 @@
+﻿@model BlogDetailVM
+
+
+<section class="page-title page-title-blank bg-white" id="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="title">
+                    <ol class="breadcrumb breadcrumb-long">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">blog</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">6 tips to protect your mental health when you are sick</li>
+                    </ol>
+                </div>
+                <!-- End .title -->
+            </div>
+            <!-- End .col-lg-8-->
+        </div>
+        <!-- End .row-->
+    </div>
+    <!-- End .container-->
+</section>
+<!-- End #page-title-->
+<!--
+============================
+Blog Single Section
+============================
+-->
+<section class="blog blog-single" id="blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-8">
+                <!-- Blog Entry-->
+                <div class="blog-entry">
+                    <div class="entry-img">
+                        <a href="#"><img src="~/assets/images/blog/single/@Model.Blog.Image" alt="entry image" /></a>
+                        <div class="entry-date">
+                        </div>
+                    </div>
+                    <div class="entry-content">
+                        <div class="entry-meta">
+                            @foreach (var item in Model.Categories)
+                            {
+                                <div class="entry-category"><a href="#"> @item.Name </a><a href="#"></a></div>
+
+                            }
+                            <div class="divider"> </div>
+                            <div class="entry-author">
+                                <a href="javascript:void(0)">
+                                    <p>@Model.Blog.Author.Name </p>
+                                </a>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="entry-comments"><span>comments:</span><span class="num">2</span></div>
+                        </div>
+                        <!-- .entry-meta end-->
+                        <div class="entry-title">
+                            <h4>@Model.Blog.Title</h4>
+                        </div>
+                        <div class="entry-bio">
+                            <p>@Model.Blog.Description</p>
+
+                        </div>
+                    </div>
+                    <div class="entry-holder">
+                        <div class="entry-tags"><a href="javascript:void(0)">life style</a><a href="javascript:void(0)">nutrition</a><a href="javascript:void(0)">infectious</a></div>
+                        <!-- .entry-tags end-->
+                        <div class="entry-share"><span>share</span><a class="facebook-bg" href="#"><i class="fab fa-facebook-f"></i></a><a class="twitter-bg" href="#"><i class="fab fa-twitter"> </i></a><a class="instagram-bg" href="#"><i class="fab fa-instagram"></i></a></div>
+                        <!-- .entry-share end-->
+                    </div>
+                    <div class="nav-posts">
+                        <div class="prev-post">
+                            <div class="post-img">
+                                <div class="overlay"> <i class="icon-arrow-right"></i></div><img src="~/assets/images/blog/thumb/prev.png" alt="title" />
+                            </div>
+                            <div class="post-body"><span>previous post</span><a class="post-link" href="#">unsur about wearing a face mask ?</a></div>
+                        </div>
+                        <div class="next-post">
+                            <div class="post-body"><span>next post</span><a class="post-link" href="#">tips for eating healthy when you are home</a></div>
+                            <div class="post-img">
+                                <div class="overlay"> <i class="icon-arrow-right"></i></div><img src="~/assets/images/blog/thumb/next.png" alt="title" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="entry-widget-bio clearfix">
+                        <div class="entry-widget-content">
+                            <img src="~/assets/images/blog/author/2.jpg" alt="author" />
+                            <div class="entry-bio-desc">
+                                <h4>Mahmoud Baghagho</h4>
+                                <p>Founded by Begha over many cups of tea at her kitchen table in 2009, our brand promise is simple: to provide powerful digital marketing solutions.</p><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- .entry-bio end-->
+                    <div class="entry-widget entry-comments clearfix">
+                        <div class="entry-widget-title">
+                            <h4><span class="comments--number">2</span> comments</h4>
+                        </div>
+                        <div class="entry-widget-content">
+                            <ul class="comments-list">
+                                <li class="comment-body">
+                                    <div class="avatar"><img src="~/assets/images/blog/author/3.jpg" alt="avatar" /></div>
+                                    <div class="comment">
+                                        <h6>Richard Muldoone</h6>
+                                        <div class="date">Feb 28, 2019 - 08:07 pm</div>
+                                        <p>The example about the mattress sizing page you mentioned in the last WBF can be a perfect example of new keywords and content, and broadening the funnel as well. I can only imagine the sale numbers if that was the site of a mattress selling company.</p><a class="reply" href="#">reply</a>
+                                        <ul class="replies-list">
+                                            <li class="comment-body">
+                                                <div class="avatar"><img src="~/assets/images/blog/author/4.jpg" alt="avatar" /></div>
+                                                <div class="comment">
+                                                    <h6>mike dooley</h6>
+                                                    <div class="date">Feb 28, 2019 - 08:22 pm</div>
+                                                    <p>The example about the mattress sizing page you mentioned in the last WBF can be a perfect example of new keywords and content, and broadening the funnel as well. I can only imagine the sale numbers if that was the site of a mattress selling company.</p><a class="reply" href="#">reply</a>
+                                                </div>
+                                                <!-- reply end-->
+                                            </li>
+                                        </ul>
+                                        <!-- replies-list end-->
+                                    </div>
+                                </li>
+                                <!-- comment end-->
+                            </ul>
+                            <!-- .comments-list end-->
+                        </div>
+                    </div>
+                    <!-- End .entry-comments-->
+                    <div class="entry-widget entry-add-comment mb-0 clearfix">
+                        <div class="entry-widget-title">
+                            <h4>Leave A Reply</h4>
+                        </div>
+                        <div class="entry-widget-content">
+                            <form class="mb-0" id="post-comment">
+                                <div class="row">
+                                    <div class="col-12 col-lg-4">
+                                        <input class="form-control" type="text" placeholder="Name:" />
+                                    </div>
+                                    <div class="col-12 col-lg-4">
+                                        <input class="form-control" type="email" placeholder="Email" />
+                                    </div>
+                                    <div class="col-12 col-lg-4">
+                                        <input class="form-control" type="text" placeholder="website" />
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" rows="2" placeholder="Comment"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="custom-radio-group">
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                <input class="custom-control-input" type="radio" id="customRadioInline1" name="customRadioInline1" />
+                                                <label for="customRadioInline1">Save my name, email, and website in this browser for the next time I comment.</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn--primary btn-line btn-line-before" type="submit">
+                                            <div class="line"> <span></span></div><span>Submit Comment</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End .entry-comments-->
+                </div>
+                <!-- End .blog-entry-->
+            </div>
+            <!-- End .col-lg-8-->
+            <!--
+            ============================
+            Sidebar Blog
+            ============================
+            -->
+            <div class="col-12 col-lg-4">
+                <div class="sidebar sidebar-blog">
+                    <!-- Search-->
+                    <div class="widget widget-search">
+                        <div class="widget-title">
+                            <h5>search</h5>
+                        </div>
+                        <div class="widget-content">
+                            <form class="form-search">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" placeholder="Search ..." /><span class="input-group-btn">
+                                        <button class="btn" type="button"><i class="icon-search"></i></button>
+                                    </span>
+                                </div>
+                                <!-- /input-group-->
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End .widget-search -->
+                    <!-- Recent Posts-->
+                    <div class="widget widget-recent-posts">
+                        <div class="widget-title">
+                            <h5>recent posts</h5>
+                        </div>
+                        <div class="widget-content">
+                            <!-- Start .Post-->
+                            <div class="post">
+                                <div class="post-img"><img src="~/assets/images/blog/sidebar/post-1.jpg" alt="post img" /></div>
+                                <div class="post-content">
+                                    <div class="post-date"><span class="date">jan 25</span><span class="year">2021</span></div>
+                                    <div class="post-title"><a href="blog-single.html">unsure about wearing a face mask? here is how </a></div>
+                                </div>
+                            </div>
+                            <!-- End .post-->
+                            <!-- Start .Post-->
+                            <div class="post">
+                                <div class="post-img"><img src="~/assets/images/blog/sidebar/post-2.jpg" alt="post img" /></div>
+                                <div class="post-content">
+                                    <div class="post-date"><span class="date">jan 27</span><span class="year">2021</span></div>
+                                    <div class="post-title"><a href="blog-single.html">Tips for Eating Healthy when Working at Home</a></div>
+                                </div>
+                            </div>
+                            <!-- End .post-->
+                            <!-- Start .Post-->
+                            <div class="post">
+                                <div class="post-img"><img src="~/assets/images/blog/sidebar/post-3.jpg" alt="post img" /></div>
+                                <div class="post-content">
+                                    <div class="post-date"><span class="date">jan 23</span><span class="year">2021</span></div>
+                                    <div class="post-title"><a href="blog-single.html">Why Coronavirus Cases Among Adults Is Bad News</a></div>
+                                </div>
+                            </div>
+                            <!-- End .post-->
+                        </div>
+                    </div>
+                    <!-- End .widget-recent-posts -->
+                    <!-- Categories-->
+                    <div class="widget widget-categories">
+                        <div class="widget-title">
+                            <h5>categories</h5>
+                        </div>
+                        <div class="widget-content">
+                            <ul class="list-unstyled">
+                                <li><a href="javascript:void(0)">neurology</a><span>9</span></li>
+                                <li><a href="javascript:void(0)">cardiology</a><span>2</span></li>
+                                <li><a href="javascript:void(0)">pathology</a><span>5</span></li>
+                                <li><a href="javascript:void(0)">labotatory</a><span>1</span></li>
+                                <li><a href="javascript:void(0)">pediatric</a><span>7</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End .widget-categories -->
+                    <!-- Tags-->
+                    <div class="widget widget-tags">
+                        <div class="widget-title">
+                            <h5>Tags</h5>
+                        </div>
+                        <div class="widget-content">
+                            <a href="javascript:void(0)">life style</a><a href="javascript:void(0)">nutrition</a><a href="javascript:void(0)">infectious</a><a href="javascript:void(0)">disease</a><a href="javascript:void(0)">insights</a><a href="javascript:void(0)">urinary</a><a href="javascript:void(0)">tips</a>
+                        </div>
+                    </div>
+                    <!-- End .widget-tags -->
+                    <!-- Reservation-->
+                    <div class="widget widget-reservation">
+                        <img src="~/assets/images/blog/sidebar/reservation.jpg" />
+                        <div class="widget-content">
+                            <i class="flaticon-022-medical"></i>
+                            <h5>emergency cases</h5>
+                            <p>Please feel welcome to contact our friendly reception staff with any general or medical enquiry call us</p><a href="tel:0106123214"><span class="fas fa-phone-alt"></span> 0106123214</a>
+                        </div>
+                    </div>
+                    <!-- End .widget-reservation-->
+                </div>
+                <!-- End .sidebar-->
+            </div>
+            <!-- End .col-lg-4 -->
+        </div>
+        <!-- End .row-->
+    </div>
+    <!-- End .container-->
+</section>

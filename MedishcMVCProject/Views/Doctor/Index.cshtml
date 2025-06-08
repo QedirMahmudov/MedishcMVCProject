@@ -1,0 +1,125 @@
+﻿@model DoctorIndexVM
+
+
+<section class="hero hero-2 bg-overlay bg-overlay-dark">
+    <div class="bg-section"> <img src="~/assets/images/sliders/1.jpg" alt="background" /></div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="row">
+                <div class="col-12 col-lg-5">
+                    <p class="hero-subtitle">The Best Medical And General Practice Care!</p>
+                    <h2 class="hero-title">Delivering Tomorrow’s Care For Your Family.</h2>
+                    <p class="hero-desc">Our doctors include highly qualified practitioners who come from a range of backgrounds and bring a diversity of skills. Our support staff all have exceptional people skills.</p>
+                    <div class="hero-action"> <a class="btn btn--primary btn-line btn-line-after" asp-controller="AboutUs" asp-action="Appointments"> <span>make apponitment</span><span class="line"><span></span></span></a><a class="btn btn--white btn-line btn-line-after btn-line-inversed" asp-controller="AboutUs" asp-action="AboutUs"> <span>more about us</span><span class="line"><span></span></span></a></div>
+                </div>
+                <div class="col-12 col-lg-7">
+                    <div class="hero-panel-holder">
+                        <div class="hero-panel">
+                            <div class="panel-content">
+                                <i class="flaticon-028-book"></i>
+                                <h5>doctors timetable</h5>
+                                <p>Qualified doctors available six days a week, view our timetable to make an appointment.</p><a class="btn btn--white btn-line btn-line-before btn-line-inversed" href="#"> <span class="line"> <span> </span></span><span>view timetable</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <ol class="breadcrumb d-flex">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">doctors</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--
+============================
+Team Modern Section
+============================
+-->
+<section class="team team-modern" id="teamModern">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model.Doctors)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="team-member" data-hover="">
+                        <div class="team-member-holder">
+                            <div class="team-img"><a class="link" asp-action="DoctorDetail" asp-route-id="@item.Id"></a><img src="~/assets/images/team/grid/@item.Image" alt="team member" /></div>
+                            <!-- End .team-img-->
+                            <div class="team-content-holder">
+                                <div class="team-content">
+                                    <div class="team-title">
+                                        <h4><a asp-action="DoctorDetail" asp-route-id="@item.Id">@item.Name @item.Surname</a></h4>
+                                    </div>
+                                    <div class="team-cat"><a href="#">@item.Specialist.Name Specialist</a></div>
+                                    <div class="team-desc">
+                                        <p>@item.MainDescription</p>
+                                    </div>
+                                    <div class="team-social"> <a href="javascript:void(0)"><i class="fab fa-facebook-f"> </i></a><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a><a href="javascript:void(0)"><i class="fas fa-envelope"></i></a><a href="javascript:void(0)"><i class="fas fa-phone-alt"></i></a></div>
+                                </div>
+                                <!-- End .team-content-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+        </div>
+        <!-- End .row-->
+        <div class="row">
+            <div class="col-12 clearfix text--center">
+                <ul class="pagination">
+                    <li><a class="current" href="javascript:void(0)">1</a></li>
+                    <li><a href="javascript:void(0)">2</a></li>
+                    <li><a href="#" aria-label="Next"><i class="icon-arrow-right"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- End .container-->
+</section>
+<!--
+============================
+Cta #2 Section
+============================
+-->
+<section class="cta cta-2" id="cta-2">
+    <div class="bg-section"><img src="~/assets/images/background/pattern.png" alt="background" /></div>
+    <div class="container">
+        <div class="heading heading-6">
+            <div class="row">
+                <div class="col-12 col-lg-5">
+                    <p class="heading-subtitle">Caring For The Health Of You And Your Family.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-5">
+                    <h2 class="heading-title">We Provide All Aspects Of Medical Practice For Your Whole Family!</h2>
+                </div>
+                <!--End .col-lg-5-->
+                <div class="col-12 col-lg-6 offset-lg-1">
+                    <div class="prief-set">
+                        <p>We pride ourselves on providing the best transport and shipping services available allover the world. Our skilled personnal and processing software, combined with decades of experience! Through integrated supply chain solutions, Equita drives sustainable competitive advantages to some of Australia's largest companies.</p>
+                        <ul class="list-unstyled advantages-list">
+                            <li><i class="fas fa-check"></i> Quality Control System</li>
+                            <li><i class="fas fa-check"></i> Unrivalled workmanship</li>
+                            <li><i class="fas fa-check"></i> 100% Satisfaction Guarantee</li>
+                        </ul>
+                    </div>
+                </div>
+                <!--End .col-lg-6-->
+            </div>
+        </div>
+        <div class="carousel owl-carousel" data-slide="6" data-slide-rs="2" data-autoplay="true" data-nav="false" data-dots="false" data-space="30" data-loop="true" data-speed="3000">
+            <div class="certificate"><img class="img-fluid" src="~/assets/images/careers/1.png" alt="certificate" /></div>
+            <div class="certificate"><img class="img-fluid" src="~/assets/images/careers/2.png" alt="certificate" /></div>
+            <div class="certificate"><img class="img-fluid" src="~/assets/images/careers/3.png" alt="certificate" /></div>
+            <div class="certificate"><img class="img-fluid" src="~/assets/images/careers/4.png" alt="certificate" /></div>
+            <div class="certificate"><img class="img-fluid" src="~/assets/images/careers/5.png" alt="certificate" /></div>
+            <div class="certificate"><img class="img-fluid" src="~/assets/images/careers/6.png" alt="certificate" /></div>
+        </div>
+    </div>
+    <!-- End .container-->
+</section>

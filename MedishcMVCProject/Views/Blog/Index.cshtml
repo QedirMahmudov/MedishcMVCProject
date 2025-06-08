@@ -1,0 +1,100 @@
+﻿
+
+@model BlogVM
+
+
+
+
+
+<section class="page-title page-title-5 bg-overlay bg-overlay-dark bg-parallax" id="page-title">
+    <div class="bg-section"><img src="~/assets/images/page-titles/7.jpg" alt="Background" /></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6 offset-lg-3">
+                <div class="title">
+                    <div class="title-heading">
+                        <h1>our blog</h1>
+                    </div>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">doctors</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                    </ol>
+                </div>
+                <!-- End .title -->
+            </div>
+            <!-- End .col-lg-6-->
+        </div>
+        <!-- End .row-->
+    </div>
+    <!-- End .container-->
+</section>
+<!--
+============================
+Blog Section
+============================
+
+-->
+<section class="blog blog-grid" id="blog">
+    <div class="container">
+        <div class="row">
+           @foreach (var item in Model.Blogs)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="blog-entry" data-hover="">
+                        <div class="entry-img">
+                            <div class="entry-date">
+                                <div class="entry-content"><span class="day">@item.CreatedAt.Day</span><span class="month">@item.CreatedAt.ToString("MMMM")</span><span class="year">@item.CreatedAt.Year</span></div>
+                            </div>
+                            <!-- End .entry-date--><a asp-controller="Blog" asp-action="BlogDetail" asp-route-id="@item.Id"><img src="~/assets/images/blog/grid/@item.Image" alt="6 tips to protect your mental health when sick" /></a>
+                        </div>
+                        <!-- End .entry-img-->
+                        <div class="entry-content">
+                            <div class="entry-meta">
+                                <div class="entry-category">
+                                    @if (item.BlogCategories != null)
+                                    {
+                                        foreach (var category in item.BlogCategories)
+                                        {
+                                            <a href="javascript:void(0)">@category.Category.Name</a>
+                                        }
+                                    }
+                                </div>
+                                <div class="divider"></div>
+                                <div class="entry-author">
+                                    <p>@item.Author.Name</p>
+                                </div>
+                            </div>
+                            <div class="entry-title">
+                                <h4><a href="blog-single-sidebar.html">@item.Title</a></h4>
+                            </div>
+                            <div class="entry-bio">
+                                <p>@(item.Description.Length > 150 ? @item.Description.Substring(0, 150) : @item.Description)</p>
+                            </div>
+                            <div class="entry-more">
+                                <a class="btn btn--white btn-line btn-line-before btn-line-inversed" asp-action="BlogDetail" asp-route-id="@item.Id">
+                                    <div class="line"> <span> </span></div><span>read more</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End .entry-content-->
+                </div>
+
+            }
+        </div>
+        <!-- End .row-->
+        <div class="row">
+            <div class="col-12 clearfix text--center">
+                <ul class="pagination">
+                    <li><a class="current" href="javascript:void(0)">1</a></li>
+                    <li><a href="javascript:void(0)">2</a></li>
+                    <li><a href="#" aria-label="Next"><i class="icon-arrow-right"></i></a></li>
+                </ul>
+            </div>
+            <!-- End .col-lg-12-->
+        </div>
+        <!-- End .row-->
+    </div>
+    <!-- End .container-->
+</section>

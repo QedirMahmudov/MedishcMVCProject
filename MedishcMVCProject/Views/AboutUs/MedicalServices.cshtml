@@ -1,0 +1,418 @@
+﻿@model AboutVM
+
+<section class="hero hero-6 bg-overlay bg-overlay-dark">
+    <div class="bg-section"> <img src="~/assets/images/sliders/13.jpg" alt="background" /></div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="row">
+                <div class="col-12 col-lg-5">
+                    <p class="hero-subtitle">Caring For The Health Of You And Your Family.</p>
+                    <h2 class="hero-title">We Provide All Aspects Of Medical Practice For Your Whole Family!</h2>
+                    <div class="hero-action"> <a class="btn btn--white btn-line btn-line-after btn-line-inversed" href="#"> <span>more about us</span><span class="line"><span></span></span></a><a class="popup-video btn-video btn-video-2" href="https://www.youtube.com/watch?v=nrJtHemSPW4"> <i class="fas fa-play"></i></a></div>
+                </div>
+                <div class="col-12">
+                    <ol class="breadcrumb d-flex justify-content-center">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">departments</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--
+============================
+Services #1 Section
+============================
+-->
+<section class="services" id="services-1">
+    <div class="bg-section"><img src="~/assets/images/background/pattern.png" alt="background" /></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6 offset-lg-3">
+                <div class="heading heading-7 text--center">
+                    <p class="heading-subtitle">The Best Medical And General Practice Care!</p>
+                    <h2 class="heading-title">Providing Medical Care For The Sickest In Community.</h2>
+                </div>
+            </div>
+            <!-- End .col-lg-6-->
+        </div>
+        <!-- End .row-->
+        <div class="row">
+            @foreach (var item in Model.MedicalServices)
+            {
+                <div class=" col-12 col-md-6 col-lg-4">
+                    <div class="service-panel" data-hover="">
+                        <div class="service-panel-holder">
+                            <div class="service-content">
+                                <div class="service-icon"> <i class="@item.ServiceIcon"></i></div>
+                                <div class="service-title">
+                                    <h4><a href="#">@item.ClinicName</a></h4>
+                                </div>
+                                <div class="service-desc">
+                                    <p>@item.Description</p>
+                                </div>
+                                <div class="service-more"><a class="btn btn--white btn-line btn-line-before btn-line-inversed" asp-controller="AboutUs" asp-action="AboutService"> <span class="line"> <span></span></span><span>read more</span></a></div>
+                            </div>
+                            <div class="service-img"><a href="#"></a><img src="~/assets/images/services/@item.Image" alt="service img" /></div>
+                            <!-- End .team-img-->
+                            <!-- End .team-content -->
+                        </div>
+                        <!-- End .team-member-holder-->
+                    </div>
+                </div>
+            }
+            
+        </div>
+        <!-- End .row-->
+    </div>
+    <!-- End .container-->
+</section>
+<!--
+============================
+Cta #5 Section
+============================
+-->
+<section class="cta cta-5" id="cta-5">
+    <div class="bg-section"> <img src="~/assets/images/background/wavy-pattern.png" alt="background" /></div>
+    <div class="row">
+        <div class="col-12 col-lg-5">
+            <div class="heading heading-8 heading-light">
+                <h2 class="heading-title">Sets The Standard For High Quality Care And Patient Safety!!</h2>
+                <p class="paragraph">Our doctors include highly qualified practitioners who come from a range of backgrounds and bring a diversity of skills. Besides, our administration staff all have exceptional people skills</p>
+            </div>
+            <div class="prief-set prief-set-2">
+                <p>Our administration and support staff all have exceptional people skills and trained to assist you with all medical enquiries.</p>
+                <div class="advantages-list-holder">
+                    <ul class="list-unstyled advantages-list">
+                        <li><i class="fas fa-check"></i> Fractures & dislocations</li>
+                        <li><i class="fas fa-check"></i> Desensitisation injections</li>
+                        <li><i class="fas fa-check"></i> Home medicine review</li>
+                    </ul>
+                    <ul class="list-unstyled advantages-list">
+                        <li><i class="fas fa-check"></i> Health Assessments</li>
+                        <li><i class="fas fa-check"></i> High Quality Care</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="phone-card">
+                <div class="card-icon"> <i class="flaticon-022-medical"></i></div>
+                <div class="card-content">
+                    <h5>emergency cases</h5>
+                    <p>Please feel welcome to contact our friendly reception staff with any general or medical enquiry call us</p><a href="tel:0106123214"><i class="fas fa-phone-alt"></i> <span>0106123214</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 offset-lg-1">
+            <div class="video video-1" id="video1">
+                <div class="bg-section"><img src="~/assets/images/video/4.jpg" alt="background" /></div>
+            </div>
+        </div>
+    </div>
+    <!-- End .row-->
+</section>
+<!--
+============================
+Doctors #01 Section
+============================
+-->
+<section class="team team-grid team-grid-2" id="teamGrid-1">
+    <div class="container">
+        <div class="heading heading-9">
+            <div class="row">
+                <div class="col-12 col-lg-5">
+                    <h2 class="heading-title">Meet Our Doctors</h2>
+                    <p class="heading-desc">Our administration and staff all have exceptional skills and trained to assist you with all medical enquiries.</p>
+                </div>
+                <div class="col-12 col-lg-6 offset-lg-1">
+                    <div class="doctor-action">
+                        <a class="btn btn--secondary btn-line btn-line-after" asp-action="Appointments"> <span>make appointment</span><span class="line"> <span></span></span></a>
+                        <div class="doctor-info">
+                            <div class="doctor-img"> <img src="~/assets/images/testimonial/5.jpg" alt="image" /></div>
+                            <div class="doctor-body">
+                                <a href="tel:0106123214">01061245741</a>
+                                <p>Call 24HR / 7Days</p>
+                            </div><i class="fas fa-phone-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Doctors)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="team-member" data-hover="">
+                        <div class="team-member-holder">
+                            <div class="team-img">
+                                <a class="link" asp-controller="Doctor" asp-action="DoctorDetail" asp-route-id="@item.Id"></a><img src="~/assets/images/team/grid/@item.Image" alt="team member" />
+                                <div class="team-social"> <a href="javascript:void(0)"><i class="fab fa-facebook-f"> </i></a><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a><a href="javascript:void(0)"><i class="fas fa-envelope"></i></a><a href="javascript:void(0)"><i class="fas fa-phone-alt"></i></a></div>
+                            </div>
+                            <!-- End .team-img-->
+                            <div class="team-content">
+                                <div class="team-title">
+                                    <h4><a href="doctors-grid.html">@item.Name @item.Surname</a></h4>
+                                </div>
+                                <div class="team-cat"><a href="javascript:void(0)">@item.Specialist.Name</a></div>
+                                <div class="team-desc">
+                                    <p>@item.MainDescription</p>
+                                </div>
+                                <div class="team-more"><a class="btn-line btn-line-inversed btn-line-before" asp-controller="Doctor" asp-action="DoctorDetail" asp-route-id="@item.Id"> <span class="line"> <span></span></span><span>read more</span></a></div>
+                            </div>
+                            <!-- End .team-content -->
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+        <!-- End .row-->
+    </div>
+    <!-- End .container-->
+</section>
+<!--
+============================
+Testimonials #03 Section
+============================
+-->
+<section class="testimonial testimonial-3 bg-overlay bg-overlay-theme2" id="testimonial-3">
+    <div class="bg-section"> <img src="~/assets/images/background/2.jpg" alt="background-img" /></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-4">
+                <div class="heading heading-light heading-10">
+                    <p class="heading-subtitle">the best medical care</p>
+                    <h2 class="heading-title">patient's inspiring stories of hope !</h2>
+                </div>
+                <div class="testimonial-thumbs">
+                    <div class="testimonial-thumb active" data-hover="">
+                        <div class="thumb-img"> <img src="~/assets/images/testimonial/1.jpg" alt="Testimonial Author" /><i class="icon-Quote-Icon"></i></div>
+                        <div class="thumb-body">
+                            <h6>sami wade</h6>
+                            <p>promina</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-thumb" data-hover="">
+                        <div class="thumb-img"> <img src="~/assets/images/testimonial/2.jpg" alt="Testimonial Author" /><i class="icon-Quote-Icon"></i></div>
+                        <div class="thumb-body">
+                            <h6>john peter</h6>
+                            <p>optima inc</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-thumb" data-hover="">
+                        <div class="thumb-img"> <img src="~/assets/images/testimonial/3.jpg" alt="Testimonial Author" /><i class="icon-Quote-Icon"></i></div>
+                        <div class="thumb-body">
+                            <h6>sony blake</h6>
+                            <p>koira ind</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-7 offset-lg-1">
+                <div class="testimonials-holder">
+                    <div class="carousel owl-carousel custom-carousel" data-slide="1" data-slide-rs="1" data-autoplay="true" data-nav="false" data-dots="false" data-space="0" data-loop="false" data-speed="800">
+                        <div class="testimonial-panel">
+                            <div class="testimonial-body">
+                                <div class="testimonial-content">
+                                    <div class="testimonial-icon"></div>
+                                    <p>Their doctors include highly qualified practitioners who come from a range of backgrounds &amp; bring with them a diversity of skills and special interests. They also registered nurses available to triage any urgent matters, and the administration and staff all have exceptional skills!!</p>
+                                    <div class="testimonial-rating">
+                                        <span class="num">4.9</span>
+                                        <div class="rating-body">
+                                            <p><a href="javascript:void(0)" data-hover=""><span>zodoc</span> Overall Rating ,</a> based<br /> on 7541 reviews</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-panel">
+                            <div class="testimonial-body">
+                                <div class="testimonial-content">
+                                    <div class="testimonial-icon"></div>
+                                    <p>Their doctors include highly qualified practitioners who come from a range of backgrounds &amp; bring with them a diversity of skills and special interests. They also registered nurses available to triage any urgent matters, and the administration and staff all have exceptional skills!</p>
+                                    <div class="testimonial-rating">
+                                        <span class="num">4.9</span>
+                                        <div class="rating-body">
+                                            <p><a href="javascript:void(0)" data-hover=""><span>zodoc</span> Overall Rating ,</a> based<br /> on 7541 reviews</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-panel">
+                            <div class="testimonial-body">
+                                <div class="testimonial-content">
+                                    <div class="testimonial-icon"></div>
+                                    <p>Their doctors include highly qualified practitioners who come from a range of backgrounds &amp; bring with them a diversity of skills and special interests. They also registered nurses available to triage any urgent matters, and the administration and staff all have exceptional skills!!</p>
+                                    <div class="testimonial-rating">
+                                        <span class="num">4.9</span>
+                                        <div class="rating-body">
+                                            <p><a href="javascript:void(0)" data-hover=""><span>zodoc</span> Overall Rating ,</a> based<br /> on 7541 reviews</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom-navs"><a class="prev" href="javascript:void(0)" data-hover=""><span class="line"> <span> </span></span><span>previous</span></a><a class="next" href="javascript:void(0)" data-hover=""><span>next</span><span class="line"> <span> </span></span></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="contact-panel contact-panel-2">
+                    <div class="img-card bg-overlay">
+                        <div class="bg-section"><img src="~/assets/images/contact/1.jpg" alt="image" /></div>
+                        <div class="card-content">
+                            <h3>we accept all major insurance plans</h3>
+                            <p>We accept a number of insurance plans to help you cover costs depending on your individual needs.</p>
+                            <div class="carousel owl-carousel clients" data-slide="3" data-slide-rs="1" data-autoplay="true" data-nav="false" data-dots="false" data-space="0" data-loop="false" data-speed="800">
+                                <div class="client"><img src="~/assets/images/clients/1.png" alt="Client" /></div>
+                                <div class="client"><img src="~/assets/images/clients/2.png" alt="Client" /></div>
+                                <div class="client"><img src="~/assets/images/clients/3.png" alt="Client" /></div>
+                                <div class="client"><img src="~/assets/images/clients/1.png" alt="Client" /></div>
+                                <div class="client"><img src="~/assets/images/clients/2.png" alt="Client" /></div>
+                                <div class="client"><img src="~/assets/images/clients/3.png" alt="Client" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-body">
+                            <h5 class="card-heading">book an appointment</h5>
+                            <p class="card-desc">Please feel welcome to contact our staff with any general or medical enquiry. Our doctors will receive or return any urgent calls.</p>
+                            <form class="contactForm" method="post" action="https://demo.zytheme.com/medisch/assets/php/contact.php">
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="select-holder">
+                                            <select class="form-control">
+                                                <option value="default">bathology clinic</option>
+                                                <option value="AL">neurology clinic </option>
+                                                <option value="AK">cardiology clinic </option>
+                                            </select>
+                                            <div class="badge">department</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="select-holder">
+                                            <select class="form-control">
+                                                <option value="default">michael brian</option>
+                                                <option value="AL">maria andoloro</option>
+                                                <option value="AK">richard muldoone</option>
+                                            </select>
+                                            <div class="badge">choose doctor</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-12 col-lg-6">
+                                        <input class="form-control" type="text" name="contact-name" placeholder="Name" required="" />
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <input class="form-control" type="text" name="contact-email" placeholder="Email" required="" />
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <input class="form-control" type="text" name="contact-phone" placeholder="Phone" required="" />
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="date-select">
+                                            <input class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="select date" name="contact-date" value="" required="" /><i class="fas fa-calendar-day"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-4">
+                                        <div class="time-select">
+                                            <input class="form-control" type="text" onfocus="(this.type='time')" onblur="(this.type='text')" placeholder="select time" name="contact-date" value="" required="" /><i class="fas fa-clock"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn--secondary btn-line btn-line-before btn--block"><span class="line"> <span> </span></span><span>make appointment</span></button>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="contact-result"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- End .contact-body -->
+                    </div>
+                </div>
+                <!-- End .contact-panel-->
+            </div>
+        </div>
+        <!-- End .row -->
+    </div>
+    <!-- End .container-->
+</section>
+<!--
+============================
+Donations #2 Section
+============================
+-->
+<section class="donations donations-2" id="donations-2">
+    <div class="container">
+        <div class="heading heading-4">
+            <div class="row">
+                <div class="col-12 col-lg-5">
+                    <h2 class="heading-title">Helping Patients From Around the Globe!!</h2>
+                    <div class="img-hotspot">
+                        <div class="img-hotspot-wrap">
+                            <div class="img-hotspot-bg"> <img src="~/assets/images/background/world-map.png" alt="image" /></div>
+                            <div class="img-hotspot-pointers">
+                                <div class="img-hotspot-pointer" data-spot-x="15%" data-spot-y="29%">
+                                    <img src="~/assets/images/background/map-pointer.png" alt="pointer" />
+                                    <div class="info right" data-info-x="18px" data-info-y="-97px"><span>2307 Beverley Rd Brooklyn, New York 11226 U.S.</span></div>
+                                </div>
+                                <div class="img-hotspot-pointer" data-spot-x="48%" data-spot-y="48%">
+                                    <img src="~/assets/images/background/map-pointer.png" alt="pointer" />
+                                    <div class="info left" data-info-x="-160px" data-info-y="-97px"><span>2307 Beverley Rd Brooklyn, New York 11226 U.S.</span></div>
+                                </div>
+                                <div class="img-hotspot-pointer" data-spot-x="68%" data-spot-y="23%">
+                                    <img src="~/assets/images/background/map-pointer.png" alt="pointer" />
+                                    <div class="info left" data-info-x="-160px" data-info-y="-97px"><span>2307 Beverley Rd Brooklyn, New York 11226 U.S.</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 offset-lg-1">
+                    <p class="paragraph">Our staff strives to make each interaction with patients clear, concise, and inviting. Support them important work of Medicsh Hospital by making a much-needed donation today.</p>
+                    <p class="heading-desc">We will work with you to develop individualised care plans, including management of chronic diseases. If we cannot assist, we can provide referrals or advice about the type of practitioner you require. We treat all enquiries sensitively and in the strictest confidence.</p>
+                    <div class="accordion" id="accordion03">
+                        <div class="card">
+                            <div class="card-heading"><a class="card-link collapsed" data-hover="" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapse01-1" href="#collapse01-1">Which Plan Is Right For Me?</a></div>
+                            <div class="collapse" id="collapse01-1" data-bs-parent="#accordion03">
+                                <div class="card-body">Our staff strives to make each interaction with patients clear, concise, and inviting. Support the important work of Medicsh Hospital by making a much-needed donation today. We will work with you to develop individualised care plans, including management of chronic diseases.</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-heading"><a class="card-link collapsed" data-hover="" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapse01-2" href="#collapse01-2">Do I have to commit to a contract? </a></div>
+                            <div class="collapse" id="collapse01-2" data-bs-parent="#accordion03">
+                                <div class="card-body">Our staff strives to make each interaction with patients clear, concise, and inviting. Support the important work of Medicsh Hospital by making a much-needed donation today. We will work with you to develop individualised care plans, including management of chronic diseases.</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-heading"><a class="card-link  " data-hover="" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapse01-3" href="#collapse01-3">What Payment Methods Are Available? </a></div>
+                            <div class="collapse show" id="collapse01-3" data-bs-parent="#accordion03">
+                                <div class="card-body">Our staff strives to make each interaction with patients clear, concise, and inviting. Support the important work of Medicsh Hospital by making a much-needed donation today. We will work with you to develop individualised care plans, including management of chronic diseases.</div>
+                            </div>
+                        </div>
+                    </div><a class="btn btn--primary" asp-controller="Contact" asp-action="Index">make a gift <i class="fas fa-heart"></i></a>
+                </div>
+            </div>
+            <!-- End .row-->
+        </div>
+        <!-- End .heading-->
+    </div>
+    <!-- End .container-->
+</section>
+<!--
+============================
+Team Projects #01 Section
+============================
+-->
+<section class="team team-projects" id="teamProjects-1">
+    <div class="carousel owl-carousel" data-slide="4" data-slide-rs="2" data-autoplay="true" data-nav="false" data-dots="false" data-space="0" data-loop="true" data-speed="800">
+        <div class="project" data-hover=""><a class="img-gallery-item" href="~/assets/images/team/projects/1.jpg" title="DR.Richard Muldoone" data-hover=""></a><img src="~/assets/images/team/projects/1.jpg" alt="DR.Richard Muldoone" /></div>
+        <div class="project" data-hover=""><a class="img-gallery-item" href="~/assets/images/team/projects/2.jpg" title="DR.Michael Brian" data-hover=""></a><img src="~/assets/images/team/projects/2.jpg" alt="DR.Michael Brian" /></div>
+        <div class="project" data-hover=""><a class="img-gallery-item" href="~/assets/images/team/projects/3.jpg" title="DR.Maria Andaloro" data-hover=""></a><img src="~/assets/images/team/projects/3.jpg" alt="DR.Maria Andaloro" /></div>
+        <div class="project" data-hover=""><a class="img-gallery-item" href="~/assets/images/team/projects/4.jpg" title="DR.Dupree Black" data-hover=""></a><img src="~/assets/images/team/projects/4.jpg" alt="DR.Dupree Black" /></div>
+    </div>
+    <!-- End .carousel-->
+</section>
