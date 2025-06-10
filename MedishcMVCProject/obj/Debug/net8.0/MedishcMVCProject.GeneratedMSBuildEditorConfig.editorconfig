@@ -28,8 +28,24 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Doctor/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcRG9jdG9yXEluZGV4LmNzaHRtbA==
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Doctor/Cards.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcRG9jdG9yXENhcmRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Doctor/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcRG9jdG9yXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Doctor/List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcRG9jdG9yXExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Doctor/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcRG9jdG9yXFByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Doctor/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcRG9jdG9yXFVwZGF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Home/Index.cshtml]

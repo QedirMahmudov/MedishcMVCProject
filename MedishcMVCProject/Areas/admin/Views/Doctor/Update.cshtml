@@ -1,0 +1,308 @@
+﻿@model UpdateDoctorVM
+@{
+    int i = 0;
+}
+<div class="app-body">
+    <!-- Row starts -->
+    <div class="row gx-3">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Create Doctor Profile</h4>
+                    <p class="card-description">Doctor registration form</p>
+
+                    <!-- Form starts here -->
+                    <form method="post" enctype="multipart/form-data" class="forms-sample">
+
+                        <!-- Custom tabs starts -->
+                        <div class="custom-tabs-container">
+
+                            <!-- Nav tabs starts -->
+                            <ul class="nav nav-tabs" id="customTab2" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="tab-oneA" data-bs-toggle="tab" href="#oneA" role="tab"
+                                       aria-controls="oneA" aria-selected="true">
+                                        <i class="ri-briefcase-4-line"></i> Personal Details
+                                    </a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="tab-threeA" data-bs-toggle="tab" href="#threeA" role="tab"
+                                       aria-controls="threeA" aria-selected="false">
+                                        <i class="ri-calendar-check-line"></i> Availability
+                                    </a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="tab-fourA" data-bs-toggle="tab" href="#fourA" role="tab"
+                                       aria-controls="fourA" aria-selected="false">
+                                        <i class="ri-lock-password-line"></i> Account Details
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- Nav tabs ends -->
+                            <!-- Tab content starts -->
+                            <div class="tab-content h-350">
+                                <div class="tab-pane fade show active" id="oneA" role="tabpanel">
+                                    <!-- Row starts -->
+                                    <div class="row gx-3">
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="form-group">
+                                                <label asp-for="MainPhoto">Main Image <span class="text-danger">*</span></label>
+                                                <input asp-for="MainPhoto" accept="image/*" class="form-control">
+                                                <span class="text-danger" asp-validation-for="MainPhoto"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="Name">Name <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-account-circle-line"></i>
+                                                    </span>
+                                                    <input asp-for="Name" type="text" class="form-control" placeholder="Enter Name">
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="Name"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="Surname">Surname <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-account-circle-line"></i>
+                                                    </span>
+                                                    <input asp-for="Surname" type="text" class="form-control" placeholder="Enter Surname">
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="Surname"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="Age">Age <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-account-circle-line"></i>
+                                                    </span>
+                                                    <input asp-for="Age" type="number" class="form-control" placeholder="Enter Age">
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="Age"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="Gender">Gender <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-user-3-line"></i>
+                                                    </span>
+                                                    <select asp-for="Gender" class="form-select">
+                                                        <option selected disabled value="">Choose Gender</option>
+                                                        <option value="0">Male</option>
+                                                        <option value="1">Female</option>
+                                                    </select>
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="Gender"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="SpecialistId">Specialist <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-copper-diamond-line"></i>
+                                                    </span>
+                                                    <select asp-for="SpecialistId" class="form-select" asp-items="@(new SelectList(Model.Specialists, nameof(Specialist.Id), nameof(Specialist.Name)))">
+                                                        <option selected disabled>Choose Specialist</option>
+
+                                                    </select>
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="SpecialistId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="Email">Email <span class="text-danger"></span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-mail-open-line"></i>
+                                                    </span>
+                                                    <input asp-for="Email" type="email" class="form-control" placeholder="Enter Email">
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="Email"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="PhoneNumber">Mobile Number <span class="text-danger"></span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-phone-line"></i>
+                                                    </span>
+                                                    <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="Enter Mobile Number">
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="ZodocRating">ZodocRating(1-5) <span class="text-danger"></span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-account-circle-line"></i>
+                                                    </span>
+                                                    <input asp-for="ZodocRating" type="number" class="form-control" placeholder="Enter ZodocRating">
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="ZodocRating"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="ReviewCount">Review Count <span class="text-danger"></span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-account-circle-line"></i>
+                                                    </span>
+                                                    <input asp-for="ReviewCount" type="number" class="form-control" placeholder="Enter ReviewCount">
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="ReviewCount"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="SocialMediaFacebook">Facebook <span class="text-danger"></span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-account-circle-line"></i>
+                                                    </span>
+                                                    <input asp-for="SocialMediaFacebook" class="form-control" placeholder="Enter Facebook">
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="SocialMediaFacebook"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" asp-for="SocialMediaTwitter">Twitter <span class="text-danger"></span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-account-circle-line"></i>
+                                                    </span>
+                                                    <input asp-for="SocialMediaTwitter" class="form-control" placeholder="Enter Twitter">
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="SocialMediaTwitter"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="MainDescription">Main Description<span class="text-danger"> *</span></label>
+                                            <textarea rows="5" asp-for="MainDescription" class="form-control" placeholder="Main Description"></textarea>
+                                            <span class="text-danger" asp-validation-for="MainDescription"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="AdditionalDescription">Additional Description</label>
+                                            <textarea rows="10" asp-for="AdditionalDescription" class="form-control" placeholder="Additional Description"></textarea>
+                                            <span class="text-danger" asp-validation-for="AdditionalDescription"></span>
+                                        </div>
+                                    </div>
+                                    <!-- Row ends -->
+                                </div>
+
+                                <div class="tab-pane fade" id="threeA" role="tabpanel">
+
+                                    <!-- Row starts -->
+                                    <div class="row gx-3">
+                                        @foreach (DayOfWeekEnum day in Enum.GetValues(typeof(DayOfWeekEnum)))
+                                        {
+                                            var openingHour = Model.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
+
+                                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">@day</label>
+                                                    <div class="input-group">
+                                                        <input type="time" class="form-control"
+                                                               name="OpeningHours[@i].OpenTime"
+                                                               value="@(openingHour?.OpenTime.HasValue == true ? openingHour.OpenTime.Value.ToString(@"hh\:mm") : "")" />
+                                                        <span class="text-danger" asp-validation-for="OpeningHours[@i].OpenTime"></span>
+
+                                                        <input type="time" class="form-control"
+                                                               name="OpeningHours[@i].CloseTime"
+                                                               value="@(openingHour?.CloseTime.HasValue == true ? openingHour.CloseTime.Value.ToString(@"hh\:mm") : "")" />
+                                                        <span class="text-danger" asp-validation-for="OpeningHours[@i].CloseTime"></span>
+
+                                                        <input type="hidden" name="OpeningHours[@i].DayOfWeek" value="@((int)day)" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            i++;
+                                        }
+                                    </div>
+                                    <!-- Row ends -->
+
+                                </div>
+                                <div class="tab-pane fade" id="fourA" role="tabpanel">
+
+                                    <!-- Row starts -->
+                                    <div class="row gx-3">
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="u1">User Name</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-account-pin-circle-line"></i>
+                                                    </span>
+                                                    <input type="text" id="u1" placeholder="Enter username" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="u2">Password</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-lock-password-line"></i>
+                                                    </span>
+                                                    <input type="password" id="u2" class="form-control"
+                                                           placeholder="Password must be 8-20 characters long.">
+                                                    <button class="btn btn-outline-secondary" type="button">
+                                                        <i class="ri-eye-line"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="u3">Confirm Password</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-lock-password-line"></i>
+                                                    </span>
+                                                    <input type="password" id="u3" placeholder="Confirm new password"
+                                                           class="form-control">
+                                                    <button class="btn btn-outline-secondary" type="button">
+                                                        <i class="ri-eye-off-line"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Row ends -->
+
+                                </div>
+                            </div>
+                            <!-- Tab content ends -->
+
+                        </div>
+                        <!-- Custom tabs ends -->
+                        <!-- Card acrions starts -->
+                        <div class="d-flex gap-2 justify-content-end mt-4">
+                            <button class="btn btn-light">Cancel</button>
+                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        </div>
+                        <!-- Card acrions ends -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row ends -->
+
+</div>

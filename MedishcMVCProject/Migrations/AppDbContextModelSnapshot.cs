@@ -205,11 +205,17 @@ namespace MedishcMVCProject.Migrations
                     b.Property<string>("AdditionalDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DegreeId")
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DegreeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("Image")
                         .IsRequired()
@@ -229,7 +235,7 @@ namespace MedishcMVCProject.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ReviewCount")
+                    b.Property<int?>("ReviewCount")
                         .HasColumnType("int");
 
                     b.Property<string>("SocialMediaFacebook")
@@ -245,10 +251,10 @@ namespace MedishcMVCProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UniversityId")
+                    b.Property<int?>("UniversityId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("ZodocRating")
+                    b.Property<decimal?>("ZodocRating")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -437,9 +443,7 @@ namespace MedishcMVCProject.Migrations
                 {
                     b.HasOne("MedishcMVCProject.Models.Degree", "Degree")
                         .WithMany()
-                        .HasForeignKey("DegreeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DegreeId");
 
                     b.HasOne("MedishcMVCProject.Models.Specialist", "Specialist")
                         .WithMany()
@@ -449,9 +453,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasOne("MedishcMVCProject.Models.University", "University")
                         .WithMany()
-                        .HasForeignKey("UniversityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UniversityId");
 
                     b.Navigation("Degree");
 

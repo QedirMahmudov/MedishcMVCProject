@@ -1,0 +1,110 @@
+﻿@model List<GetDoctorVM>
+
+@{
+    int count = 0;
+    var weekDays = Enum.GetValues(typeof(DayOfWeekEnum)).Cast<DayOfWeekEnum>();
+}
+
+<!-- App body starts -->
+<div class="app-body">
+
+    <!-- Row starts -->
+    <div class="row gx-3">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="card-title">Doctors List</h5>
+                    <a asp-action="Create" class="btn btn-primary ms-auto">Add Doctor</a>
+                </div>
+                <div class="card-body">
+
+                    <!-- Table starts -->
+                    <div class="table-responsive">
+                        <table id="basicExample" class="table truncate m-0 align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Doctor Name</th>
+                                    <th>Designation</th>
+                                    <th class="text-center">Mon</th>
+                                    <th class="text-center">Tue</th>
+                                    <th class="text-center">Wed</th>
+                                    <th class="text-center">Thu</th>
+                                    <th class="text-center">Fri</th>
+                                    <th class="text-center">Sat</th>
+                                    <th class="text-center">Sun</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var doctorVM in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>
+                                            <img src="/assets/images/team/full/@doctorVM.Image" class="img-shadow img-2x rounded-5 me-1"
+                                                 alt="Medical Admin Template">
+                                            @doctorVM.Name @doctorVM.Surname
+                                        </td>
+                                        <td>@doctorVM.SpecialistName</td>
+
+                                        @foreach (var day in weekDays)
+                                        {
+                                            var hours = doctorVM.WorkingHours.FirstOrDefault(x => x.DayOfWeek == day);
+                                            <td class="text-center">
+                                                @if (hours != null)
+                                                {
+                                                    @($"{hours.OpenTime:hh\\:mm} - {hours.CloseTime:hh\\:mm}")
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">NA</span>
+                                                }
+                                            </td>
+                                        }
+
+                                        <td>
+                                            <a asp-action="Update" asp-route-id="@doctorVM.Id" class="btn btn-warning"><i class="mdi mdi-pencil"></i></a>
+                                            <a asp-action="Delete" asp-route-id="@doctorVM.Id" class="btn btn-danger"><i class="mdi mdi-delete"></i></a>
+                                            <a asp-action="Detail" asp-route-id="@doctorVM.Id" class="btn btn-primary"><i class="mdi mdi-open-in-new"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Table ends -->
+                    <!-- Modal Delete Row -->
+                    <div class="modal fade" id="delRow" tabindex="-1" aria-labelledby="delRowLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="delRowLabel">
+                                        Confirm
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete the doctor from list?
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <button class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                            No
+                                        </button>
+                                        <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Yes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row ends -->
+
+</div>
