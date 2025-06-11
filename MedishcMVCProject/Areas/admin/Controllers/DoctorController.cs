@@ -47,9 +47,37 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             return View();
         }
 
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile(int? id)
         {
-            return View();
+            if (id is null || id <= 0) return BadRequest();
+
+            Doctor? doctor = await _context.Doctors
+                .Include(d => d.Specialist)
+                .Include(d => d.Degree)
+                .Include(d => d.PriceLists)
+                .Include(d => d.OpeningHours)
+                .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (doctor is null) return NotFound();
+            GetDoctorVM vm = new GetDoctorVM()
+            {
+                Image = doctor.Image,
+                Name = doctor.Name,
+                Surname = doctor.Surname,
+                Review = doctor.ReviewCount,
+                MainDescription = doctor.MainDescription,
+                DegreeName = doctor.Degree?.Name,
+                SpecialistName = doctor.Specialist?.Name,
+                WorkingHours = doctor.OpeningHours.Select(oh => new WorkingHourVM
+                {
+                    DayOfWeek = oh.DayOfWeek,
+                    OpenTime = oh.OpenTime,
+                    CloseTime = oh.CloseTime
+                }).ToList(),
+                PriceLists = doctor.PriceLists.ToList()
+            };
+
+            return View(vm);
         }
         //CRUD
 
@@ -73,7 +101,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 return View(doctorVM);
             }
 
-            bool result = doctorVM.Specialists.Any(c => c.Id == doctorVM.SpecialistId);
+            bool result = doctorVM.Specialists.Any(s => s.Id == doctorVM.SpecialistId);
 
             if (!result)
             {
@@ -89,7 +117,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 return View(doctorVM);
             }
 
-            if (!doctorVM.MainPhoto.ValidateSize(FileSize.KB, 500))
+            if (!doctorVM.MainPhoto.ValidateSize(FileType.KB, 500))
             {
                 ModelState.AddModelError(nameof(CreateDoctorVM.MainPhoto), "file must be less than 500kb");
                 return View(doctorVM);
@@ -142,7 +170,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
         {
             if (id is null || id <= 0) return BadRequest();
 
-            Doctor? doctor = await _context.Doctors.Include(p => p.Specialist).FirstOrDefaultAsync(p => p.Id == id);
+            Doctor? doctor = await _context.Doctors.Include(d => d.Specialist).Include(d => d.OpeningHours).FirstOrDefaultAsync(d => d.Id == id);
             if (doctor is null) return NotFound();
 
             UpdateDoctorVM doctorVM = new UpdateDoctorVM
@@ -154,6 +182,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 Email = doctor.Email,
                 PhoneNumber = doctor.Phone,
                 SpecialistId = doctor.SpecialistId,
+                Specialists = await _context.Specialists.ToListAsync(),
                 Image = doctor.Image,
 
                 AdditionalDescription = doctor.AdditionalDescription,
@@ -162,13 +191,114 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 SocialMediaFacebook = doctor.SocialMediaFacebook,
                 SocialMediaTwitter = doctor.SocialMediaTwitter,
                 ZodocRating = doctor.ZodocRating,
-
+                OpeningHours = Enum.GetValues(typeof(DayOfWeekEnum))
+                                .Cast<DayOfWeekEnum>()
+                                .Select(day =>
+                                {
+                                    var existing = doctor.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
+                                    return new WorkingHourVM
+                                    {
+                                        DayOfWeek = day,
+                                        OpenTime = existing?.OpenTime,
+                                        CloseTime = existing?.CloseTime
+                                    };
+                                }).ToList()
             };
             return View(doctorVM);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Update(int? id, UpdateDoctorVM doctorVM)
+        {
+            doctorVM.Specialists = await _context.Specialists.ToListAsync();
+            if (!ModelState.IsValid)
+            {
+                return View(doctorVM);
+            }
+            Doctor? existedDoctor = await _context.Doctors
+                .Include(d => d.Specialist)
+                .Include(d => d.OpeningHours)
+                .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (doctorVM.MainPhoto is not null)
+            {
+                if (!doctorVM.MainPhoto.ValidateType("image/"))
+                {
+                    ModelState.AddModelError(nameof(UpdateDoctorVM.MainPhoto), "File type is incorrect!");
+                    return View(doctorVM);
+                }
+
+                if (!doctorVM.MainPhoto.ValidateSize(FileType.MB, 1))
+                {
+                    ModelState.AddModelError(nameof(UpdateDoctorVM.MainPhoto), "File should be less than 1MB");
+                    return View(doctorVM);
+                }
+                string newImage = await doctorVM.MainPhoto.CreateFileAsync(_env.WebRootPath, "assets", "images", "team", "full");
+                existedDoctor.Image.DeleteFile(_env.WebRootPath, "assets", "images", "team", "full");
+                existedDoctor.Image = newImage;
+            }
+            bool result = doctorVM.Specialists.Any(c => c.Id == doctorVM.SpecialistId);
+
+            if (!result)
+            {
+                ModelState.AddModelError(nameof(doctorVM.SpecialistId), "Specialist does not exist");
+                return View(doctorVM);
+            }
+
+            existedDoctor.Name = doctorVM.Name.Capitalize();
+            existedDoctor.Surname = doctorVM.Surname.Capitalize();
+            existedDoctor.Age = doctorVM.Age;
+            existedDoctor.Gender = doctorVM.Gender;
+            existedDoctor.Email = doctorVM.Email;
+            existedDoctor.Phone = doctorVM.PhoneNumber;
+            existedDoctor.SpecialistId = doctorVM.SpecialistId.Value;
+            existedDoctor.AdditionalDescription = doctorVM.AdditionalDescription;
+            existedDoctor.MainDescription = doctorVM.MainDescription;
+            existedDoctor.ReviewCount = doctorVM.ReviewCount;
+            existedDoctor.SocialMediaFacebook = doctorVM.SocialMediaFacebook;
+            existedDoctor.SocialMediaTwitter = doctorVM.SocialMediaTwitter;
+            existedDoctor.ZodocRating = doctorVM.ZodocRating;
+
+            if (doctorVM.OpeningHours is not null && doctorVM.OpeningHours.Any())
+            {
+                _context.OpeningHours.RemoveRange(existedDoctor.OpeningHours);
+
+                existedDoctor.OpeningHours = Enum.GetValues(typeof(DayOfWeekEnum))
+                    .Cast<DayOfWeekEnum>()
+                    .Select(day =>
+                    {
+                        var input = doctorVM.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
+                        return new OpeningHour
+                        {
+                            DayOfWeek = day,
+                            OpenTime = input?.OpenTime,
+                            CloseTime = input?.CloseTime,
+                            DoctorId = existedDoctor.Id
+                        };
+                    }).ToList();
+            }
 
 
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(List));
+        }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id is null || id <= 0) return BadRequest();
+
+            Doctor? doctor = await _context.Doctors
+                .Include(d => d.Specialist)
+                .Include(d => d.OpeningHours)
+                .FirstOrDefaultAsync(d => d.Id == id);
+            if (doctor is null) return NotFound();
+            doctor.Image.DeleteFile(_env.WebRootPath, "assets", "images", "team", "full");
+
+            _context.Doctors.Remove(doctor);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(List));
+
+        }
 
     }
 }

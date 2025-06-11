@@ -1,6 +1,6 @@
 ﻿namespace MedishcMVCProject.Utilities
 {
-    public enum FileSize
+    public enum FileType
     {
         KB,
         MB,

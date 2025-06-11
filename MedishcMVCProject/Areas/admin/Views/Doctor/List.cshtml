@@ -40,6 +40,7 @@
                                 @foreach (var doctorVM in Model)
                                 {
                                     count++;
+                                    var modalId = $"delRow_{doctorVM.Id}";
                                     <tr>
                                         <td>@count</td>
                                         <td>
@@ -65,18 +66,48 @@
                                         }
 
                                         <td>
-                                            <a asp-action="Update" asp-route-id="@doctorVM.Id" class="btn btn-warning"><i class="mdi mdi-pencil"></i></a>
-                                            <a asp-action="Delete" asp-route-id="@doctorVM.Id" class="btn btn-danger"><i class="mdi mdi-delete"></i></a>
-                                            <a asp-action="Detail" asp-route-id="@doctorVM.Id" class="btn btn-primary"><i class="mdi mdi-open-in-new"></i></a>
+                                            <div class="d-inline-flex gap-1">
+                                                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#@modalId">
+                                                    <i class="ri-delete-bin-line"></i>
+                                                </button>
+                                                <a asp-action="update" asp-route-id="@doctorVM.Id" class="btn btn-outline-success btn-sm"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Doctor Details">
+                                                    <i class="ri-edit-box-line"></i>
+                                                </a>
+                                                <a asp-action="Profile" asp-route-id="@doctorVM.Id" class="btn btn-outline-info btn-sm"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Profile">
+                                                    <i class="ri-eye-line"></i>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
+                                    <!-- Individual Delete Modal -->
+                                    <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="delRowLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="delRowLabel">Confirm</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete<br> <strong>@doctorVM.Name @doctorVM.Surname</strong>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form asp-action="Delete" asp-route-id="@doctorVM.Id" method="post">
+                                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No</button>
+                                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 }
                             </tbody>
                         </table>
                     </div>
                     <!-- Table ends -->
                     <!-- Modal Delete Row -->
-                    <div class="modal fade" id="delRow" tabindex="-1" aria-labelledby="delRowLabel" aria-hidden="true">
+                    @* <div class="modal fade" id="delRow" tabindex="-1" aria-labelledby="delRowLabel" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -99,7 +130,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> *@
 
                 </div>
             </div>

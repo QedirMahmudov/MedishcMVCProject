@@ -1,13 +1,2 @@
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\281d487c-7bcb-4379-ba87-a67222c613ed.jpg
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\3a129b10-9cea-4c4e-ab48-f664236ead58.png
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\5899b621-11d6-43a9-bba5-e138b81eeccb.jpg
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\61c80d7e-0540-41a0-b965-05026a9d43b2.png
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\7b6e84fd-103f-4917-b937-30b7f3d591c0.png
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\7c140a33-1db8-4f90-b9f8-e30e42abacf4.png
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\84e5c13a-2bd5-4a5b-8615-c54ea18a35db.jpg
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\91dbf0c9-4edd-4697-baf6-61301144e260.jpg
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\a5c34676-4a96-423a-9789-2725777a2c50.jpg
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\a8a89d8f-9611-4e4a-80d3-029568676fde.jpg
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\a9341b93-c1af-4eeb-a074-bfc5b054434e.png
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\b3aa39a0-3f63-42e3-87e3-364cae11fffd.jpg
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\cccccaad-9290-4398-94f9-5b0b423fada0.jpg
+C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\team\full\7b6e84fd-103f-4917-b937-30b7f3d591c0.png
+C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\team\full\a5c34676-4a96-423a-9789-2725777a2c50.jpg

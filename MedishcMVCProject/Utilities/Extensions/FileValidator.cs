@@ -6,15 +6,15 @@
         {
             return file.ContentType.Contains(type);
         }
-        public static bool ValidateSize(this IFormFile file, FileSize fileSize, int size)
+        public static bool ValidateSize(this IFormFile file, FileType fileSize, int size)
         {
             switch (fileSize)
             {
-                case FileSize.KB:
+                case FileType.KB:
                     return file.Length <= size * 1024;
-                case FileSize.MB:
+                case FileType.MB:
                     return file.Length <= size * 1024 * 1024;
-                case FileSize.GB:
+                case FileType.GB:
                     return file.Length <= size * 1024 * 1024 * 1024;
             }
             return false;

@@ -1,4 +1,6 @@
-﻿<div class="app-body">
+﻿@model GetDoctorVM
+
+<div class="app-body">
 
     <!-- Row starts -->
     <div class="row gx-3">
@@ -9,18 +11,18 @@
                     <!-- Row starts -->
                     <div class="row gx-3">
                         <div class="col-sm-3">
-                            <img src="~/admin/images/user2.png" class="img-fluid rounded-3" alt="Medical Dashboard">
+                            <img src="/assets/images/team/full/@Model.Image" class="img-fluid rounded-3" alt="Medical Dashboard">
                         </div>
                         <div class="col-sm-9">
                             <div class="text-white mt-3">
                                 <h6>Hello I am,</h6>
-                                <h3>Dr. Jessika Linda</h3>
-                                <h6>MBBS, MS - General Surgery, General Physician</h6>
-                                <h6>16 Years Experience Overall</h6>
+                                <h3>@Model.Name @Model.Surname</h3>
+                                <h6>@Model.DegreeName</h6>
+                                <h6>16 Years Experience Overall</h6> @* heleki static qalsin *@
                                 <div class="rating-stars">
                                     <div class="readonly5"></div>
                                 </div>
-                                <div class="mt-1">2896 Reviews</div>
+                                <div class="mt-1">@Model.Review Reviews</div>
                             </div>
                         </div>
                     </div>
@@ -79,7 +81,7 @@
                             <div class="icon-box xl bg-success-subtle rounded-5 mb-2 no-shadow">
                                 <i class="ri-star-line fs-1 text-success"></i>
                             </div>
-                            <h1 class="text-success">2896</h1>
+                            <h1 class="text-success">@Model.Review</h1>
                             <h6>Reviews</h6>
                             <span class="badge bg-success">30% High</span>
                         </div>
@@ -105,24 +107,13 @@
                         <div class="card-body">
 
                             <p>
-                                Dr. Jessika Linda is an eminent Endocrinologist associated with med hospitals who is specially
-                                trained to diagnose diseases related to glands. She specialises in treating people
-                                who suffer from hormonal imbalances, typically from glands in the endocrine system. The most
-                                common conditions treated by Dr. Linda are Diabetes, Metabolic disorders, Lack of
-                                growth, Osteoporosis, Thyroid diseases, Cancers of the endocrine glands, Over- or
-                                under-production of hormones, Cholesterol disorders, Hypertension and Infertility. Also
-                                available for consultation at Med hospital. Dr. Linda's approach lies in understanding
-                                patients diseases and the procedure recommended along with care.
+                                @Model.MainDescription
                             </p>
 
                             <div class="">
-                                <h6>Specialized in</h6>
+                                <h6>Specialist</h6>
                                 <div class="d-flex flex-wrap gap-2">
-                                    <span class="badge bg-primary">Diabetes</span>
-                                    <span class="badge bg-primary">Thyroid</span>
-                                    <span class="badge bg-primary">Osteoporosis</span>
-                                    <span class="badge bg-primary">Surgeon</span>
-                                    <span class="badge bg-primary">General</span>
+                                    <span class="badge bg-primary">@Model.SpecialistName</span>
                                 </div>
                             </div>
                         </div>
@@ -206,20 +197,46 @@
                 <div class="col-xl-12 col-sm-6">
                     <div class="card mb-3">
                         <div class="card-header">
-                            <h5 class="card-title">Avalibility</h5>
+                            <h5 class="card-title">Availability</h5>
                         </div>
                         <div class="card-body">
+                            <div class="row">
+                                @foreach (DayOfWeekEnum day in Enum.GetValues(typeof(DayOfWeekEnum)))
+                                {
+                                    var hour = Model.WorkingHours.FirstOrDefault(x => x.DayOfWeek == day);
+                                    string open = hour?.OpenTime?.ToString("hh\\:mm") ?? "NA";
+                                    string close = hour?.CloseTime?.ToString("hh\\:mm") ?? "";
+                                    string displayTime = open != "NA" ? $"{open} - {close}" : "NA";
 
-                            <div class="d-flex flex-wrap gap-1 mb-3">
-                                <span class="p-2 lh-1 bg-light rounded-2 box-shadow">Mon - 9:AM - 2:PM</span>
-                                <span class="p-2 lh-1 bg-light rounded-2 box-shadow">Tue - 9:AM - 2:PM</span>
-                                <span class="p-2 lh-1 bg-light rounded-2 box-shadow">Wed - 9:AM - 2:PM</span>
-                                <span class="p-2 lh-1 bg-light rounded-2 box-shadow">Thu - 9:AM - 2:PM</span>
-                                <span class="p-2 lh-1 bg-light rounded-2 box-shadow">Fri - 9:AM - 2:PM</span>
-                                <span class="p-2 lh-1 bg-light rounded-2 box-shadow">Sat - 9:AM - 2:PM</span>
-                                <span class="p-2 lh-1 bg-light rounded-2 box-shadow">Sun - NA</span>
+                                    <div class="col-md-6 mb-2">
+                                        <span class="d-block p-2 lh-1 bg-light rounded-2 box-shadow">
+                                            @day.ToString().Substring(0, 3) - @displayTime
+                                        </span>
+                                    </div>
+                                }
                             </div>
 
+                            <a href="book-appointment.html" class="btn btn-primary mt-3">
+                                Book Appointment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="col-xl-12 col-sm-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="card-title">Price List</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex flex-column gap-1 mb-3">
+                                @foreach (var item in Model.PriceLists ?? new List<PriceList>())
+                                {
+                                    <span class="p-2 lh-1 bg-light rounded-2 box-shadow">
+                                        @item.Name - @item.Price $
+                                    </span>
+                                }
+                            </div>
                             <a href="book-appointment.html" class="btn btn-primary">
                                 Book Appointment
                             </a>

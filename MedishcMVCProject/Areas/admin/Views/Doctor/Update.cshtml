@@ -1,4 +1,5 @@
-﻿@model UpdateDoctorVM
+﻿
+@model UpdateDoctorVM
 @{
     int i = 0;
 }
@@ -8,8 +9,8 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Create Doctor Profile</h4>
-                    <p class="card-description">Doctor registration form</p>
+                    <h4 class="card-title">Update Doctor Profile</h4>
+                    <p class="card-description">Doctor update form</p>
 
                     <!-- Form starts here -->
                     <form method="post" enctype="multipart/form-data" class="forms-sample">
@@ -44,6 +45,10 @@
                                 <div class="tab-pane fade show active" id="oneA" role="tabpanel">
                                     <!-- Row starts -->
                                     <div class="row gx-3">
+                                        <div class="form-group">
+                                            <img style="width:200px;height=150px" src="/assets/images/team/full/@Model.Image" alt="Alternate Text" />
+                                            <input type="hidden" value="@Model.Image" asp-for="Image" class="form-control">
+                                        </div>
                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                             <div class="form-group">
                                                 <label asp-for="MainPhoto">Main Image <span class="text-danger">*</span></label>
@@ -51,6 +56,7 @@
                                                 <span class="text-danger" asp-validation-for="MainPhoto"></span>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                             <div class="mb-3">
                                                 <label class="form-label" asp-for="Name">Name <span class="text-danger">*</span></label>
