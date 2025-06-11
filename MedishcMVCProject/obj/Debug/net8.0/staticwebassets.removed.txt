@@ -1,2 +1,1 @@
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\team\full\7b6e84fd-103f-4917-b937-30b7f3d591c0.png
-C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\team\full\a5c34676-4a96-423a-9789-2725777a2c50.jpg
+C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\team\full\794d9def-3652-4d7a-bbfc-93bcc083052a.jpg

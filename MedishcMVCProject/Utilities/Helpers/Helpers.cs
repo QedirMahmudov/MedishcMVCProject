@@ -2,9 +2,30 @@
 {
     public static class Helpers
     {
+        //Capitalize
         public static string Capitalize(this string value)
         {
             return value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower();
+        }
+
+        public static bool HasDigit(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return false;
+
+            return !input.Any(char.IsDigit);
+        }
+        //search
+
+        public static List<T> FilterByText<T>(List<T> items, Func<T, string> selector, string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+                return items;
+
+            searchText = searchText.ToLower();
+            return items
+                .Where(item => selector(item)?.ToLower().Contains(searchText) == true)
+                .ToList();
         }
     }
 }

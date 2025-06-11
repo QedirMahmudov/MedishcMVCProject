@@ -3,32 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\views\\doctor\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\views\\doctor\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\views\\doctor\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\views\\doctor\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\views\\doctor\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\views\\doctor\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\views\\doctor\\cards.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\views\\doctor\\cards.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\viewmodels\\doctorvm\\createdoctorvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\viewmodels\\doctorvm\\createdoctorvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\viewmodels\\doctorvm\\getdoctorvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\viewmodels\\doctorvm\\getdoctorvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\views\\doctor\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\views\\doctor\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\views\\doctor\\doctordetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\views\\doctor\\doctordetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\viewmodels\\doctordetailvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\viewmodels\\doctordetailvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\utilities\\helpers\\helpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\utilities\\helpers\\helpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,8 +34,34 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "List.cshtml",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\List.cshtml",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\List.cshtml",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\List.cshtml",
+              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\List.cshtml",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAYwA4AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-11T19:23:59.258Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Cards.cshtml",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Cards.cshtml",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Cards.cshtml",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Cards.cshtml",
+              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Cards.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-11T19:13:26.42Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -48,89 +70,48 @@
               "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Controllers\\DoctorController.cs",
               "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Controllers\\DoctorController.cs",
               "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Controllers\\DoctorController.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAAAAADUAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwCwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-11T12:43:04.128Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GetDoctorVM.cs",
-              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\ViewModels\\DoctorVM\\GetDoctorVM.cs",
-              "RelativeDocumentMoniker": "MedishcMVCProject\\ViewModels\\DoctorVM\\GetDoctorVM.cs",
-              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\ViewModels\\DoctorVM\\GetDoctorVM.cs",
-              "RelativeToolTip": "MedishcMVCProject\\ViewModels\\DoctorVM\\GetDoctorVM.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBAAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-11T12:43:41.876Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "List.cshtml",
-              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\List.cshtml",
-              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\List.cshtml",
-              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\List.cshtml",
-              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\List.cshtml",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAAEEAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-11T13:04:30.825Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DoctorController.cs",
-              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Controllers\\DoctorController.cs",
-              "RelativeDocumentMoniker": "MedishcMVCProject\\Controllers\\DoctorController.cs",
-              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Controllers\\DoctorController.cs",
-              "RelativeToolTip": "MedishcMVCProject\\Controllers\\DoctorController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAowC4AAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-11T12:48:08.45Z",
+              "WhenOpened": "2025-06-11T18:40:47.411Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "DoctorDetail.cshtml",
-              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Views\\Doctor\\DoctorDetail.cshtml",
-              "RelativeDocumentMoniker": "MedishcMVCProject\\Views\\Doctor\\DoctorDetail.cshtml",
-              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Views\\Doctor\\DoctorDetail.cshtml",
-              "RelativeToolTip": "MedishcMVCProject\\Views\\Doctor\\DoctorDetail.cshtml",
-              "ViewState": "AgIAAK4AAAAAAAAAAAAmwL0AAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-11T12:48:13.518Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DoctorDetailVM.cs",
-              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\ViewModels\\DoctorDetailVM.cs",
-              "RelativeDocumentMoniker": "MedishcMVCProject\\ViewModels\\DoctorDetailVM.cs",
-              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\ViewModels\\DoctorDetailVM.cs",
-              "RelativeToolTip": "MedishcMVCProject\\ViewModels\\DoctorDetailVM.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAA3AAAAAAAAAA==",
+              "Title": "Helpers.cs",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Utilities\\Helpers\\Helpers.cs",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\Utilities\\Helpers\\Helpers.cs",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Utilities\\Helpers\\Helpers.cs",
+              "RelativeToolTip": "MedishcMVCProject\\Utilities\\Helpers\\Helpers.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-11T12:47:55.279Z",
+              "WhenOpened": "2025-06-11T18:46:03.234Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Profile.cshtml",
-              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Profile.cshtml",
-              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Profile.cshtml",
-              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Profile.cshtml",
-              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Profile.cshtml",
-              "ViewState": "AgIAAMIAAAAAAAAAAAAIwOAAAAASAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Create.cshtml",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Create.cshtml",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Create.cshtml",
+              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Views\\Doctor\\Create.cshtml",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAnwJgAAABoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-11T12:43:07.506Z",
+              "WhenOpened": "2025-06-11T18:40:53.683Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CreateDoctorVM.cs",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\ViewModels\\DoctorVM\\CreateDoctorVM.cs",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\ViewModels\\DoctorVM\\CreateDoctorVM.cs",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\ViewModels\\DoctorVM\\CreateDoctorVM.cs",
+              "RelativeToolTip": "MedishcMVCProject\\ViewModels\\DoctorVM\\CreateDoctorVM.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAIwCIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-11T18:39:54.82Z",
               "EditorCaption": ""
             }
           ]

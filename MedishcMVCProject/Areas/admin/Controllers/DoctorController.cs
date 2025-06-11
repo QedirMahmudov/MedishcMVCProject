@@ -20,9 +20,9 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             _context = context;
             _env = env;
         }
-        public IActionResult List()
+        public IActionResult List(string doctorName = null, string department = null)
         {
-            var doctors = _context.Doctors
+            List<GetDoctorVM> doctors = _context.Doctors
          .Include(x => x.OpeningHours)
          .Include(x => x.Specialist)
          .Select(d => new GetDoctorVM
@@ -39,13 +39,48 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                  CloseTime = wh.CloseTime
              }).ToList()
          }).ToList();
+            doctors = Helpers.FilterByText(doctors, d => d.Name + " " + d.Surname, doctorName);
+            doctors = Helpers.FilterByText(doctors, d => d.SpecialistName, department);
+            return View(doctors);
+        }
+        public IActionResult Cards(string doctorName = null, string department = null)
+        {
+            List<GetDoctorVM> doctors = _context.Doctors
+                .Include(x => x.Specialist)
+                .Select(d => new GetDoctorVM
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Surname = d.Surname,
+                    SpecialistName = d.Specialist.Name,
+                    Image = d.Image,
+                }).ToList();
+
+            doctors = Helpers.FilterByText(doctors, d => d.Name + " " + d.Surname, doctorName);
+            doctors = Helpers.FilterByText(doctors, d => d.SpecialistName, department);
 
             return View(doctors);
         }
-        public IActionResult Cards()
-        {
-            return View();
-        }
+        //ajax real search time...
+
+        //public IActionResult FilterDoctors(string doctorName = null, string department = null)
+        //{
+        //    List<GetDoctorVM> doctors = _context.Doctors
+        //        .Include(x => x.Specialist)
+        //        .Select(d => new GetDoctorVM
+        //        {
+        //            Id = d.Id,
+        //            Name = d.Name,
+        //            Surname = d.Surname,
+        //            SpecialistName = d.Specialist.Name,
+        //            Image = d.Image,
+        //        }).ToList();
+
+        //    doctors = Helpers.FilterByText(doctors, d => d.Name + " " + d.Surname, doctorName);
+        //    doctors = Helpers.FilterByText(doctors, d => d.SpecialistName, department);
+
+        //    return PartialView("FilterDoctors", doctors); // yalnız kartları qaytarır
+        //}
 
         public async Task<IActionResult> Profile(int? id)
         {
@@ -95,6 +130,17 @@ namespace MedishcMVCProject.Areas.admin.Controllers
         public async Task<IActionResult> Create(CreateDoctorVM doctorVM)
         {
             doctorVM.Specialists = await _context.Specialists.ToListAsync();
+
+            if (!Helpers.HasDigit(doctorVM.Name))
+            {
+                ModelState.AddModelError(nameof(doctorVM.Name), "Name cannot contain digits");
+            }
+
+            if (!Helpers.HasDigit(doctorVM.Surname))
+            {
+                ModelState.AddModelError(nameof(doctorVM.Surname), "Surname cannot contain digits");
+            }
+
 
             if (!ModelState.IsValid)
             {
@@ -211,6 +257,18 @@ namespace MedishcMVCProject.Areas.admin.Controllers
         public async Task<IActionResult> Update(int? id, UpdateDoctorVM doctorVM)
         {
             doctorVM.Specialists = await _context.Specialists.ToListAsync();
+
+            if (!Helpers.HasDigit(doctorVM.Name))
+            {
+                ModelState.AddModelError(nameof(doctorVM.Name), "Name cannot contain digits");
+            }
+
+            if (!Helpers.HasDigit(doctorVM.Surname))
+            {
+                ModelState.AddModelError(nameof(doctorVM.Surname), "Surname cannot contain digits");
+            }
+
+
             if (!ModelState.IsValid)
             {
                 return View(doctorVM);

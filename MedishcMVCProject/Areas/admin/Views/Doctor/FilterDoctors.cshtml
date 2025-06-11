@@ -1,0 +1,29 @@
+﻿@model List<GetDoctorVM>
+
+@foreach (var doctor in Model)
+{
+    <div class="col-xxl-3 col-sm-6 col-12">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="text-center">
+                    <a href="doctors-profile.html" class="d-flex align-items-center flex-column">
+                        <img src="/assets/images/team/full/@doctor.Image" alt="Doctor Image"
+                             class="img-7x rounded-circle mb-3">
+                        <h5>@doctor.Name @doctor.Surname</h5>
+                        <h6 class="text-truncate">@doctor.SpecialistName</h6>
+                        <p>8 Years Experience</p>
+                    </a>
+                    <div class="rating-stars m-auto mb-3">
+                        <div class="readonly5"></div>
+                    </div>
+                    <a href="book-appointment.html" class="btn btn-primary mb-2">
+                        Book Appointment
+                    </a>
+                    <a asp-action="Profile" asp-route-id="@doctor.Id" class="btn btn-success mb-2">
+                        View Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
