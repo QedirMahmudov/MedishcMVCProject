@@ -178,16 +178,11 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 Surname = doctorVM.Surname.Capitalize(),
                 Age = doctorVM.Age,
                 Gender = doctorVM.Gender,
-                Email = doctorVM.Email,
-                Phone = doctorVM.PhoneNumber,
                 SpecialistId = doctorVM.SpecialistId.Value,
                 Image = image,
-
                 AdditionalDescription = doctorVM.AdditionalDescription,
                 MainDescription = doctorVM.MainDescription,
                 ReviewCount = doctorVM.ReviewCount,
-                SocialMediaFacebook = doctorVM.SocialMediaFacebook,
-                SocialMediaTwitter = doctorVM.SocialMediaTwitter,
                 ZodocRating = doctorVM.ZodocRating,
 
                 OpeningHours = Enum.GetValues(typeof(DayOfWeekEnum))
@@ -201,10 +196,27 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                                             OpenTime = input?.OpenTime,
                                             CloseTime = input?.CloseTime
                                         };
-                                    }).ToList()
+                                    }).ToList(),
+
             };
 
+
+
+
             await _context.Doctors.AddAsync(doctor);
+            await _context.SaveChangesAsync();
+
+
+            var contactInfos = new List<(ContactType, string?)>
+            {
+                (ContactType.Email, doctorVM.Email),
+                (ContactType.Phone, doctorVM.PhoneNumber),
+                (ContactType.Facebook, doctorVM.SocialMediaFacebook),
+                (ContactType.Twitter, doctorVM.SocialMediaTwitter)
+            };
+
+            Helpers.AddContactInfos(_context, OwnerType.Doctor, doctor.Id, contactInfos);
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(List));
@@ -214,10 +226,15 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
         public async Task<IActionResult> Update(int? id)
         {
+
             if (id is null || id <= 0) return BadRequest();
 
             Doctor? doctor = await _context.Doctors.Include(d => d.Specialist).Include(d => d.OpeningHours).FirstOrDefaultAsync(d => d.Id == id);
             if (doctor is null) return NotFound();
+
+            List<ContactInfo>? contactInfos = await _context.ContactInfos
+                        .Where(c => c.OwnerType == OwnerType.Doctor && c.OwnerId == doctor.Id)
+                        .ToListAsync();
 
             UpdateDoctorVM doctorVM = new UpdateDoctorVM
             {
@@ -225,8 +242,10 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 Surname = doctor.Surname.Capitalize(),
                 Age = doctor.Age,
                 Gender = doctor.Gender,
-                Email = doctor.Email,
-                PhoneNumber = doctor.Phone,
+                Email = contactInfos.FirstOrDefault(e => e.ContactType == ContactType.Email)?.Value,
+                PhoneNumber = contactInfos.FirstOrDefault(x => x.ContactType == ContactType.Phone)?.Value,
+                SocialMediaFacebook = contactInfos.FirstOrDefault(x => x.ContactType == ContactType.Facebook)?.Value,
+                SocialMediaTwitter = contactInfos.FirstOrDefault(x => x.ContactType == ContactType.Twitter)?.Value,
                 SpecialistId = doctor.SpecialistId,
                 Specialists = await _context.Specialists.ToListAsync(),
                 Image = doctor.Image,
@@ -234,8 +253,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 AdditionalDescription = doctor.AdditionalDescription,
                 MainDescription = doctor.MainDescription,
                 ReviewCount = doctor.ReviewCount,
-                SocialMediaFacebook = doctor.SocialMediaFacebook,
-                SocialMediaTwitter = doctor.SocialMediaTwitter,
+
                 ZodocRating = doctor.ZodocRating,
                 OpeningHours = Enum.GetValues(typeof(DayOfWeekEnum))
                                 .Cast<DayOfWeekEnum>()
@@ -250,6 +268,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                                     };
                                 }).ToList()
             };
+
             return View(doctorVM);
         }
 
@@ -307,14 +326,10 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             existedDoctor.Surname = doctorVM.Surname.Capitalize();
             existedDoctor.Age = doctorVM.Age;
             existedDoctor.Gender = doctorVM.Gender;
-            existedDoctor.Email = doctorVM.Email;
-            existedDoctor.Phone = doctorVM.PhoneNumber;
             existedDoctor.SpecialistId = doctorVM.SpecialistId.Value;
             existedDoctor.AdditionalDescription = doctorVM.AdditionalDescription;
             existedDoctor.MainDescription = doctorVM.MainDescription;
             existedDoctor.ReviewCount = doctorVM.ReviewCount;
-            existedDoctor.SocialMediaFacebook = doctorVM.SocialMediaFacebook;
-            existedDoctor.SocialMediaTwitter = doctorVM.SocialMediaTwitter;
             existedDoctor.ZodocRating = doctorVM.ZodocRating;
 
             if (doctorVM.OpeningHours is not null && doctorVM.OpeningHours.Any())
@@ -336,6 +351,46 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                     }).ToList();
             }
 
+
+            List<ContactInfo>? contactInfos = await _context.ContactInfos
+                        .Where(c => c.OwnerType == OwnerType.Doctor && c.OwnerId == existedDoctor.Id)
+                        .ToListAsync();
+
+
+            var contactValues = new List<(ContactType Type, string? Value)>
+            {
+                (ContactType.Email, doctorVM.Email),
+                (ContactType.Phone, doctorVM.PhoneNumber),
+                (ContactType.Facebook, doctorVM.SocialMediaFacebook),
+                (ContactType.Twitter, doctorVM.SocialMediaTwitter)
+            };
+
+            foreach (var (type, value) in contactValues)
+            {
+                var existing = contactInfos.FirstOrDefault(c => c.ContactType == type);
+
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    if (existing != null)
+                    {
+                        existing.Value = value;
+                    }
+                    else
+                    {
+                        _context.ContactInfos.Add(new ContactInfo
+                        {
+                            ContactType = type,
+                            Value = value,
+                            OwnerType = OwnerType.Doctor,
+                            OwnerId = existedDoctor.Id
+                        });
+                    }
+                }
+                else if (existing != null)
+                {
+                    _context.ContactInfos.Remove(existing);
+                }
+            }
 
             await _context.SaveChangesAsync();
 

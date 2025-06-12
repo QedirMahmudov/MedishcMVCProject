@@ -9,17 +9,12 @@ namespace MedishcMVCProject.Models
         public string Surname { get; set; }
         public decimal? ZodocRating { get; set; }
         public int? ReviewCount { get; set; }
-        public string? SocialMediaFacebook { get; set; }
-        public string? SocialMediaTwitter { get; set; }
-        public string? Email { get; set; }
-        public string? Phone { get; set; }
+
         public string MainDescription { get; set; }
         public string? AdditionalDescription { get; set; }
 
         public int Age { get; set; }
         public GenderEnum Gender { get; set; }
-
-
 
         public int SpecialistId { get; set; }
         public Specialist Specialist { get; set; }
@@ -32,5 +27,6 @@ namespace MedishcMVCProject.Models
 
         public List<PriceList>? PriceLists { get; set; }
         public List<OpeningHour>? OpeningHours { get; set; }
+
     }
 }

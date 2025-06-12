@@ -26,7 +26,27 @@ namespace MedishcMVCProject.DAL
 
         //MedicalService
         public DbSet<MedicalService> MedicalServices { get; set; }
+        //ContactInfoProperties
+        public DbSet<ContactInfo> ContactInfos { get; set; }
 
 
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Entity<ContactInfo>()
+               .Property(c => c.ContactType)
+               .HasConversion<string>();
+
+            modelBuilder.Entity<Doctor>()
+                .Property(d => d.Gender)
+                .HasConversion<string>();
+        }
     }
+
+
+
 }

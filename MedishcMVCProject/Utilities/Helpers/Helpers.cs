@@ -1,4 +1,7 @@
-﻿namespace MedishcMVCProject.Utilities.Helpers
+﻿using MedishcMVCProject.DAL;
+using MedishcMVCProject.Models;
+
+namespace MedishcMVCProject.Utilities.Helpers
 {
     public static class Helpers
     {
@@ -27,5 +30,31 @@
                 .Where(item => selector(item)?.ToLower().Contains(searchText) == true)
                 .ToList();
         }
+
+
+        public static void AddContactInfos(
+        AppDbContext context,
+        OwnerType ownerType,
+        int ownerId,
+        List<(ContactType ContactType, string? Value)> contactList)
+        {
+            List<ContactInfo>? validContacts = contactList
+                .Where(c => !string.IsNullOrWhiteSpace(c.Value))
+                .Select(c => new ContactInfo
+                {
+                    ContactType = c.ContactType,
+                    Value = c.Value,
+                    OwnerType = ownerType,
+                    OwnerId = ownerId
+                })
+                .ToList();
+
+            if (validContacts.Any())
+            {
+                context.ContactInfos.AddRange(validContacts);
+            }
+        }
+
+
     }
 }
