@@ -60,10 +60,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var doctorVM in Model)
+                                @foreach (GetDoctorVM doctorVM in Model)
                                 {
                                     count++;
-                                    var modalId = $"delRow_{doctorVM.Id}";
+                                    string? modalId = $"delRow_{doctorVM.Id}";
                                     <tr>
                                         <td>@count</td>
                                         <td>

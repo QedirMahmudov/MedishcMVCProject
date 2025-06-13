@@ -120,7 +120,7 @@
                                         </div>
                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                             <div class="mb-3">
-                                                <label class="form-label" asp-for="Email">Email <span class="text-danger"></span></label>
+                                                <label class="form-label" asp-for="Email">Email <span class="text-danger">*</span></label>
                                                 <div class="input-group">
                                                     <span class="input-group-text">
                                                         <i class="ri-mail-open-line"></i>
@@ -132,7 +132,7 @@
                                         </div>
                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                             <div class="mb-3">
-                                                <label class="form-label" asp-for="PhoneNumber">Mobile Number <span class="text-danger"></span></label>
+                                                <label class="form-label" asp-for="PhoneNumber">Mobile Number <span class="text-danger">*</span></label>
                                                 <div class="input-group">
                                                     <span class="input-group-text">
                                                         <i class="ri-phone-line"></i>
@@ -220,15 +220,20 @@
                                                         <input type="time" class="form-control"
                                                                name="OpeningHours[@i].OpenTime"
                                                                value="@(openingHour?.OpenTime.HasValue == true ? openingHour.OpenTime.Value.ToString(@"hh\:mm") : "")" />
-                                                        <span class="text-danger" asp-validation-for="OpeningHours[@i].OpenTime"></span>
-
                                                         <input type="time" class="form-control"
                                                                name="OpeningHours[@i].CloseTime"
-                                                               value="@(openingHour?.CloseTime.HasValue == true ? openingHour.CloseTime.Value.ToString(@"hh\:mm") : "")"   />
-                                                        <span class="text-danger" asp-validation-for="OpeningHours[@i].CloseTime"></span>
-
+                                                               value="@(openingHour?.CloseTime.HasValue == true ? openingHour.CloseTime.Value.ToString(@"hh\:mm") : "")" />
                                                         <input type="hidden" name="OpeningHours[@i].DayOfWeek" value="@((int)day)" />
                                                     </div>
+                                                    <!-- Manual validation spans -->
+
+                                                  @*   <span class="text-danger field-validation-valid"
+                                                          data-valmsg-for="OpeningHours[@i].OpenTime"
+                                                          data-valmsg-replace="true"></span>
+                                                    <span class="text-danger field-validation-valid"
+                                                          data-valmsg-for="OpeningHours[@i].CloseTime"
+                                                          data-valmsg-replace="true"></span>
+ *@
                                                 </div>
                                             </div>
 

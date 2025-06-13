@@ -141,6 +141,29 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 ModelState.AddModelError(nameof(doctorVM.Surname), "Surname cannot contain digits");
             }
 
+            //**********BASLAMA VE BITME SAATININ 1 i DOLANDA OBRIDE DOLMALIDI AMMA SPANDA CIXMIR ERROR!*************
+
+            if (doctorVM.OpeningHours != null)
+            {
+                foreach (var item in doctorVM.OpeningHours)
+                {
+                    bool hasOpen = item.OpenTime.HasValue;
+                    bool hasClose = item.CloseTime.HasValue;
+
+                    if (hasOpen != hasClose)
+                    {
+                        ModelState.AddModelError(
+                            string.Empty,
+                            $"{item.DayOfWeek} start or end time are missing!"
+                        );
+                    }
+                }
+            }
+
+
+
+
+
 
             if (!ModelState.IsValid)
             {
@@ -190,7 +213,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                                     .Select(day =>
                                     {
                                         WorkingHourVM input = doctorVM.OpeningHours?.FirstOrDefault(x => x.DayOfWeek == day);
-                                        return new OpeningHour
+                                        return new WorkingHours
                                         {
                                             DayOfWeek = day,
                                             OpenTime = input?.OpenTime,
@@ -334,14 +357,14 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             if (doctorVM.OpeningHours is not null && doctorVM.OpeningHours.Any())
             {
-                _context.OpeningHours.RemoveRange(existedDoctor.OpeningHours);
+                _context.WorkingHours.RemoveRange(existedDoctor.OpeningHours);
 
                 existedDoctor.OpeningHours = Enum.GetValues(typeof(DayOfWeekEnum))
                     .Cast<DayOfWeekEnum>()
                     .Select(day =>
                     {
                         var input = doctorVM.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
-                        return new OpeningHour
+                        return new WorkingHours
                         {
                             DayOfWeek = day,
                             OpenTime = input?.OpenTime,
@@ -406,6 +429,14 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 .FirstOrDefaultAsync(d => d.Id == id);
             if (doctor is null) return NotFound();
             doctor.Image.DeleteFile(_env.WebRootPath, "assets", "images", "team", "full");
+
+
+            List<ContactInfo> contactInfos = await _context.ContactInfos
+                    .Where(ci => ci.OwnerType == OwnerType.Doctor && ci.OwnerId == doctor.Id)
+                    .ToListAsync();
+
+            _context.ContactInfos.RemoveRange(contactInfos);
+
 
             _context.Doctors.Remove(doctor);
             await _context.SaveChangesAsync();

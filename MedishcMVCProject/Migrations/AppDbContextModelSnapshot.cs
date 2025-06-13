@@ -101,6 +101,26 @@ namespace MedishcMVCProject.Migrations
                     b.ToTable("BlogCategories");
                 });
 
+            modelBuilder.Entity("MedishcMVCProject.Models.BloodGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BloodGroups");
+                });
+
             modelBuilder.Entity("MedishcMVCProject.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -192,8 +212,9 @@ namespace MedishcMVCProject.Migrations
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OwnerType")
-                        .HasColumnType("int");
+                    b.Property<string>("OwnerType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -221,6 +242,26 @@ namespace MedishcMVCProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Degrees");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.Disease", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Diseases");
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Doctor", b =>
@@ -318,7 +359,7 @@ namespace MedishcMVCProject.Migrations
                     b.ToTable("MedicalServices");
                 });
 
-            modelBuilder.Entity("MedishcMVCProject.Models.OpeningHour", b =>
+            modelBuilder.Entity("MedishcMVCProject.Models.Patient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -326,26 +367,72 @@ namespace MedishcMVCProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<TimeSpan?>("CloseTime")
-                        .HasColumnType("time");
-
-                    b.Property<int>("DayOfWeek")
+                    b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("DoctorId")
+                    b.Property<int>("BloodGroupId")
                         .HasColumnType("int");
+
+                    b.Property<int>("DiseaseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<TimeSpan?>("OpenTime")
-                        .HasColumnType("time");
+                    b.Property<string>("MainDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId");
+                    b.HasIndex("BloodGroupId");
 
-                    b.ToTable("OpeningHours");
+                    b.HasIndex("DiseaseId");
+
+                    b.ToTable("Patients");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.PatientReport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("PatientReports");
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.PriceList", b =>
@@ -416,6 +503,38 @@ namespace MedishcMVCProject.Migrations
                     b.ToTable("Universities");
                 });
 
+            modelBuilder.Entity("MedishcMVCProject.Models.WorkingHours", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<TimeSpan?>("CloseTime")
+                        .IsRequired()
+                        .HasColumnType("time");
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<TimeSpan?>("OpenTime")
+                        .IsRequired()
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("WorkingHours");
+                });
+
             modelBuilder.Entity("MedishcMVCProject.Models.Blog", b =>
                 {
                     b.HasOne("MedishcMVCProject.Models.Author", "Author")
@@ -460,17 +579,17 @@ namespace MedishcMVCProject.Migrations
             modelBuilder.Entity("MedishcMVCProject.Models.Doctor", b =>
                 {
                     b.HasOne("MedishcMVCProject.Models.Degree", "Degree")
-                        .WithMany()
+                        .WithMany("Doctors")
                         .HasForeignKey("DegreeId");
 
                     b.HasOne("MedishcMVCProject.Models.Specialist", "Specialist")
-                        .WithMany()
+                        .WithMany("Doctors")
                         .HasForeignKey("SpecialistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MedishcMVCProject.Models.University", "University")
-                        .WithMany()
+                        .WithMany("Doctors")
                         .HasForeignKey("UniversityId");
 
                     b.Navigation("Degree");
@@ -480,15 +599,34 @@ namespace MedishcMVCProject.Migrations
                     b.Navigation("University");
                 });
 
-            modelBuilder.Entity("MedishcMVCProject.Models.OpeningHour", b =>
+            modelBuilder.Entity("MedishcMVCProject.Models.Patient", b =>
                 {
-                    b.HasOne("MedishcMVCProject.Models.Doctor", "Doctor")
-                        .WithMany("OpeningHours")
-                        .HasForeignKey("DoctorId")
+                    b.HasOne("MedishcMVCProject.Models.BloodGroup", "BloodGroup")
+                        .WithMany("Patients")
+                        .HasForeignKey("BloodGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Doctor");
+                    b.HasOne("MedishcMVCProject.Models.Disease", "Disease")
+                        .WithMany("Patients")
+                        .HasForeignKey("DiseaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BloodGroup");
+
+                    b.Navigation("Disease");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.PatientReport", b =>
+                {
+                    b.HasOne("MedishcMVCProject.Models.Patient", "Patient")
+                        .WithMany("Reports")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.PriceList", b =>
@@ -502,9 +640,25 @@ namespace MedishcMVCProject.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("MedishcMVCProject.Models.WorkingHours", b =>
+                {
+                    b.HasOne("MedishcMVCProject.Models.Doctor", "Doctor")
+                        .WithMany("OpeningHours")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+                });
+
             modelBuilder.Entity("MedishcMVCProject.Models.Blog", b =>
                 {
                     b.Navigation("BlogCategories");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.BloodGroup", b =>
+                {
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Category", b =>
@@ -517,11 +671,36 @@ namespace MedishcMVCProject.Migrations
                     b.Navigation("ClinicServices");
                 });
 
+            modelBuilder.Entity("MedishcMVCProject.Models.Degree", b =>
+                {
+                    b.Navigation("Doctors");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.Disease", b =>
+                {
+                    b.Navigation("Patients");
+                });
+
             modelBuilder.Entity("MedishcMVCProject.Models.Doctor", b =>
                 {
                     b.Navigation("OpeningHours");
 
                     b.Navigation("PriceLists");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.Patient", b =>
+                {
+                    b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.Specialist", b =>
+                {
+                    b.Navigation("Doctors");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.University", b =>
+                {
+                    b.Navigation("Doctors");
                 });
 #pragma warning restore 612, 618
         }

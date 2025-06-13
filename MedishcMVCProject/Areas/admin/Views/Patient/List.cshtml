@@ -1,14 +1,41 @@
-﻿<div class="app-body">
+﻿@model List<GetPatientVM>
+@{
+    int count = 0;
+}
 
+
+<div class="app-body">
+   @*  <div class="search-container d-lg-block d-none mx-3">
+        <input type="text" class="form-control" id="searchId" placeholder="Search">
+        <i class="ri-search-line"></i>
+    </div> *@
     <!-- Row starts -->
     <div class="row gx-3">
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="card-title">Patients List</h5>
-                    <a href="add-patient.html" class="btn btn-primary ms-auto">Add Patient</a>
-                </div>
-                <div class="card-body">
+                <form method="get" asp-action="List">
+                    <div class="col-sm-12 col-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-end flex-wrap gap-2">
+                                    <div class="d-flex align-items-end gap-2">
+                                        <div class="m-0">
+                                            <label class="form-label" for="a1">Patient Name</label>
+                                            <input type="text" class="form-control" id="a1" name="patientName"
+                                                   value="@(Context.Request.Query["patientName"])" placeholder="Search By Patient's Name">
+                                        </div>
+                                        <div class="m-0">
+                                            <button class="btn btn-primary" type="submit">Search</button>
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <a asp-action="Create" class="btn btn-primary">Add Patient</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
                     <!-- Table starts -->
                     <div class="table-responsive">
@@ -20,439 +47,76 @@
                                     <th>Gender</th>
                                     <th>Age</th>
                                     <th>Blood Group</th>
-                                    <th>Treatment</th>
+                                    <th>Disease</th>
                                     <th>Mobile</th>
                                     <th>Email</th>
-                                    <th>Address</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>#89990</td>
-                                    <td>
-                                        <img src="~/admin/images/patient.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Allan Stuart
-                                    </td>
-                                    <td><span class="badge bg-info-subtle text-info">Male</span></td>
-                                    <td>67</td>
-                                    <td>O+</td>
-                                    <td>
-                                        Diabetes
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>377 McGlynn, Orchard</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
+                               @foreach (GetPatientVM patientVM in Model)
+                                {
+                                    count++;
+                                    string? modalId = $"delRow_{patientVM.Id}";
+
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>
+                                            <img src="~/assets/images/patient/@patientVM.Image" class="img-shadow img-2x rounded-5 me-1"
+                                                 alt="Medical Admin Template">
+                                            @patientVM.Name @patientVM.Surname
+                                        </td>
+                                        <td><span class="badge bg-info-subtle text-info">@patientVM.GenderName</span></td>
+                                        <td>@patientVM.Age</td>
+                                        <td>@patientVM.BloodName</td>
+                                        <td>
+                                            @patientVM.DiseaseName
+                                        </td>
+                                        <td>@patientVM.PhoneNumber</td>
+                                        <td>@patientVM.Email</td>
+                                        <td>
+                                            <div class="d-inline-flex gap-1">
+                                                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#@modalId">
+                                                    <i class="ri-delete-bin-line"></i>
+                                                </button>
+                                                <a asp-action="update" asp-route-id="@patientVM.Id" class="btn btn-outline-success btn-sm"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Doctor Details">
+                                                    <i class="ri-edit-box-line"></i>
+                                                </a>
+                                                <a asp-action="Profile" asp-route-id="@patientVM.Id" class="btn btn-outline-info btn-sm"
+                                                   data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Profile">
+                                                    <i class="ri-eye-line"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Individual Delete Modal -->
+                                    <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="delRowLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="delRowLabel">Confirm</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete<br> <strong>@patientVM.Name @patientVM.Surname</strong>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form asp-action="Delete" asp-route-id="@patientVM.Id" method="post">
+                                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">No</button>
+                                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#89992</td>
-                                    <td>
-                                        <img src="~/admin/images/patient1.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Katie Robinson
-                                    </td>
-                                    <td><span class="badge bg-warning-subtle text-warning">Female</span></td>
-                                    <td>33</td>
-                                    <td>B+</td>
-                                    <td>
-                                        Pediatric
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>229 Hills Courts, Doyleland</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#89995</td>
-                                    <td>
-                                        <img src="~/admin/images/patient2.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Pam Higgins
-                                    </td>
-                                    <td><span class="badge bg-info-subtle text-info">Male</span></td>
-                                    <td>28</td>
-                                    <td>AB+</td>
-                                    <td>
-                                        Asthma
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>59 Graham Fall, Nickville</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#89345</td>
-                                    <td>
-                                        <img src="~/admin/images/patient3.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Ashley Clay
-                                    </td>
-                                    <td><span class="badge bg-info-subtle text-info">Male</span></td>
-                                    <td>77</td>
-                                    <td>A+</td>
-                                    <td>
-                                        Chancroid
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>491 Towne Parkway</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#87690</td>
-                                    <td>
-                                        <img src="~/admin/images/patient4.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Keith Coleman
-                                    </td>
-                                    <td><span class="badge bg-warning-subtle text-warning">Female</span></td>
-                                    <td>49</td>
-                                    <td>O+</td>
-                                    <td>
-                                        Diphtheria
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>289 Markus Turnpike</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#82894</td>
-                                    <td>
-                                        <img src="~/admin/images/patient5.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Nick Morrow
-                                    </td>
-                                    <td><span class="badge bg-info-subtle text-info">Male</span></td>
-                                    <td>69</td>
-                                    <td>A+</td>
-                                    <td>
-                                        Thyroid
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>835 Lorena Stream</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#80762</td>
-                                    <td>
-                                        <img src="~/admin/images/patient4.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Wendi Combs
-                                    </td>
-                                    <td><span class="badge bg-warning-subtle text-warning">Female</span></td>
-                                    <td>28</td>
-                                    <td>AB+</td>
-                                    <td>
-                                        Cyclospora
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>360 Branden Knoll</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#83308</td>
-                                    <td>
-                                        <img src="~/admin/images/patient1.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Carole Dodson
-                                    </td>
-                                    <td><span class="badge bg-warning-subtle text-warning">Female</span></td>
-                                    <td>95</td>
-                                    <td>A+</td>
-                                    <td>
-                                        Conjunctivitis
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>Suite 510 Kiana Track</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#83306</td>
-                                    <td>
-                                        <img src="~/admin/images/patient.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Juan Meyers
-                                    </td>
-                                    <td><span class="badge bg-info-subtle text-info">Male</span></td>
-                                    <td>55</td>
-                                    <td>B+</td>
-                                    <td>
-                                        Diabetes
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>6921 Geoffrey Spur</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#86345</td>
-                                    <td>
-                                        <img src="~/admin/images/patient5.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Naomi Dawson
-                                    </td>
-                                    <td><span class="badge bg-info-subtle text-info">Male</span></td>
-                                    <td>32</td>
-                                    <td>AB+</td>
-                                    <td>
-                                        Celiac
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>352 Raynor Junction</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#83349</td>
-                                    <td>
-                                        <img src="~/admin/images/patient2.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Emmitt Macias
-                                    </td>
-                                    <td><span class="badge bg-info-subtle text-info">Male</span></td>
-                                    <td>93</td>
-                                    <td>A+</td>
-                                    <td>
-                                        Cervical
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>834 Quitzon Dale Connie</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#82348</td>
-                                    <td>
-                                        <img src="~/admin/images/patient4.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Medical Admin Template">
-                                        Reba Fisher
-                                    </td>
-                                    <td><span class="badge bg-warning-subtle text-warning">Female</span></td>
-                                    <td>59</td>
-                                    <td>A+</td>
-                                    <td>
-                                        Alphaviruses
-                                    </td>
-                                    <td>0987654321</td>
-                                    <td>test@testing.com</td>
-                                    <td>806 Je Alley, Robelfurt</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#delRow">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </button>
-                                            <a href="edit-patient.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Patient Details">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                            <a href="patient-dashboard.html" class="btn btn-outline-info btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Dashboard">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                }
+                                
                             </tbody>
                         </table>
                     </div>
                     <!-- Table ends -->
-                    <!-- Modal Delete Row -->
-                    <div class="modal fade" id="delRow" tabindex="-1" aria-labelledby="delRowLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="delRowLabel">
-                                        Confirm
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Are you sure you want to delete the patient?
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="d-flex justify-content-end gap-2">
-                                        <button class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                                aria-label="Close">
-                                            No
-                                        </button>
-                                        <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Yes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                 </div>
             </div>

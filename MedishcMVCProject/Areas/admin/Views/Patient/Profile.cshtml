@@ -1,0 +1,519 @@
+﻿@model GetPatientVM
+@{
+    int count = 0;
+}
+
+
+<div class="app-body">
+    <!-- Row starts -->
+    <div class="row gx-3">
+        <div class="col-sm-12">
+            <div class="card mb-3">
+                <div class="card-body">
+
+                    <div class="d-flex ">
+                        <!-- Stats starts -->
+                        <div class="d-flex align-items-center flex-wrap gap-4">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box lg bg-primary rounded-5 me-2">
+                                    <i class="ri-account-circle-line fs-3"></i>
+                                </div>
+                                <div>
+                                    <h4 class="mb-1">@Model.Name</h4>
+                                    <p class="m-0">Patient Name</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box lg bg-primary rounded-5 me-2">
+                                    <i class="ri-women-line fs-3"></i>
+                                </div>
+                                <div>
+                                    <h4 class="mb-1">@Model.GenderName</h4>
+                                    <p class="m-0">Gender</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box lg bg-primary rounded-5 me-2">
+                                    <i class="ri-arrow-right-up-line fs-3"></i>
+                                </div>
+                                <div>
+                                    <h4 class="mb-1">@Model.Age</h4>
+                                    <p class="m-0">Patient Age</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box lg bg-primary rounded-5 me-2">
+                                    <i class="ri-contrast-drop-2-line fs-3"></i>
+                                </div>
+                                <div>
+                                    <h4 class="mb-1">@Model.BloodName</h4>
+                                    <p class="m-0">Blood Type</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="icon-box lg bg-secondary rounded-5 me-2">
+                                    <i class="ri-stethoscope-line fs-3 text-body"></i>
+                                </div>
+                                <div>
+                                    <h4 class="mb-1">Helelik Static</h4>
+                                    <p class="m-0">Consulting Doctor</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Stats ends -->
+
+                        <img src="/assets/images/patient/@Model.Image" class="img-7x rounded-circle ms-auto"
+                             alt="Patient Admin Template">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row ends -->
+    <div class="row gx-3">
+        <div class="col-sm-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="card-title">About</h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        @Model.MainDescription
+                    </p>
+
+                    <div class="mt-4">
+                        <h6>Disease</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-primary">@Model.DiseaseName</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <h6 class="mb-2">Contact Info</h6>
+                        <div class="d-flex flex-column gap-1">
+                            <span>
+                                <strong>Email:</strong> @(string.IsNullOrWhiteSpace(Model.Email) ? "Not Found" : Model.Email)
+                            </span>
+                            <span>
+                                <strong>Phone:</strong> @(Model.PhoneNumber == 0 ? "Not Found" : Model.PhoneNumber.ToString())
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row starts -->
+        <!-- Row ends -->
+        <!-- Row starts -->
+        <div class="row gx-3">
+            <div class="col-xl-6 col-sm-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="card-title">Health Insurance Claims</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="insuranceClaims"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-sm-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="card-title">My Medical Expenses</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="medicalExpenses"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-sm-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="card-title">Doctor Visits</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-outer">
+                            <div class="table-responsive">
+                                <table class="table align-middle truncate m-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Doctor</th>
+                                            <th>Date</th>
+                                            <th>Department</th>
+                                            <th>Reports</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img src="/admin/images/user1.png" class="img-3x rounded-2" alt="Medical Dashboard"> Dr.
+                                                Hector
+                                            </td>
+                                            <td>20/05/2024</td>
+                                            <td>
+                                                Dentist
+                                            </td>
+                                            <td>
+                                                <div class="d-inline-flex gap-1">
+                                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#viewReportsModal1">
+                                                        View Reports
+                                                    </button>
+                                                    <button class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-title="Download Report">
+                                                        <i class="ri-file-download-line"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="/admin/images/user5.png" class="img-3x rounded-2" alt="Medical Dashboard"> Dr.
+                                                Mitchel
+                                            </td>
+                                            <td>20/05/2024</td>
+                                            <td>
+                                                Urologist
+                                            </td>
+                                            <td>
+                                                <div class="d-inline-flex gap-1">
+                                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#viewReportsModal1">
+                                                        View Reports
+                                                    </button>
+                                                    <button class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-title="Download Report">
+                                                        <i class="ri-file-download-line"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="/admin/images/user3.png" class="img-3x rounded-2" alt="Medical Dashboard"> Dr.
+                                                Fermin
+                                            </td>
+                                            <td>18/03/2024</td>
+                                            <td>
+                                                Surgeon
+                                            </td>
+                                            <td>
+                                                <div class="d-inline-flex gap-1">
+                                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#viewReportsModal1">
+                                                        View Reports
+                                                    </button>
+                                                    <button class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-title="Download Report">
+                                                        <i class="ri-file-download-line"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-sm-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="card-title">Reports</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-outer">
+                            <div class="table-responsive">
+                                <table class="table align-middle truncate m-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>File</th>
+                                            <th>Reports Link</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        @foreach (PatientReport report in Model.Reports)
+                                        {
+                                            count++;
+                                            <tr>
+                                                <td>@count</td>
+                                                <td>
+                                                    <div class="icon-box md bg-primary rounded-2">
+                                                        <i class="ri-file-excel-2-line"></i>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="~/assets/uploads/patientreports/@report.FileName" class="link-primary text-truncate" target="_blank">
+                                                        @report.FileName
+                                                    </a>
+                                                </td>
+                                                <td>@report.CreatedDate.ToString("MMM-dd, yyyy")</td>
+                                                <td>
+                                                    <div class="d-inline-flex gap-1">
+                                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delRow">
+                                                            <i class="ri-delete-bin-line"></i>
+                                                        </button>
+                                                        <a href="~/assets/uploads/patientreports/@report.FileName" class="btn btn-info btn-sm" data-bs-toggle="tooltip"
+                                                           data-bs-placement="top" data-bs-title="Download Report" download>
+                                                            <i class="ri-file-download-line"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-4 col-sm-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="card-title">Pharmacy</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="scroll350">
+                            <div class="text-center">
+                                <img class="img-fluid mb-3" src="/admin/images/reports.svg" style="width: 180px;"
+                                     alt="Hospital Admin Templates">
+                                <h2>$980</h2>
+                                <span class="d-block mb-1">Average Spending</span>
+                                <span class="d-block mb-2"><b>+20%</b> vs last month</span>
+                                <p class="m-0 opacity-75">
+                                    You can choose from over 1600 admin dashboard templates on Bootstrap
+                                    Gallery.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="card-title">Timeline</h5>
+                    </div>
+                    <div class="card-body">
+
+                        <!-- Activity starts -->
+                        <div class="scroll350">
+                            <div class="activity-feed">
+                                <div class="feed-item">
+                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
+                                        An
+                                        Hour Ago
+                                    </span>
+                                    <div class="mb-1">
+                                        <a href="#" class="text-primary">Dr. Janie Mcdonald</a> - sent a new prescription.
+                                    </div>
+                                    <div class="mb-1">Medecine Name - <a href="#" class="text-danger">Amocvmillin</a></div>
+                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
+                                </div>
+                                <div class="feed-item">
+                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
+                                        An
+                                        Hour Ago
+                                    </span>
+                                    <div class="mb-1">
+                                        <a href="#" class="text-primary">Dr. Hector Banks</a> - uploaded a report.
+                                    </div>
+                                    <div class="mb-1">Report Name - <a href="#" class="text-danger">Lisymorpril</a></div>
+                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
+                                </div>
+                                <div class="feed-item">
+                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
+                                        An
+                                        Hour Ago
+                                    </span>
+                                    <div class="mb-1">
+                                        <a href="#" class="text-primary">Dr. Deena Cooley</a> - sent medecine details.
+                                    </div>
+                                    <div class="mb-1">Medecine Name - <a href="#" class="text-danger">Predeymsone</a></div>
+                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
+                                </div>
+                                <div class="feed-item">
+                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
+                                        An
+                                        Hour Ago
+                                    </span>
+                                    <div class="mb-1">
+                                        <a href="#" class="text-primary">Dr. Mitchel Alvarez</a> - added import files.
+                                    </div>
+                                    <div class="mb-1">File Name - <a href="#" class="text-danger">Naverreone</a></div>
+                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
+                                </div>
+                                <div class="feed-item">
+                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
+                                        An
+                                        Hour Ago
+                                    </span>
+                                    <div class="mb-1">
+                                        <a href="#" class="text-primary">Dr. Owen Scott</a> - reviewed your file.
+                                    </div>
+                                    <div class="mb-1">File Name - <a href="#" class="text-danger">Gabateyntin</a></div>
+                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Activity ends -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row ends -->
+        <!-- Modal Delete Row -->
+        <div class="modal fade" id="delRow" tabindex="-1" aria-labelledby="delRowLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="delRowLabel">
+                            Confirm
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this report?
+                    </div>
+                    <div class="modal-footer">
+                        <div class="d-flex justify-content-end gap-2">
+                            <button class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">No</button>
+                            <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal View All Reports -->
+        <div class="modal fade" id="viewReportsModal1" tabindex="-1" aria-labelledby="viewReportsModalLabel1"
+             aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewReportsModalLabel1">
+                            View Reports
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- Row starts -->
+                        <div class="row g-3">
+                            <div class="col-sm-2">
+                                <a href="#" class="d-flex flex-column bg-light p-2 rounded-2 text-center"
+                                   data-bs-target="#viewReportsModal2" data-bs-toggle="modal">
+                                    <img src="assets/images/report.svg" class="img-fluid rounded-2" alt="Medical Dashboards">
+                                    <h6 class="mt-3 mb-1 text-truncate">Clinical Report</h6>
+                                    <p class="m-0 small">10/05/2024</p>
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="#" class="d-flex flex-column bg-light p-2 rounded-2 text-center"
+                                   data-bs-target="#viewReportsModal2" data-bs-toggle="modal">
+                                    <img src="assets/images/report.svg" class="img-fluid rounded-2" alt="Medical Dashboards">
+                                    <h6 class="mt-3 mb-1 text-truncate">Dentist Report</h6>
+                                    <p class="m-0 small">20/06/2024</p>
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="#" class="d-flex flex-column bg-light p-2 rounded-2 text-center"
+                                   data-bs-target="#viewReportsModal2" data-bs-toggle="modal">
+                                    <img src="assets/images/report.svg" class="img-fluid rounded-2" alt="Medical Dashboards">
+                                    <h6 class="mt-3 mb-1 text-truncate">Glucose Report</h6>
+                                    <p class="m-0 small">30/06/2024</p>
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="#" class="d-flex flex-column bg-light p-2 rounded-2 text-center"
+                                   data-bs-target="#viewReportsModal2" data-bs-toggle="modal">
+                                    <img src="assets/images/report.svg" class="img-fluid rounded-2" alt="Medical Dashboards">
+                                    <h6 class="mt-3 mb-1 text-truncate">X-ray Report</h6>
+                                    <p class="m-0 small">26/08/2024</p>
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="#" class="d-flex flex-column bg-light p-2 rounded-2 text-center"
+                                   data-bs-target="#viewReportsModal2" data-bs-toggle="modal">
+                                    <img src="assets/images/report.svg" class="img-fluid rounded-2" alt="Medical Dashboards">
+                                    <h6 class="mt-3 mb-1 text-truncate">Ultrasound Report</h6>
+                                    <p class="m-0 small">21/08/2024</p>
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="#" class="d-flex flex-column bg-light p-2 rounded-2 text-center"
+                                   data-bs-target="#viewReportsModal2" data-bs-toggle="modal">
+                                    <img src="assets/images/report.svg" class="img-fluid rounded-2" alt="Medical Dashboards">
+                                    <h6 class="mt-3 mb-1 text-truncate">Hypothermia Report</h6>
+                                    <p class="m-0 small">15/04/2024</p>
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="#" class="d-flex flex-column bg-light p-2 rounded-2 text-center"
+                                   data-bs-target="#viewReportsModal2" data-bs-toggle="modal">
+                                    <img src="assets/images/report.svg" class="img-fluid rounded-2" alt="Medical Dashboards">
+                                    <h6 class="mt-3 mb-1 text-truncate">Discharge Report</h6>
+                                    <p class="m-0 small">22/07/2024</p>
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="#" class="d-flex flex-column bg-light p-2 rounded-2 text-center"
+                                   data-bs-target="#viewReportsModal2" data-bs-toggle="modal">
+                                    <img src="assets/images/report.svg" class="img-fluid rounded-2" alt="Medical Dashboards">
+                                    <h6 class="mt-3 mb-1 text-truncate">Diabetes Report</h6>
+                                    <p class="m-0 small">17/05/2024</p>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Row ends -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal View Single Report -->
+        <div class="modal fade" id="viewReportsModal2" tabindex="-1" aria-labelledby="viewReportsModalLabel2"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewReportsModalLabel2">
+                            <div class="d-flex align-items-center">
+                                <a href="#!" class="btn btn-sm btn-outline-primary me-2" data-bs-target="#viewReportsModal1"
+                                   data-bs-toggle="modal">
+                                    <i class="ri-arrow-left-wide-fill"></i>
+                                </a>
+                                Clinical Report
+                            </div>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- Row starts -->
+                        <div class="row g-3">
+                            <div class="col-sm-12">
+                                <a href="#" class="d-flex flex-column bg-light p-2 rounded-2 text-center">
+                                    <img src="assets/images/report.svg" class="img-fluid rounded-2" alt="Medical Dashboards">
+                                    <h6 class="mt-3 mb-1 text-truncate">Clinical Report</h6>
+                                    <p class="m-0 small">10/05/2024</p>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Row ends -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>

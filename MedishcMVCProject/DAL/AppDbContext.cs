@@ -1,4 +1,5 @@
 ﻿using MedishcMVCProject.Models;
+using MedishcMVCProject.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedishcMVCProject.DAL
@@ -9,7 +10,7 @@ namespace MedishcMVCProject.DAL
         //Doctor
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Degree> Degrees { get; set; }
-        public DbSet<OpeningHour> OpeningHours { get; set; }
+        public DbSet<WorkingHours> WorkingHours { get; set; }
         public DbSet<PriceList> PriceLists { get; set; }
         public DbSet<Specialist> Specialists { get; set; }
         public DbSet<University> Universities { get; set; }
@@ -28,7 +29,11 @@ namespace MedishcMVCProject.DAL
         public DbSet<MedicalService> MedicalServices { get; set; }
         //ContactInfoProperties
         public DbSet<ContactInfo> ContactInfos { get; set; }
-
+        //Patients
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<BloodGroup> BloodGroups { get; set; }
+        public DbSet<Disease> Diseases { get; set; }
+        public DbSet<PatientReport> PatientReports { get; set; }
 
 
 
@@ -38,12 +43,18 @@ namespace MedishcMVCProject.DAL
 
 
             modelBuilder.Entity<ContactInfo>()
-               .Property(c => c.ContactType)
-               .HasConversion<string>();
+              .Property(c => c.ContactType)
+              .HasConversion<string>();
 
             modelBuilder.Entity<Doctor>()
-                .Property(d => d.Gender)
-                .HasConversion<string>();
+               .Property(d => d.Gender)
+               .HasConversion<string>();
+
+            modelBuilder.Entity<ContactInfo>()
+               .Property(e => e.OwnerType)
+               .HasConversion(
+                   v => v.ToString(),
+                   v => (OwnerType)Enum.Parse(typeof(OwnerType), v));
         }
     }
 
