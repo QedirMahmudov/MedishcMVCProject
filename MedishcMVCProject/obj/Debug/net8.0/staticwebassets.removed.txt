@@ -1,0 +1,4 @@
+C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\images\patient\29b5c5b2-b7c5-4c84-8975-b1a4ab87efca.jpg
+C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\uploads\patientreports\1ffe974e-764c-43ad-8a2b-13b331c20cc8.pdf
+C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\uploads\patientreports\af835f67-0588-4b1c-951a-09fd23a4e7e7.pdf
+C:\Users\uvape\OneDrive\Desktop\Folders\MedilixMVC\MedishcMVCProject\MedishcMVCProject\wwwroot\assets\uploads\patientreports\e17b3a2b-a99d-4926-a9cf-a6f677c5b5ff.pdf

@@ -512,7 +512,6 @@ namespace MedishcMVCProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<TimeSpan?>("CloseTime")
-                        .IsRequired()
                         .HasColumnType("time");
 
                     b.Property<int>("DayOfWeek")
@@ -525,7 +524,6 @@ namespace MedishcMVCProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<TimeSpan?>("OpenTime")
-                        .IsRequired()
                         .HasColumnType("time");
 
                     b.HasKey("Id");

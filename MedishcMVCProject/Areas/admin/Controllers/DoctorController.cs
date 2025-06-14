@@ -145,7 +145,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             if (doctorVM.OpeningHours != null)
             {
-                foreach (var item in doctorVM.OpeningHours)
+                foreach (WorkingHourVM? item in doctorVM.OpeningHours)
                 {
                     bool hasOpen = item.OpenTime.HasValue;
                     bool hasClose = item.CloseTime.HasValue;
@@ -186,7 +186,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 return View(doctorVM);
             }
 
-            if (!doctorVM.MainPhoto.ValidateSize(FileType.KB, 500))
+            if (!doctorVM.MainPhoto.ValidateSize(FileType.MB, 1))
             {
                 ModelState.AddModelError(nameof(CreateDoctorVM.MainPhoto), "file must be less than 500kb");
                 return View(doctorVM);
@@ -282,7 +282,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                                 .Cast<DayOfWeekEnum>()
                                 .Select(day =>
                                 {
-                                    var existing = doctor.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
+                                    WorkingHours? existing = doctor.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
                                     return new WorkingHourVM
                                     {
                                         DayOfWeek = day,
@@ -315,10 +315,14 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             {
                 return View(doctorVM);
             }
+
             Doctor? existedDoctor = await _context.Doctors
                 .Include(d => d.Specialist)
                 .Include(d => d.OpeningHours)
                 .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (existedDoctor is null) return NotFound();
+
 
             if (doctorVM.MainPhoto is not null)
             {
@@ -363,7 +367,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                     .Cast<DayOfWeekEnum>()
                     .Select(day =>
                     {
-                        var input = doctorVM.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
+                        WorkingHourVM input = doctorVM.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
                         return new WorkingHours
                         {
                             DayOfWeek = day,
@@ -390,7 +394,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             foreach (var (type, value) in contactValues)
             {
-                var existing = contactInfos.FirstOrDefault(c => c.ContactType == type);
+                ContactInfo? existing = contactInfos.FirstOrDefault(c => c.ContactType == type);
 
                 if (!string.IsNullOrWhiteSpace(value))
                 {

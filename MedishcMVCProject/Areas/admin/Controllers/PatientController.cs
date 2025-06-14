@@ -160,36 +160,43 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             if (!patientVM.MainPhoto.ValidateType("image/"))
             {
-                ModelState.AddModelError(nameof(CreatePatientVM.MainPhoto), "file type is incorrect");
+                ModelState.AddModelError(nameof(CreatePatientVM.MainPhoto), "File type is incorrect");
                 return View(patientVM);
             }
 
-            if (!patientVM.MainPhoto.ValidateSize(FileType.KB, 500))
+            if (!patientVM.MainPhoto.ValidateSize(FileType.MB, 1))
             {
-                ModelState.AddModelError(nameof(CreatePatientVM.MainPhoto), "file must be less than 500kb");
+                ModelState.AddModelError(nameof(CreatePatientVM.MainPhoto), "File must be less than 500kb");
                 return View(patientVM);
             }
 
 
-            if (!patientVM.ReportFile.ValidateType("application/pdf"))
+            if (patientVM.ReportFiles == null || !patientVM.ReportFiles.Any())
             {
-                ModelState.AddModelError(nameof(CreatePatientVM.MainPhoto), "file type is incorrect");
+                ModelState.AddModelError(nameof(patientVM.ReportFiles), "At least one PDF file must be uploaded");
                 return View(patientVM);
             }
 
-            if (!patientVM.ReportFile.ValidateSize(FileType.MB, 2))
+            foreach (IFormFile reportFile in patientVM.ReportFiles)
             {
-                ModelState.AddModelError(nameof(CreatePatientVM.MainPhoto), "ReportFile must be less than 2MB");
-                return View(patientVM);
-            }
+                if (!reportFile.ValidateType("application/pdf"))
+                {
+                    ModelState.AddModelError(nameof(patientVM.ReportFiles), "File type is incorrect");
+                    return View(patientVM);
+                }
 
+                if (!reportFile.ValidateSize(FileType.MB, 2))
+                {
+                    ModelState.AddModelError(nameof(patientVM.ReportFiles), "File must be less than 2MB");
+                    return View(patientVM);
+                }
+            }
 
 
 
 
 
             string image = await patientVM.MainPhoto.CreateFileAsync(_env.WebRootPath, "assets", "images", "patient");
-            string reportFileName = await patientVM.ReportFile.CreateFileAsync(_env.WebRootPath, "assets", "uploads", "patientreports");
 
             Patient patient = new Patient()
             {
@@ -210,14 +217,19 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             await _context.SaveChangesAsync();
 
 
-            PatientReport report = new PatientReport
+            foreach (IFormFile reportFile in patientVM.ReportFiles)
             {
-                PatientId = patient.Id,
-                FileName = reportFileName,
-                CreatedDate = DateTime.UtcNow
-            };
+                string reportFileName = await reportFile.CreateFileAsync(_env.WebRootPath, "assets", "uploads", "patientreports");
 
-            await _context.PatientReports.AddAsync(report);
+                PatientReport report = new PatientReport
+                {
+                    PatientId = patient.Id,
+                    FileName = reportFileName,
+                    CreatedDate = DateTime.UtcNow
+                };
+
+                await _context.PatientReports.AddAsync(report);
+            }
 
 
             var contactInfos = new List<(ContactType, string?)>
@@ -239,6 +251,255 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             return RedirectToAction(nameof(List));
         }
 
+
+
+
+        public async Task<IActionResult> Update(int? id)
+        {
+            if (id is null || id <= 0) return BadRequest();
+
+            Patient? patient = await _context.Patients
+                .Include(p => p.Disease)
+                .Include(p => p.BloodGroup)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (patient is null) return NotFound();
+
+            List<ContactInfo> contactInfos = await _context.ContactInfos
+                .Where(c => c.OwnerType == OwnerType.Patient && c.OwnerId == patient.Id)
+                .ToListAsync();
+
+            List<PatientReport> patientReports = await _context.PatientReports
+                .Where(r => r.PatientId == patient.Id)
+                .ToListAsync();
+
+            UpdatePatientVM patientVM = new UpdatePatientVM
+            {
+                Name = patient.Name.Capitalize(),
+                Surname = patient.Surname.Capitalize(),
+                Age = patient.Age,
+                Gender = patient.Gender,
+                Email = contactInfos.FirstOrDefault(e => e.ContactType == ContactType.Email)?.Value,
+                PhoneNumber = contactInfos.FirstOrDefault(x => x.ContactType == ContactType.Phone)?.Value,
+                SocialMediaFacebook = contactInfos.FirstOrDefault(x => x.ContactType == ContactType.Facebook)?.Value,
+                SocialMediaTwitter = contactInfos.FirstOrDefault(x => x.ContactType == ContactType.Twitter)?.Value,
+                BloodGroupId = patient.BloodGroupId,
+                BloodGroups = await _context.BloodGroups.ToListAsync(),
+                DiseaseId = patient.DiseaseId,
+                Diseases = await _context.Diseases.ToListAsync(),
+                Image = patient.Image,
+                MainDescription = patient.MainDescription,
+
+                ExistingReports = patientReports.Select(r => new PatientReportVM
+                {
+                    Id = r.Id,
+                    FileName = r.FileName,
+                    FileUrl = $"/assets/uploads/patientreports/{r.FileName}"
+                }).ToList()
+            };
+
+            return View(patientVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(int? id, UpdatePatientVM patientVM)
+        {
+            patientVM.BloodGroups = await _context.BloodGroups.ToListAsync();
+            patientVM.Diseases = await _context.Diseases.ToListAsync();
+
+            if (!Helpers.HasDigit(patientVM.Name))
+            {
+                ModelState.AddModelError(nameof(patientVM.Name), "Name cannot contain digits");
+            }
+
+            if (!Helpers.HasDigit(patientVM.Surname))
+            {
+                ModelState.AddModelError(nameof(patientVM.Surname), "Surname cannot contain digits");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                return View(patientVM);
+            }
+
+            Patient? existedPatient = await _context.Patients
+                .Include(p => p.BloodGroup)
+                .Include(p => p.Disease)
+                .Include(p => p.Reports)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (existedPatient is null) return NotFound();
+
+
+
+
+            if (patientVM.MainPhoto is not null)
+            {
+                if (!patientVM.MainPhoto.ValidateType("image/"))
+                {
+                    ModelState.AddModelError(nameof(UpdatePatientVM.MainPhoto), "File type is incorrect!");
+                    return View(patientVM);
+                }
+
+                if (!patientVM.MainPhoto.ValidateSize(FileType.MB, 1))
+                {
+                    ModelState.AddModelError(nameof(UpdatePatientVM.MainPhoto), "File should be less than 1MB");
+                    return View(patientVM);
+                }
+                string newImage = await patientVM.MainPhoto.CreateFileAsync(_env.WebRootPath, "assets", "images", "patient");
+                existedPatient.Image.DeleteFile(_env.WebRootPath, "assets", "images", "patient");
+                existedPatient.Image = newImage;
+            }
+
+
+            if ((patientVM.ReportFiles != null && patientVM.ReportFiles.Any() || (patientVM.RemovedReportIds != null && patientVM.RemovedReportIds.Any())
+    ))
+            {
+                // 1. Silinəcək fayllar varsa sil
+                if (patientVM.RemovedReportIds != null)
+                {
+                    foreach (var reportId in patientVM.RemovedReportIds)
+                    {
+                        var report = await _context.PatientReports.FindAsync(reportId);
+                        if (report != null)
+                        {
+                            string filePath = Path.Combine(_env.WebRootPath, "assets", "uploads", "patientreports", report.FileName);
+                            if (System.IO.File.Exists(filePath))
+                                System.IO.File.Delete(filePath);
+
+                            _context.PatientReports.Remove(report);
+                        }
+                    }
+                }
+
+                // 2. Yeni yüklənən fayllar varsa yoxla və əlavə et
+                if (patientVM.ReportFiles != null)
+                {
+                    foreach (var reportFile in patientVM.ReportFiles)
+                    {
+                        if (!reportFile.ValidateType("application/pdf"))
+                        {
+                            ModelState.AddModelError(nameof(UpdatePatientVM.ReportFiles), "All report files must be PDF!");
+                            return View(patientVM);
+                        }
+                        if (!reportFile.ValidateSize(FileType.MB, 2))
+                        {
+                            ModelState.AddModelError(nameof(UpdatePatientVM.ReportFiles), "File must be less than 2MB!");
+                            return View(patientVM);
+                        }
+                    }
+
+                    foreach (var reportFile in patientVM.ReportFiles)
+                    {
+                        string reportFileName = await reportFile.CreateFileAsync(_env.WebRootPath, "assets", "uploads", "patientreports");
+
+                        PatientReport report = new PatientReport
+                        {
+                            PatientId = existedPatient.Id,
+                            FileName = reportFileName,
+                            CreatedDate = DateTime.UtcNow
+                        };
+
+                        await _context.PatientReports.AddAsync(report);
+                    }
+                }
+            }
+
+            bool resultBloodGroup = patientVM.BloodGroups.Any(p => p.Id == patientVM.BloodGroupId);
+            bool resultDisease = patientVM.Diseases.Any(p => p.Id == patientVM.DiseaseId);
+
+            if (!resultBloodGroup)
+            {
+                ModelState.AddModelError(nameof(patientVM.BloodGroupId), "BloodGroup does not exist");
+                return View(patientVM);
+            }
+
+            if (!resultDisease)
+            {
+                ModelState.AddModelError(nameof(patientVM.DiseaseId), "Diseases does not exist");
+                return View(patientVM);
+            }
+
+            existedPatient.Name = patientVM.Name.Capitalize();
+            existedPatient.Surname = patientVM.Surname.Capitalize();
+            existedPatient.Age = patientVM.Age;
+            existedPatient.Gender = patientVM.Gender.Value;
+            existedPatient.DiseaseId = patientVM.DiseaseId.Value;
+            existedPatient.BloodGroupId = patientVM.BloodGroupId.Value;
+            existedPatient.MainDescription = patientVM.MainDescription;
+
+            List<ContactInfo>? contactInfos = await _context.ContactInfos
+                        .Where(c => c.OwnerType == OwnerType.Patient && c.OwnerId == existedPatient.Id)
+                        .ToListAsync();
+
+
+            var contactValues = new List<(ContactType Type, string? Value)>
+            {
+                (ContactType.Email, patientVM.Email),
+                (ContactType.Phone, patientVM.PhoneNumber),
+                (ContactType.Facebook, patientVM.SocialMediaFacebook),
+                (ContactType.Twitter, patientVM.SocialMediaTwitter)
+            };
+
+            foreach (var (type, value) in contactValues)
+            {
+                ContactInfo? existing = contactInfos.FirstOrDefault(c => c.ContactType == type);
+
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    if (existing != null)
+                    {
+                        existing.Value = value;
+                    }
+                    else
+                    {
+                        _context.ContactInfos.Add(new ContactInfo
+                        {
+                            ContactType = type,
+                            Value = value,
+                            OwnerType = OwnerType.Doctor,
+                            OwnerId = existedPatient.Id
+                        });
+                    }
+                }
+                else if (existing != null)
+                {
+                    _context.ContactInfos.Remove(existing);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(List));
+        }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id is null || id <= 0) return BadRequest();
+
+            Patient? patient = await _context.Patients
+                .Include(p => p.Disease)
+                .Include(p => p.BloodGroup)
+                .FirstOrDefaultAsync(d => d.Id == id);
+            if (patient is null) return NotFound();
+
+            patient.Image.DeleteFile(_env.WebRootPath, "assets", "images", "patient");
+
+            foreach (PatientReport? report in patient.Reports)
+            {
+                report.FileName.DeleteFile(_env.WebRootPath, "assets", "uploads", "patientreports");
+            }
+
+
+            List<ContactInfo> contactInfos = await _context.ContactInfos
+                    .Where(ci => ci.OwnerType == OwnerType.Patient && ci.OwnerId == patient.Id)
+                    .ToListAsync();
+
+            _context.ContactInfos.RemoveRange(contactInfos);
+
+
+            _context.Patients.Remove(patient);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(List));
+
+        }
 
 
     }

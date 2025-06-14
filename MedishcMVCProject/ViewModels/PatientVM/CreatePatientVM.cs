@@ -27,7 +27,7 @@ namespace MedishcMVCProject.ViewModels
         public int? DiseaseId { get; set; }
         public List<Disease>? Diseases { get; set; }
         public IFormFile MainPhoto { get; set; }
-        public IFormFile ReportFile { get; set; }
+        public List<IFormFile> ReportFiles { get; set; }
 
 
         public string? SocialMediaFacebook { get; set; }
