@@ -34,7 +34,9 @@ namespace MedishcMVCProject.DAL
         public DbSet<BloodGroup> BloodGroups { get; set; }
         public DbSet<Disease> Diseases { get; set; }
         public DbSet<PatientReport> PatientReports { get; set; }
-
+        //Staff
+        public DbSet<Staff> Staffs { get; set; }
+        public DbSet<Designation> Designations { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

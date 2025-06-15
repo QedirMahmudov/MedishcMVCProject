@@ -3,7 +3,8 @@
     public enum OwnerType
     {
         Doctor,
-        Patient
+        Patient,
+        Staff
     }
 
 }

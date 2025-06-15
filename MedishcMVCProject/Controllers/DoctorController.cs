@@ -41,7 +41,7 @@ namespace MedishcMVCProject.Controllers
                 .Include(d => d.Degree)
                 .Include(d => d.University)
                 .Include(d => d.PriceLists)
-                .Include(d => d.OpeningHours)
+                .Include(d => d.WorkingHours)
                 .FirstOrDefaultAsync(d => d.Id == id);
 
             if (doctor is null) return NotFound();
@@ -52,7 +52,7 @@ namespace MedishcMVCProject.Controllers
                 Degree = doctor.Degree,
                 Specialist = doctor.Specialist,
                 University = doctor.University,
-                OpeningHours = doctor.OpeningHours.ToList(),
+                OpeningHours = doctor.WorkingHours.ToList(),
                 PriceLists = doctor.PriceLists.ToList()
             };
 

@@ -244,6 +244,26 @@ namespace MedishcMVCProject.Migrations
                     b.ToTable("Degrees");
                 });
 
+            modelBuilder.Entity("MedishcMVCProject.Models.Designation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Designations");
+                });
+
             modelBuilder.Entity("MedishcMVCProject.Models.Disease", b =>
                 {
                     b.Property<int>("Id")
@@ -483,6 +503,42 @@ namespace MedishcMVCProject.Migrations
                     b.ToTable("Specialists");
                 });
 
+            modelBuilder.Entity("MedishcMVCProject.Models.Staff", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DesignationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DesignationId");
+
+                    b.ToTable("Staffs");
+                });
+
             modelBuilder.Entity("MedishcMVCProject.Models.University", b =>
                 {
                     b.Property<int>("Id")
@@ -638,6 +694,17 @@ namespace MedishcMVCProject.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("MedishcMVCProject.Models.Staff", b =>
+                {
+                    b.HasOne("MedishcMVCProject.Models.Designation", "Designation")
+                        .WithMany("Staffs")
+                        .HasForeignKey("DesignationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Designation");
+                });
+
             modelBuilder.Entity("MedishcMVCProject.Models.WorkingHours", b =>
                 {
                     b.HasOne("MedishcMVCProject.Models.Doctor", "Doctor")
@@ -672,6 +739,11 @@ namespace MedishcMVCProject.Migrations
             modelBuilder.Entity("MedishcMVCProject.Models.Degree", b =>
                 {
                     b.Navigation("Doctors");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.Designation", b =>
+                {
+                    b.Navigation("Staffs");
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Disease", b =>

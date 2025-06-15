@@ -438,13 +438,7 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <a href="staff.html">Staff List</a>
-                                </li>
-                                <li>
-                                    <a href="add-staff.html">Add Staff</a>
-                                </li>
-                                <li>
-                                    <a href="edit-staff.html">Edit Staff Details</a>
+                                    <a asp-controller="Staff" asp-action="List">Staff List</a>
                                 </li>
                             </ul>
                         </li>
@@ -943,7 +937,7 @@
 
     <!-- Custom JS files -->
     <script src="~/admin/js/custom.js"></script>
-    @* @RenderSection("Scripts", required: false) *@
+    @RenderSection("Scripts", required: false)
 </body>
 
 

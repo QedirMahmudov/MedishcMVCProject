@@ -23,7 +23,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
         public IActionResult List(string doctorName = null, string department = null)
         {
             List<GetDoctorVM> doctors = _context.Doctors
-         .Include(x => x.OpeningHours)
+         .Include(x => x.WorkingHours)
          .Include(x => x.Specialist)
          .Select(d => new GetDoctorVM
          {
@@ -32,7 +32,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
              Surname = d.Surname,
              SpecialistName = d.Specialist.Name,
              Image = d.Image,
-             WorkingHours = d.OpeningHours.Select(wh => new WorkingHourVM
+             WorkingHours = d.WorkingHours.Select(wh => new WorkingHourVM
              {
                  DayOfWeek = wh.DayOfWeek,
                  OpenTime = wh.OpenTime,
@@ -90,7 +90,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 .Include(d => d.Specialist)
                 .Include(d => d.Degree)
                 .Include(d => d.PriceLists)
-                .Include(d => d.OpeningHours)
+                .Include(d => d.WorkingHours)
                 .FirstOrDefaultAsync(d => d.Id == id);
 
             if (doctor is null) return NotFound();
@@ -103,7 +103,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 MainDescription = doctor.MainDescription,
                 DegreeName = doctor.Degree?.Name,
                 SpecialistName = doctor.Specialist?.Name,
-                WorkingHours = doctor.OpeningHours.Select(oh => new WorkingHourVM
+                WorkingHours = doctor.WorkingHours.Select(oh => new WorkingHourVM
                 {
                     DayOfWeek = oh.DayOfWeek,
                     OpenTime = oh.OpenTime,
@@ -143,9 +143,9 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             //**********BASLAMA VE BITME SAATININ 1 i DOLANDA OBRIDE DOLMALIDI AMMA SPANDA CIXMIR ERROR!*************
 
-            if (doctorVM.OpeningHours != null)
+            if (doctorVM.WorkingHours != null)
             {
-                foreach (WorkingHourVM? item in doctorVM.OpeningHours)
+                foreach (WorkingHourVM? item in doctorVM.WorkingHours)
                 {
                     bool hasOpen = item.OpenTime.HasValue;
                     bool hasClose = item.CloseTime.HasValue;
@@ -208,11 +208,11 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 ReviewCount = doctorVM.ReviewCount,
                 ZodocRating = doctorVM.ZodocRating,
 
-                OpeningHours = Enum.GetValues(typeof(DayOfWeekEnum))
+                WorkingHours = Enum.GetValues(typeof(DayOfWeekEnum))
                                     .Cast<DayOfWeekEnum>()
                                     .Select(day =>
                                     {
-                                        WorkingHourVM input = doctorVM.OpeningHours?.FirstOrDefault(x => x.DayOfWeek == day);
+                                        WorkingHourVM input = doctorVM.WorkingHours?.FirstOrDefault(x => x.DayOfWeek == day);
                                         return new WorkingHours
                                         {
                                             DayOfWeek = day,
@@ -252,7 +252,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             if (id is null || id <= 0) return BadRequest();
 
-            Doctor? doctor = await _context.Doctors.Include(d => d.Specialist).Include(d => d.OpeningHours).FirstOrDefaultAsync(d => d.Id == id);
+            Doctor? doctor = await _context.Doctors.Include(d => d.Specialist).Include(d => d.WorkingHours).FirstOrDefaultAsync(d => d.Id == id);
             if (doctor is null) return NotFound();
 
             List<ContactInfo>? contactInfos = await _context.ContactInfos
@@ -278,11 +278,11 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 ReviewCount = doctor.ReviewCount,
 
                 ZodocRating = doctor.ZodocRating,
-                OpeningHours = Enum.GetValues(typeof(DayOfWeekEnum))
+                WorkingHours = Enum.GetValues(typeof(DayOfWeekEnum))
                                 .Cast<DayOfWeekEnum>()
                                 .Select(day =>
                                 {
-                                    WorkingHours? existing = doctor.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
+                                    WorkingHours? existing = doctor.WorkingHours.FirstOrDefault(x => x.DayOfWeek == day);
                                     return new WorkingHourVM
                                     {
                                         DayOfWeek = day,
@@ -318,7 +318,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             Doctor? existedDoctor = await _context.Doctors
                 .Include(d => d.Specialist)
-                .Include(d => d.OpeningHours)
+                .Include(d => d.WorkingHours)
                 .FirstOrDefaultAsync(d => d.Id == id);
 
             if (existedDoctor is null) return NotFound();
@@ -359,15 +359,15 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             existedDoctor.ReviewCount = doctorVM.ReviewCount;
             existedDoctor.ZodocRating = doctorVM.ZodocRating;
 
-            if (doctorVM.OpeningHours is not null && doctorVM.OpeningHours.Any())
+            if (doctorVM.WorkingHours is not null && doctorVM.WorkingHours.Any())
             {
-                _context.WorkingHours.RemoveRange(existedDoctor.OpeningHours);
+                _context.WorkingHours.RemoveRange(existedDoctor.WorkingHours);
 
-                existedDoctor.OpeningHours = Enum.GetValues(typeof(DayOfWeekEnum))
+                existedDoctor.WorkingHours = Enum.GetValues(typeof(DayOfWeekEnum))
                     .Cast<DayOfWeekEnum>()
                     .Select(day =>
                     {
-                        WorkingHourVM input = doctorVM.OpeningHours.FirstOrDefault(x => x.DayOfWeek == day);
+                        WorkingHourVM input = doctorVM.WorkingHours.FirstOrDefault(x => x.DayOfWeek == day);
                         return new WorkingHours
                         {
                             DayOfWeek = day,
@@ -429,7 +429,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             Doctor? doctor = await _context.Doctors
                 .Include(d => d.Specialist)
-                .Include(d => d.OpeningHours)
+                .Include(d => d.WorkingHours)
                 .FirstOrDefaultAsync(d => d.Id == id);
             if (doctor is null) return NotFound();
             doctor.Image.DeleteFile(_env.WebRootPath, "assets", "images", "team", "full");
@@ -447,6 +447,36 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             return RedirectToAction(nameof(List));
 
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteSelected(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                TempData["Warning"] = "Please select at least one doctor to delete.";
+                return RedirectToAction(nameof(List));
+            }
 
+            List<Doctor> doctors = await _context.Doctors
+                .Where(d => selectedIds.Contains(d.Id))
+                .Include(d => d.Specialist)
+                .Include(d => d.WorkingHours)
+                .ToListAsync();
+
+            List<ContactInfo> contactInfos = await _context.ContactInfos
+                .Where(ci => ci.OwnerType == OwnerType.Doctor && selectedIds.Contains(ci.OwnerId))
+                .ToListAsync();
+
+            foreach (var doctor in doctors)
+            {
+                doctor.Image.DeleteFile(_env.WebRootPath, "assets", "images", "team", "full");
+            }
+
+            _context.ContactInfos.RemoveRange(contactInfos);
+            _context.Doctors.RemoveRange(doctors);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Selected doctors deleted successfully.";
+            return RedirectToAction(nameof(List));
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             _context = context;
             _env = env;
         }
-        public IActionResult List(string patientName = null)
+        public IActionResult List(string patientName = null, string disease = null, string bloodgroup = null)
         {
             List<GetPatientVM> patients = _context.Patients
          .Include(x => x.BloodGroup)
@@ -66,6 +66,9 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
 
             patients = Helpers.FilterByText(patients, p => p.Name + " " + p.Surname, patientName);
+            patients = Helpers.FilterByText(patients, p => p.DiseaseName, disease);
+            patients = Helpers.FilterByText(patients, p => p.BloodName, bloodgroup);
+
             return View(patients);
         }
 
@@ -477,6 +480,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             Patient? patient = await _context.Patients
                 .Include(p => p.Disease)
                 .Include(p => p.BloodGroup)
+                .Include(p => p.Reports)
                 .FirstOrDefaultAsync(d => d.Id == id);
             if (patient is null) return NotFound();
 
@@ -500,7 +504,53 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             return RedirectToAction(nameof(List));
 
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteSelected(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                TempData["Warning"] = "Please select at least one patient to delete.";
+                return RedirectToAction(nameof(List));
+            }
 
+            List<Patient> patients = await _context.Patients
+                .Where(p => selectedIds.Contains(p.Id))
+                .Include(p => p.Reports)
+                .Include(p => p.Disease)
+                .Include(p => p.BloodGroup)
+                .ToListAsync();
+
+            List<ContactInfo> contactInfos = await _context.ContactInfos
+                .Where(ci => ci.OwnerType == OwnerType.Patient && selectedIds.Contains(ci.OwnerId))
+                .ToListAsync();
+
+            foreach (var patient in patients)
+            {
+                if (!string.IsNullOrEmpty(patient.Image))
+                {
+                    patient.Image.DeleteFile(_env.WebRootPath, "assets", "images", "patient");
+                }
+
+                if (patient.Reports != null)
+                {
+                    foreach (var report in patient.Reports)
+                    {
+                        if (!string.IsNullOrEmpty(report.FileName))
+                        {
+                            report.FileName.DeleteFile(_env.WebRootPath, "assets", "uploads", "patientreports");
+                        }
+                    }
+                }
+            }
+
+            _context.ContactInfos.RemoveRange(contactInfos);
+            _context.Patients.RemoveRange(patients);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = $"{patients.Count} patient(s) deleted successfully.";
+
+            return RedirectToAction(nameof(List));
+        }
 
     }
 }
