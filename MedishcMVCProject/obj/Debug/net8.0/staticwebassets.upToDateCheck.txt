@@ -318,7 +318,6 @@ wwwroot\assets\images\page-titles\8.jpg
 wwwroot\assets\images\patient\4ed31619-8066-4ef9-8848-70bcf97ad553.jpg
 wwwroot\assets\images\patient\8dbc62cc-f2ed-4bd9-83e5-b306fad8f0b5.jpg
 wwwroot\assets\images\patient\f3212421-ee44-4359-bc54-75aebaff9308.jpg
-wwwroot\assets\images\patient\patient4.png
 wwwroot\assets\images\services\1.jpg
 wwwroot\assets\images\services\2.jpg
 wwwroot\assets\images\services\3.jpg
@@ -368,8 +367,6 @@ wwwroot\assets\images\team\full\281d487c-7bcb-4379-ba87-a67222c613ed.jpg
 wwwroot\assets\images\team\full\2c0a47a8-c86d-4de7-bcae-1a5467490548.jpg
 wwwroot\assets\images\team\full\3.jpg
 wwwroot\assets\images\team\full\3a129b10-9cea-4c4e-ab48-f664236ead58.png
-wwwroot\assets\images\team\full\3ea6d32c-8b20-46dd-b0ff-2eda1d94fb1a.png
-wwwroot\assets\images\team\full\4.jpg
 wwwroot\assets\images\team\full\5.jpg
 wwwroot\assets\images\team\full\5899b621-11d6-43a9-bba5-e138b81eeccb.jpg
 wwwroot\assets\images\team\full\6.jpg

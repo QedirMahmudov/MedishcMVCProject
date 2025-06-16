@@ -26,6 +26,7 @@
     ************ -->
     <!-- Scrollbar CSS -->
     <link rel="stylesheet" href="~/admin/vendor/overlay-scroll/OverlayScrollbars.min.css">
+    @RenderSection("Styles", required: false)
 </head>
 
 <body>
@@ -449,16 +450,10 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <a href="appointments.html">Appointments</a>
+                                    <a asp-controller="Appointment" asp-action="Appointments">Appointments</a>
                                 </li>
                                 <li>
-                                    <a href="appointments-list.html">Appointments List</a>
-                                </li>
-                                <li>
-                                    <a href="book-appointment.html">Book Appointment</a>
-                                </li>
-                                <li>
-                                    <a href="edit-appointment.html">Edit Appointment</a>
+                                    <a asp-controller="Appointment" asp-action="List">Appointments List</a>
                                 </li>
                             </ul>
                         </li>

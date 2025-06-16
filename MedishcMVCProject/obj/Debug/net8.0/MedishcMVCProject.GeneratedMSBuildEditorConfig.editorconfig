@@ -28,6 +28,18 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Appointment/Appointments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcQXBwb2ludG1lbnRcQXBwb2ludG1lbnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Appointment/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcQXBwb2ludG1lbnRcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Appointment/List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcQXBwb2ludG1lbnRcTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Doctor/Cards.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcRG9jdG9yXENhcmRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
