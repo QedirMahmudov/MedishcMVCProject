@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MedishcMVCProject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cbb7cc219e1dbacdde61fc0402a6a33785c69d4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ffe84d981456b38bd07e4b9fd27d687aec6e2bb5")]
 [assembly: System.Reflection.AssemblyProductAttribute("MedishcMVCProject")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MedishcMVCProject")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -4,27 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace MedishcMVCProject.Areas.admin.Controllers
 {
     [Area("Admin")]
-    public class AppointmentController : Controller
+    public class DepartmentController : Controller
     {
         private readonly AppDbContext _context;
 
-        public AppointmentController(AppDbContext context)
+        public DepartmentController(AppDbContext context)
         {
             _context = context;
-        }
-        public IActionResult Appointments()
-        {
-            return View();
         }
         public IActionResult List()
         {
             return View();
         }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
-
     }
 }
