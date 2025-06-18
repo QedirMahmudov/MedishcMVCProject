@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\controllers\\departmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\controllers\\salarycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\controllers\\salarycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\views\\salary\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\views\\salary\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -22,7 +30,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "AppointmentController.cs",
               "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Controllers\\AppointmentController.cs",
               "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Controllers\\AppointmentController.cs",
@@ -31,20 +39,45 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-16T18:40:31.932Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DepartmentController.cs",
-              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Controllers\\DepartmentController.cs",
-              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Controllers\\DepartmentController.cs",
-              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Controllers\\DepartmentController.cs",
-              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Controllers\\DepartmentController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAlAAAAAAAAAA==",
+              "Title": "_AdminLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Views\\Shared\\_AdminLayout.cshtml",
+              "ViewState": "AgIAAP4BAAAAAAAAAAAcwBcCAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-18T21:30:32.925Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "List.cshtml",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Salary\\List.cshtml",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Views\\Salary\\List.cshtml",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Salary\\List.cshtml",
+              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Views\\Salary\\List.cshtml",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAswPgAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-18T21:30:10.615Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SalaryController.cs",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Controllers\\SalaryController.cs",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Controllers\\SalaryController.cs",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Controllers\\SalaryController.cs",
+              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Controllers\\SalaryController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-17T18:30:31.627Z",
+              "WhenOpened": "2025-06-18T21:29:48.379Z",
               "EditorCaption": ""
             }
           ]
