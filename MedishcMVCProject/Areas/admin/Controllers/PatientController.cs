@@ -146,6 +146,23 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 return View(patientVM);
             }
 
+            ContactInfo? existingEmail = await _context.ContactInfos
+                .Where(ci => ci.ContactType == ContactType.Email
+                          && ci.OwnerType == OwnerType.Patient
+                          && ci.Value == patientVM.Email)
+                .FirstOrDefaultAsync();
+
+            if (existingEmail != null)
+            {
+                ModelState.AddModelError(nameof(patientVM.Email), "This email is already registered.");
+                return View(patientVM);
+            }
+
+
+
+
+
+
             bool resultDisease = patientVM.Diseases.Any(d => d.Id == patientVM.DiseaseId);
             bool resultBloodGroup = patientVM.BloodGroups.Any(b => b.Id == patientVM.BloodGroupId);
 

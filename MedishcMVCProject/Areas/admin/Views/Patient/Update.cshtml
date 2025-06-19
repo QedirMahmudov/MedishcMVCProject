@@ -190,8 +190,6 @@
 
                                             <span asp-validation-for="ReportFiles" class="text-danger mt-1 d-block"></span>
 
-                                            <div id="selected-files" class="mt-3 d-flex flex-wrap gap-2"></div>
-
                                             <div id="existing-files" class="mb-3 d-flex flex-wrap gap-2">
                                                 @foreach (var file in Model.ExistingReports)
                                                 {
@@ -204,6 +202,8 @@
                                                     </div>
                                                 }
                                             </div>
+
+                                            <div id="selected-files" class="mb-3 d-flex flex-wrap gap-2"></div>
                                         </div>
 
                                         <!-- PDF Preview Modal -->
@@ -262,7 +262,13 @@
         color: #333;
         max-width: 100%;
         white-space: nowrap;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        transition: background-color 0.2s;
     }
+
+        .file-chip:hover {
+            background-color: #e6e6e6;
+        }
 
         .file-chip i {
             margin-left: 8px;
@@ -274,26 +280,94 @@
             .file-chip i:hover {
                 color: #a71d2a;
             }
+
+    #selected-files, #existing-files {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    #existing-files {
+        margin-top: 15px;
+    }
 </style>
 
 
 
 
 
-
-
-
-
 <script>
-       function removeExistingFile(icon, fileId) {
+    // 📄 PDF preview üçün (mövcud + yeni blob üçün işləyir)
+    function previewExistingPdf(fileUrl) {
+        const iframe = document.getElementById("pdfPreviewFrame");
+        iframe.src = fileUrl;
+
+        const modal = new bootstrap.Modal(document.getElementById("pdfModal"));
+        modal.show();
+    }
+
+    // ❌ Mövcud report-u silmək üçün (bazadakılar)
+    function removeExistingFile(icon, fileId) {
         icon.closest('.file-chip').remove();
 
-        let removedInput = document.createElement('input');
+        const removedInput = document.createElement('input');
         removedInput.type = 'hidden';
         removedInput.name = 'RemovedReportIds';
         removedInput.value = fileId;
 
-        // Burada formu düzgün tapırıq
         document.getElementById('updateForm').appendChild(removedInput);
     }
+
+    // 📥 Yeni seçilən PDF faylların siyahısı
+    let selectedFileList = [];
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const reportInput = document.getElementById("ReportFiles");
+        const selectedFilesContainer = document.getElementById("selected-files");
+
+        if (reportInput) {
+            reportInput.addEventListener("change", function () {
+                Array.from(this.files).forEach(file => {
+                    // 🔁 Eyni adda faylı təkrar etmə
+                    if (selectedFileList.includes(file.name)) return;
+
+                    selectedFileList.push(file.name);
+
+                    const div = document.createElement("div");
+                    div.classList.add("file-chip");
+
+                    // 📎 Fayl adını göstərən span (preview açır)
+                    const nameSpan = document.createElement("span");
+                    nameSpan.textContent = file.name;
+                    nameSpan.style.cursor = "pointer";
+                    nameSpan.title = "Click to preview";
+
+                    // 🧠 Blob URL yaradıb preview aç
+                    nameSpan.addEventListener("click", function () {
+                        const blobUrl = URL.createObjectURL(file);
+                        previewExistingPdf(blobUrl);
+                    });
+
+                    div.appendChild(nameSpan);
+
+                    // ❌ Sil düyməsi
+                    const removeIcon = document.createElement("i");
+                    removeIcon.classList.add("fas", "fa-times", "ms-2");
+                    removeIcon.title = "Remove file";
+                    removeIcon.style.cursor = "pointer";
+
+                    removeIcon.addEventListener("click", function () {
+                        div.remove();
+                        selectedFileList = selectedFileList.filter(f => f !== file.name);
+                    });
+
+                    div.appendChild(removeIcon);
+
+                    // 🧩 Aşağıya əlavə et
+                    selectedFilesContainer.appendChild(div);
+                });
+            });
+        }
+    });
 </script>
