@@ -1,4 +1,4 @@
-﻿namespace MedishcMVCProject.Models.Appointment
+﻿namespace MedishcMVCProject.Models
 {
     public class Appointment : Base
     {

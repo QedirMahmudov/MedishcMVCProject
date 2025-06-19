@@ -18,5 +18,6 @@ namespace MedishcMVCProject.Models
         public BloodGroup? BloodGroup { get; set; }
 
         public List<PatientReport> Reports { get; set; } = new();
+        public List<Appointment> Appointments { get; set; } = new();
     }
 }

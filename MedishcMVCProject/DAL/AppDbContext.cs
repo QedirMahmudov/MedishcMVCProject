@@ -37,7 +37,8 @@ namespace MedishcMVCProject.DAL
         //Staff
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<Designation> Designations { get; set; }
-
+        //Appointment
+        public DbSet<Appointment> Appointments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

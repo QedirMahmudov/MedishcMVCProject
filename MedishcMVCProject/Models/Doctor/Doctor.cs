@@ -27,6 +27,6 @@ namespace MedishcMVCProject.Models
 
         public List<PriceList>? PriceLists { get; set; }
         public List<WorkingHours>? WorkingHours { get; set; }
-
+        public List<Appointment> Appointments { get; set; } = new();
     }
 }
