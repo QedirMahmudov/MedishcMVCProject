@@ -1,4 +1,4 @@
-﻿<div class="app-body">
+﻿@* <div class="app-body">
 
     <!-- Row starts -->
     <div class="row gx-3">
@@ -29,4 +29,136 @@
     <script src="~/admin/vendor/calendar/js/main.min.js"></script>
     <script src="~/admin/vendor/calendar/custom/appointments-calendar.js"></script>
 
-}
+} *@
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
+<style>
+    #appointmentsCal {
+        max-width: 100%;
+        margin: 20px auto;
+    }
+
+    .fc-event-title {
+        white-space: normal; 
+        font-size: 12px;
+        color: #116aef;
+        padding: 2px 4px;
+        line-height: 1.2;
+    }
+
+    .fc-daygrid-event {
+        background-color: #e9f3ff;
+        border: 1px solid #bcdcff;
+        border-radius: 6px;
+        margin-bottom: 2px;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+</style>
+
+<!-- Calendar Container -->
+<div class="app-body">
+    <div class="row gx-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">Appointments</h5>
+                    <a href="/Appointments/Create" class="btn btn-primary">Book Appointment</a>
+                </div>
+                <div class="card-body">
+                    <div id="appointmentsCal"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var calendarEl = document.getElementById("appointmentsCal");
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            initialDate: new Date().toISOString().split('T')[0],
+            editable: true,
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek,dayGridDay'
+            },
+            events: function (fetchInfo, successCallback, failureCallback) {
+                fetch('/Admin/Appointment/GetCalendarEvents')
+                    .then(response => response.json())
+                    .then(data => {
+                        const styledEvents = data.map(e => ({
+                            id: e.id,
+                            title: e.title.replace(/\n/g, "\n"),
+                            start: e.start,
+                            url: e.url || null
+                        }));
+                        successCallback(styledEvents);
+                    })
+                    .catch(err => failureCallback(err));
+            },
+            eventClick: function (info) {
+                if (info.event.url) {
+                    window.location.href = info.event.url;
+                }
+                info.jsEvent.preventDefault();
+            },
+            eventDidMount: function (info) {
+                const target = info.el.querySelector('.fc-event-title');
+                if (target && !target.dataset.converted) {
+                    target.innerHTML = info.event.title.replace(/\n/g, '<br>');
+                    target.dataset.converted = "true";
+                }
+            },
+                eventDrop: function (info) {
+        const event = info.event;
+
+        const newDateStr = event.startStr.split('T')[0];
+
+        fetch('/Admin/Appointment/UpdateDate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                appointmentId: event.id,
+                newDate: newDateStr
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert(data.message);
+
+                calendar.getEventById(event.id)?.remove();
+
+                calendar.refetchEvents();
+            } else {
+                calendar.refetchEvents();
+            }
+        })
+        .catch(() => {
+            alert("An unexpected error occurred.");
+
+            calendar.getEventById(event.id)?.remove();
+            calendar.refetchEvents();
+        });
+    }
+        });
+
+        calendar.render();
+        calendar.today();
+    });
+</script>

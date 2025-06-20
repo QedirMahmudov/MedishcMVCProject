@@ -1,321 +1,144 @@
-﻿<div class="app-body">
+﻿@model List<GetAppointmentVM> 
 
-    <!-- Row starts -->
-    <div class="row gx-3">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="card-title">Applointments List</h5>
-                    <a asp-action="Create" class="btn btn-primary ms-auto">Book Appointment</a>
+@{
+    int count = 0;
+}
+
+<div class="app-body">
+    <form method="get" asp-action="Index">
+        <div class="card mb-3">
+            <div class="card-body d-flex align-items-end gap-2">
+                <div>
+                    <label class="form-label" for="pname">Patient Name</label>
+                    <input type="text" name="patientName" id="pname" class="form-control"
+                           value="@(Context.Request.Query["patientName"])" placeholder="Search by name" />
                 </div>
-                <div class="card-body">
-
-                    <!-- Table starts -->
-                    <div class="table-responsive">
-                        <table id="appointmentsGrid" class="table m-0 align-middle">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Patient Name</th>
-                                    <th>Age</th>
-                                    <th>Consulting Doctor</th>
-                                    <th>Department</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Disease</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>001</td>
-                                    <td>
-                                        Deena Cooley
-                                    </td>
-                                    <td>65</td>
-                                    <td>
-                                        <img src="assets/images/user.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Hospital Admin Template"> Vicki Walsh
-                                    </td>
-                                    <td>Surgeon</td>
-                                    <td>05/23/2024</td>
-                                    <td>9:30AM</td>
-                                    <td>Diabeties</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-success btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    data-bs-title="Accepted">
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Reject" disabled>
-                                                <i class="ri-close-circle-line"></i>
-                                            </button>
-                                            <a href="edit-appointment.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Appointment">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>002</td>
-                                    <td>
-                                        Jerry Wilcox
-                                    </td>
-                                    <td>73</td>
-                                    <td>
-                                        <img src="assets/images/user1.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Hospital Admin Template"> April Gallegos
-                                    </td>
-                                    <td>Gynecologist</td>
-                                    <td>05/23/2024</td>
-                                    <td>9:45AM</td>
-                                    <td>Fever</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Accept" disabled>
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    data-bs-title="Rejected">
-                                                <i class="ri-close-circle-line"></i>
-                                            </button>
-                                            <a href="edit-appointment.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Appointment">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>003</td>
-                                    <td>
-                                        Eduardo Kramer
-                                    </td>
-                                    <td>84</td>
-                                    <td>
-                                        <img src="assets/images/user2.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Hospital Admin Template"> Basil Frost
-                                    </td>
-                                    <td>Psychiatrists</td>
-                                    <td>05/23/2024</td>
-                                    <td>10:00AM</td>
-                                    <td>Cold</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Accept">
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Reject">
-                                                <i class="ri-close-circle-line"></i>
-                                            </button>
-                                            <a href="edit-appointment.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Appointment">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>004</td>
-                                    <td>
-                                        Jason Compton
-                                    </td>
-                                    <td>56</td>
-                                    <td>
-                                        <img src="assets/images/user4.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Hospital Admin Template"> Nannie Guerrero
-                                    </td>
-                                    <td>Urologist</td>
-                                    <td>05/23/2024</td>
-                                    <td>10:15AM</td>
-                                    <td>Prostate</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Accept">
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Reject">
-                                                <i class="ri-close-circle-line"></i>
-                                            </button>
-                                            <a href="edit-appointment.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Appointment">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>005</td>
-                                    <td>
-                                        Emmitt Bryan
-                                    </td>
-                                    <td>49</td>
-                                    <td>
-                                        <img src="assets/images/user5.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Hospital Admin Template"> Daren Andrade
-                                    </td>
-                                    <td>Cardiology</td>
-                                    <td>05/23/2024</td>
-                                    <td>10:30AM</td>
-                                    <td>Asthma</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Accept">
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Reject">
-                                                <i class="ri-close-circle-line"></i>
-                                            </button>
-                                            <a href="edit-appointment.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Appointment">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>006</td>
-                                    <td>
-                                        Truman Miles
-                                    </td>
-                                    <td>90</td>
-                                    <td>
-                                        <img src="assets/images/user2.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Hospital Admin Template"> Colleen Murillo
-                                    </td>
-                                    <td>Paediatrician</td>
-                                    <td>05/23/2024</td>
-                                    <td>10:45AM</td>
-                                    <td>Cholera</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Accept">
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Reject">
-                                                <i class="ri-close-circle-line"></i>
-                                            </button>
-                                            <a href="edit-appointment.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Appointment">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>007</td>
-                                    <td>
-                                        Dillon Stokes
-                                    </td>
-                                    <td>36</td>
-                                    <td>
-                                        <img src="assets/images/user3.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Hospital Admin Template"> Josiah Hobbs
-                                    </td>
-                                    <td>Gynecologist</td>
-                                    <td>05/23/2024</td>
-                                    <td>11:00AM</td>
-                                    <td>Heart</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Accept">
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Reject">
-                                                <i class="ri-close-circle-line"></i>
-                                            </button>
-                                            <a href="edit-appointment.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Appointment">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>008</td>
-                                    <td>
-                                        Harris Peters
-                                    </td>
-                                    <td>79</td>
-                                    <td>
-                                        <img src="assets/images/user4.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Hospital Admin Template"> Wilma Dickson
-                                    </td>
-                                    <td>Urologist</td>
-                                    <td>05/23/2024</td>
-                                    <td>11:15AM</td>
-                                    <td>Outbreaks</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Accept">
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Reject">
-                                                <i class="ri-close-circle-line"></i>
-                                            </button>
-                                            <a href="edit-appointment.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Appointment">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>009</td>
-                                    <td>
-                                        Tomas Schultz
-                                    </td>
-                                    <td>79</td>
-                                    <td>
-                                        <img src="assets/images/user5.png" class="img-shadow img-2x rounded-5 me-1"
-                                             alt="Hospital Admin Template"> Monique Merritt
-                                    </td>
-                                    <td>Paediatrician</td>
-                                    <td>05/23/2024</td>
-                                    <td>11:30AM</td>
-                                    <td>Fever</td>
-                                    <td>
-                                        <div class="d-inline-flex gap-1">
-                                            <button class="btn btn-outline-success btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Accept">
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </button>
-                                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" data-bs-title="Reject">
-                                                <i class="ri-close-circle-line"></i>
-                                            </button>
-                                            <a href="edit-appointment.html" class="btn btn-outline-success btn-sm"
-                                               data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Appointment">
-                                                <i class="ri-edit-box-line"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- Table ends -->
-
+                <div>
+                    <label class="form-label" for="dept">Department</label>
+                    <input type="text" name="department" id="dept" class="form-control"
+                           value="@(Context.Request.Query["department"])" placeholder="Search by department" />
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Row ends -->
+    </form>
 
+    <form method="post" asp-action="DeleteSelected">
+        <div class="row gx-3">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <h5 class="card-title m-0">Appointments List</h5>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Delete selected appointments?')">Delete Selected</button>
+                            <a asp-action="Create" class="btn btn-primary">Book Appointment</a>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table m-0 align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="custom-checkbox">
+                                                <input type="checkbox" id="selectAll" />
+                                                <label for="selectAll"></label>
+                                            </div>
+                                        </th>
+                                        <th>#</th>
+                                        <th>Patient Name</th>
+                                        <th>Consulting Doctor</th>
+                                        <th>Department</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Disease</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <td>
+                                                <div class="custom-checkbox">
+                                                    <input type="checkbox" class="selectBox" id="chk_@item.Id" name="selectedIds" value="@item.Id" />
+                                                    <label for="chk_@item.Id"></label>
+                                                </div>
+                                            </td>
+                                            <td>@count</td>
+                                            <td>
+                                                <img src="~/assets/images/patient/@item.PatientImage" class="img-shadow img-2x rounded-5 me-1" />
+                                                @item.PatientName
+                                            </td>
+                                            <td>
+                                                <img src="~/assets/images/team/full/@item.DoctorImage" class="img-shadow img-2x rounded-5 me-1" />
+                                                @item.DoctorName
+                                            </td>
+                                            <td>@item.Department</td>
+                                            <td>@item.Date.ToString("MM/dd/yyyy")</td>
+                                            <td>@item.Time</td>
+                                            <td>@item.Disease</td>
+                                            <td>
+                                                <div class="d-inline-flex gap-1">
+                                                    <button class="btn btn-success btn-sm" title="Accept"><i class="ri-checkbox-circle-line"></i></button>
+                                                    <button class="btn btn-outline-danger btn-sm" title="Reject" disabled><i class="ri-close-circle-line"></i></button>
+                                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm" title="Edit"><i class="ri-edit-box-line"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
-<!-- App body ends -->
+
+<style>
+    .custom-checkbox input[type="checkbox"] {
+        display: none;
+    }
+
+    .custom-checkbox label {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #0d6efd;
+        border-radius: 4px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .custom-checkbox input[type="checkbox"]:checked + label::after {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 0px;
+        width: 5px;
+        height: 10px;
+        border: solid #0d6efd;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectAll = document.getElementById("selectAll");
+            const boxes = document.querySelectorAll(".selectBox");
+
+            selectAll?.addEventListener("change", function () {
+                boxes.forEach(cb => cb.checked = this.checked);
+            });
+        });
+    </script>
+}

@@ -1,12 +1,14 @@
 ﻿@model CreateAppointmentVM
 
 <form asp-action="Create" method="post">
+
     <div class="app-body">
         <div class="row gx-3">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title">Book Appointment</h5>
+                        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
                     </div>
                     <div class="card-body">
                         <div class="row gx-3">
@@ -17,21 +19,8 @@
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-xxl-3 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label asp-for="Date" class="form-label"></label>
-                                    <input asp-for="Date" class="form-control" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                                    <span asp-validation-for="Date" class="text-danger"></span>
-                                </div>
-                            </div>
 
-                            <div class="col-xxl-3 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label asp-for="Time" class="form-label"></label>
-                                    <input asp-for="Time" class="form-control" type="time" />
-                                    <span asp-validation-for="Time" class="text-danger"></span>
-                                </div>
-                            </div>
+                           
 
                             <div class="col-xxl-3 col-lg-4 col-sm-6">
                                 <div class="mb-3">
@@ -53,6 +42,24 @@
                                 </div>
                             </div>
 
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label asp-for="Date" class="form-label"></label>
+                                    <input asp-for="Date" class="form-control" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                                    <span asp-validation-for="Date" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label asp-for="Time" class="form-label"></label>
+                                    <select asp-for="Time" class="form-select" id="timeSelect">
+                                        <option value="">Select Time</option>
+                                    </select>
+                                    <span asp-validation-for="Time" class="text-danger"></span>
+                                </div>
+                            </div>
+
                             <div class="col-sm-12">
                                 <div class="mb-3">
                                     <label asp-for="Description" class="form-label"></label>
@@ -67,7 +74,6 @@
                                     <button type="submit" class="btn btn-primary">Book Appointment</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -80,6 +86,42 @@
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
     <script>
+        function loadAvailableTimes() {
+            var doctorId = $('#doctorSelect').val();
+            var date = $('input[name="Date"]').val();
+            var timeSelect = $('#timeSelect');
+            timeSelect.empty();
+
+            if (doctorId && date) {
+                timeSelect.append($('<option>', { value: '', text: 'Loading...' }));
+
+                $.ajax({
+                    url: '@Url.Action("GetAvailableTimes", "Appointment", new { area = "Admin" })',
+                    type: 'GET',
+                    data: { doctorId: doctorId, date: date },
+                    success: function (data) {
+                        timeSelect.empty();
+                        timeSelect.append($('<option>', { value: '', text: '-- Select Time --' }));
+
+                        if (data.length === 0) {
+                            timeSelect.append($('<option>', { value: '', text: 'No available time slots' }));
+                        }
+
+                        $.each(data, function (i, time) {
+                            timeSelect.append($('<option>', {
+                                value: time,
+                                text: time
+                            }));
+                        });
+                    },
+                    error: function () {
+                        timeSelect.empty();
+                        timeSelect.append($('<option>', { value: '', text: 'Error loading times' }));
+                    }
+                });
+            }
+        }
+
         $(document).ready(function () {
             $('#specialistSelect').change(function () {
                 var specialistId = $(this).val();
@@ -96,6 +138,7 @@
                         success: function (data) {
                             doctorSelect.empty();
                             doctorSelect.append($('<option>', { value: '', text: 'Choose Doctor' }));
+
                             $.each(data, function (index, item) {
                                 doctorSelect.append($('<option>', {
                                     value: item.value,
@@ -112,6 +155,10 @@
                     doctorSelect.append($('<option>', { value: '', text: '-- Select Specialist First --' }));
                 }
             });
+
+            // Ayrı-ayrı dəyişmələr üçün çağır:
+            $('#doctorSelect').change(loadAvailableTimes);
+            $('input[name="Date"]').change(loadAvailableTimes);
         });
     </script>
 }
