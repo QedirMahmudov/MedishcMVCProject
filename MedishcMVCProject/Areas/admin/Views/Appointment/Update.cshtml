@@ -1,0 +1,153 @@
+﻿@model UpdateAppointmentVM
+@{
+    ViewData["Title"] = "Update Appointment";
+}
+
+<form asp-action="Update" method="post">
+    <input type="hidden" asp-for="AppointmentId" />
+    <input type="hidden" asp-for="Email" />
+
+    <div class="app-body">
+        <div class="row gx-3">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Update Appointment</h5>
+                        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+                    </div>
+                    <div class="card-body">
+                        <div class="row gx-3">
+
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Specialist</label>
+                                    <select asp-for="SpecialistId" asp-items="Model.Specialists" class="form-select" disabled>
+                                    </select>
+                                    <span asp-validation-for="SpecialistId" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label asp-for="DoctorId" class="form-label">Doctor</label>
+                                    <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-select" id="doctorSelect">
+                                        <option value="">-- Select Doctor --</option>
+                                    </select>
+                                    <span asp-validation-for="DoctorId" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label asp-for="Date" class="form-label"></label>
+                                    <input asp-for="Date" type="date" class="form-control" value="@Model.Date.ToString("yyyy-MM-dd")" />
+                                    <span asp-validation-for="Date" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label asp-for="Time" class="form-label"></label>
+                                    <select asp-for="Time" class="form-select" id="timeSelect">
+                                        <option value="">-- Select Time --</option>
+                                        @* Saat slotları AJAX-la yüklənəcək *@
+                                    </select>
+                                    <span asp-validation-for="Time" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="mb-3">
+                                    <label asp-for="Description" class="form-label"></label>
+                                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                                    <button type="submit" class="btn btn-primary">Update Appointment</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        function loadAvailableTimes() {
+            const doctorId = $('#doctorSelect').val();
+            const date = $('input[name="Date"]').val();
+            const timeSelect = $('#timeSelect');
+
+            if (!doctorId || !date) return;
+
+            timeSelect.empty().append($('<option>', {
+                value: '',
+                text: 'Loading...'
+            }));
+
+            $.ajax({
+                url: '@Url.Action("GetAvailableTimes", "Appointment", new { area = "Admin" })',
+                type: 'GET',
+                data: { doctorId: doctorId, date: date },
+                success: function (data) {
+                    timeSelect.empty();
+
+                    let hasSelectedTime = false;
+                    const selectedTime = "@Model.Time";
+
+                    $.each(data, function (i, time) {
+                        const isSelected = time === selectedTime;
+                        if (isSelected) hasSelectedTime = true;
+
+                        timeSelect.append($('<option>', {
+                            value: time,
+                            text: time,
+                            selected: isSelected
+                        }));
+                    });
+
+                    // Əgər seçilmiş saat mövcud siyahıda yoxdursa, onu əlavə elə və seçilmiş et
+                    if (!hasSelectedTime && selectedTime) {
+                        timeSelect.prepend($('<option>', {
+                            value: selectedTime,
+                            text: selectedTime,
+                            selected: true
+                        }));
+                    }
+
+                    // Əgər ümumiyyətlə boşdursa
+                    if (data.length === 0) {
+                        timeSelect.append($('<option>', {
+                            value: '',
+                            text: 'No available time slots'
+                        }));
+                    }
+                },
+                error: function () {
+                    timeSelect.empty().append($('<option>', {
+                        value: '',
+                        text: 'Error loading times'
+                    }));
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('#doctorSelect').change(loadAvailableTimes);
+            $('input[name="Date"]').change(loadAvailableTimes);
+
+            // Səhifə açılarkən avtomatik yüklə
+            loadAvailableTimes();
+        });
+    </script>
+}

@@ -1,6 +1,7 @@
 ﻿using MedishcMVCProject.DAL;
 using MedishcMVCProject.Models;
 using MedishcMVCProject.Utilities;
+using MedishcMVCProject.Utilities.Helpers;
 using MedishcMVCProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,17 +22,17 @@ namespace MedishcMVCProject.Areas.admin.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string patientName = null, string doctorName = null, string department = null, string time = null)
         {
             DateTime now = DateTime.Now;
             DateTime today = now.Date;
             TimeSpan currentTime = now.TimeOfDay;
 
             List<Appointment> expiredAppointments = await _context.Appointments
-                 .Where(a => !a.IsDeleted &&
-                            (a.Date.Date < today ||
+                .Where(a => !a.IsDeleted &&
+                           (a.Date.Date < today ||
                             (a.Date.Date == today && a.Time < currentTime)))
-                 .ToListAsync();
+                .ToListAsync();
 
             foreach (var item in expiredAppointments)
             {
@@ -64,8 +65,14 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 })
                 .ToListAsync();
 
+            appointments = Helpers.FilterByText(appointments, a => a.PatientName, patientName);
+            appointments = Helpers.FilterByText(appointments, a => a.DoctorName, doctorName);
+            appointments = Helpers.FilterByText(appointments, a => a.Department, department);
+            appointments = Helpers.FilterByText(appointments, a => a.Time, time);
+
             return View(appointments);
         }
+
 
         [HttpGet]
         public IActionResult GetDoctorsBySpecialist(int specialistId)
@@ -128,37 +135,204 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             {
                 id = x.Id,
                 title = $"{x.Time:hh\\:mm} - {x.Patient.Name} {x.Patient.Surname}",
-                start = x.Date.ToString("yyyy-MM-dd"),
+                start = $"{x.Date:yyyy-MM-dd}T{x.Time}",
                 url = $"/Appointments/Details/{x.Id}"
             });
+
 
             return Json(events);
         }
 
+
+        public async Task<IActionResult> Update(int? id)
+        {
+            if (id is null || id <= 0) return BadRequest();
+
+            Appointment? appointment = await _context.Appointments
+                .Include(a => a.Patient)
+                .Include(a => a.Doctor)
+                .ThenInclude(d => d.Specialist)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (appointment == null) return NotFound();
+
+            int specialistId = appointment.Doctor.SpecialistId;
+
+            UpdateAppointmentVM vm = new UpdateAppointmentVM
+            {
+                AppointmentId = appointment.Id,
+                Description = appointment.Description,
+                Date = appointment.Date,
+                DoctorId = appointment.DoctorId,
+                SpecialistId = specialistId,
+                Time = appointment.Time.ToString(@"hh\:mm"),
+                Email = _context.ContactInfos
+                            .Where(c => c.OwnerType == OwnerType.Patient && c.OwnerId == appointment.PatientId && c.ContactType == ContactType.Email)
+                            .Select(c => c.Value)
+                            .FirstOrDefault() ?? "",
+
+                Specialists = _context.Specialists
+                                .Select(s => new SelectListItem
+                                {
+                                    Value = s.Id.ToString(),
+                                    Text = s.Name
+                                }).ToList(),
+
+                Doctors = _context.Doctors
+                                .Where(d => d.SpecialistId == specialistId)
+                                .Select(d => new SelectListItem
+                                {
+                                    Value = d.Id.ToString(),
+                                    Text = d.Name + " " + d.Surname
+                                }).ToList()
+            };
+
+            return View(vm);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateAppointmentVM vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.Specialists = await _context.Specialists
+                    .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name })
+                    .ToListAsync();
+
+                vm.Doctors = await _context.Doctors
+                    .Where(d => d.SpecialistId == vm.SpecialistId)
+                    .Select(d => new SelectListItem
+                    {
+                        Value = d.Id.ToString(),
+                        Text = d.Name + " " + d.Surname
+                    }).ToListAsync();
+
+                return View(vm);
+            }
+
+            var appointment = await _context.Appointments
+                .Include(a => a.Doctor)
+                .FirstOrDefaultAsync(a => a.Id == vm.AppointmentId);
+
+            if (appointment == null) return NotFound();
+
+            if (!TimeSpan.TryParse(vm.Time, out TimeSpan parsedTime))
+            {
+                ModelState.AddModelError("Time", "Saat formatı yanlışdır.");
+                return View(vm);
+            }
+
+            bool isConflict = await _context.Appointments.AnyAsync(a =>
+                a.Id != vm.AppointmentId &&
+                a.DoctorId == vm.DoctorId &&
+                a.Date.Date == vm.Date.Date &&
+                a.Time == parsedTime);
+
+            if (isConflict)
+            {
+                ModelState.AddModelError(string.Empty, "Bu tarix və saatda artıq təyinat var.");
+                vm.Specialists = await _context.Specialists
+                    .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name })
+                    .ToListAsync();
+
+                vm.Doctors = await _context.Doctors
+                    .Where(d => d.SpecialistId == vm.SpecialistId)
+                    .Select(d => new SelectListItem
+                    {
+                        Value = d.Id.ToString(),
+                        Text = d.Name + " " + d.Surname
+                    }).ToListAsync();
+
+                return View(vm);
+            }
+
+            appointment.Date = vm.Date;
+            appointment.Time = parsedTime;
+            appointment.DoctorId = vm.DoctorId;
+            appointment.Description = vm.Description;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(List));
+        }
+
+
+
         [HttpPost]
         public IActionResult UpdateDate([FromBody] AppointmentUpdateDTO model)
         {
-            Appointment? appointment = _context.Appointments
+            var appointment = _context.Appointments
                 .Include(a => a.Patient)
                 .FirstOrDefault(a => a.Id == model.AppointmentId);
 
             if (appointment == null)
                 return Json(new { success = false, message = "Appointment tapılmadı." });
 
+            if (!DateTime.TryParse(model.NewDate, out DateTime newDate))
+                return Json(new { success = false, message = "Tarix düzgün formatda deyil." });
+
+            if (newDate.Date < DateTime.Today)
+                return Json(new { success = false, message = "Keçmiş tarixə təyin etmək olmaz." });
+
+            // Saatı oxu və parsedTime kimi saxla
+            TimeSpan parsedTime = appointment.Time;
+            if (!string.IsNullOrWhiteSpace(model.NewTime))
+            {
+                if (!TimeSpan.TryParse(model.NewTime, out parsedTime))
+                    return Json(new { success = false, message = "Saat formatı yanlışdır." });
+            }
+
+            var selectedDay = (DayOfWeekEnum)((int)newDate.DayOfWeek == 0 ? 7 : (int)newDate.DayOfWeek);
+
+            var doctorWorkingHour = _context.WorkingHours
+                .FirstOrDefault(h => h.DoctorId == appointment.DoctorId && h.DayOfWeek == selectedDay);
+
+            // İş günü və saat yoxlaması
+            if (doctorWorkingHour == null
+                || !doctorWorkingHour.OpenTime.HasValue
+                || !doctorWorkingHour.CloseTime.HasValue
+                || doctorWorkingHour.OpenTime.Value == TimeSpan.Zero
+                || doctorWorkingHour.CloseTime.Value == TimeSpan.Zero)
+            {
+                return Json(new { success = false, message = "Həkim bu gün işləmir." });
+            }
+
+            TimeSpan start = TimeSpan.FromMinutes(doctorWorkingHour.OpenTime.Value.TotalMinutes);
+            TimeSpan end = TimeSpan.FromMinutes(doctorWorkingHour.CloseTime.Value.TotalMinutes);
+            TimeSpan current = TimeSpan.FromMinutes(parsedTime.TotalMinutes);
+
+            if (current < start || current > end)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = $"Həkim yalnız saat {start:hh\\:mm} - {end:hh\\:mm} arasında işləyir. Sizin saat: {parsedTime:hh\\:mm}"
+                });
+            }
+
+            // Eyni vaxtda başqa görüş olub olmadığını yoxla
             bool isConflict = _context.Appointments.Any(a =>
                 a.Id != model.AppointmentId &&
                 a.DoctorId == appointment.DoctorId &&
-                a.Date.Date == DateTime.Parse(model.NewDate).Date &&
-                a.Time == appointment.Time);
+                a.Date.Date == newDate.Date &&
+                a.Time == parsedTime);
 
             if (isConflict)
-                return Json(new { success = false, message = "There is already an appointment for this time on this date." });
+            {
+                return Json(new { success = false, message = "Bu tarix və saatda artıq görüş mövcuddur." });
+            }
 
-            appointment.Date = DateTime.Parse(model.NewDate);
+            // Yadda saxla
+            appointment.Date = newDate;
+            appointment.Time = parsedTime;
+
             _context.SaveChanges();
 
             return Json(new { success = true });
         }
+
+
 
 
         public IActionResult Create()
@@ -238,7 +412,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                     {
                         var appointment = new Appointment
                         {
-                            DoctorId = appointmentVM.DoctorId,
+                            DoctorId = appointmentVM.DoctorId.Value,
                             PatientId = patient.Id,
                             Date = appointmentVM.Date,
                             Time = TimeSpan.Parse(appointmentVM.Time),
@@ -263,6 +437,32 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 .ToList();
 
             return View(appointmentVM);
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSelected(List<int> selectedIds)
+        {
+            if (selectedIds == null || !selectedIds.Any())
+            {
+                TempData["Warning"] = "Please select at least one appointment to delete.";
+                return RedirectToAction(nameof(List));
+            }
+
+            List<Appointment> appointments = await _context.Appointments
+                .Where(a => selectedIds.Contains(a.Id))
+                .Include(a => a.Patient)
+                .Include(a => a.Doctor)
+                .ToListAsync();
+
+
+
+            _context.Appointments.RemoveRange(appointments);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Selected appointments deleted successfully.";
+            return RedirectToAction(nameof(List));
         }
     }
 }

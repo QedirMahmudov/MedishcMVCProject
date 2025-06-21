@@ -1,22 +1,32 @@
-﻿@model List<GetAppointmentVM> 
+﻿@model List<GetAppointmentVM>
 
 @{
     int count = 0;
 }
 
 <div class="app-body">
-    <form method="get" asp-action="Index">
+    <form method="get" asp-action="List">
         <div class="card mb-3">
             <div class="card-body d-flex align-items-end gap-2">
                 <div>
                     <label class="form-label" for="pname">Patient Name</label>
                     <input type="text" name="patientName" id="pname" class="form-control"
-                           value="@(Context.Request.Query["patientName"])" placeholder="Search by name" />
+                           value="@(Context.Request.Query["patientName"])" placeholder="Search by patient name" />
+                </div>
+                <div>
+                    <label class="form-label" for="dname">Doctor Name</label>
+                    <input type="text" name="doctorName" id="dname" class="form-control"
+                           value="@(Context.Request.Query["doctorName"])" placeholder="Search by doctor name" />
                 </div>
                 <div>
                     <label class="form-label" for="dept">Department</label>
                     <input type="text" name="department" id="dept" class="form-control"
                            value="@(Context.Request.Query["department"])" placeholder="Search by department" />
+                </div>
+                <div>
+                    <label class="form-label" for="time">Time</label>
+                    <input type="text" name="time" id="time" class="form-control"
+                           value="@(Context.Request.Query["time"])" placeholder="hh:mm" />
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary">Search</button>
@@ -33,7 +43,9 @@
                         <h5 class="card-title m-0">Appointments List</h5>
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-danger"
-                                    onclick="return confirm('Delete selected appointments?')">Delete Selected</button>
+                                    onclick="return confirm('Delete selected appointments?')">
+                                Delete Selected
+                            </button>
                             <a asp-action="Create" class="btn btn-primary">Book Appointment</a>
                         </div>
                     </div>
@@ -87,7 +99,7 @@
                                                 <div class="d-inline-flex gap-1">
                                                     <button class="btn btn-success btn-sm" title="Accept"><i class="ri-checkbox-circle-line"></i></button>
                                                     <button class="btn btn-outline-danger btn-sm" title="Reject" disabled><i class="ri-close-circle-line"></i></button>
-                                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm" title="Edit"><i class="ri-edit-box-line"></i></a>
+                                                    <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-outline-success btn-sm" title="Edit"><i class="ri-edit-box-line"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

@@ -7,8 +7,16 @@
       "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\views\\appointment\\appointments.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\views\\appointment\\appointments.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\viewmodels\\appointmentvm\\updateappointmentvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\viewmodels\\appointmentvm\\updateappointmentvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|c:\\users\\uvape\\onedrive\\desktop\\folders\\medilixmvc\\medishcmvcproject\\medishcmvcproject\\areas\\admin\\views\\appointment\\update.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AEC8B150-E41D-4858-BDA7-D59EA7900E0E}|MedishcMVCProject\\MedishcMVCProject.csproj|solutionrelative:medishcmvcproject\\areas\\admin\\views\\appointment\\update.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,7 +36,7 @@
               "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Controllers\\AppointmentController.cs",
               "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Controllers\\AppointmentController.cs",
               "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Controllers\\AppointmentController.cs",
-              "ViewState": "AgIAAOkAAAAAAAAAAAAAAPQAAABDAAAAAAAAAA==",
+              "ViewState": "AgIAALUBAAAAAAAAAAAiwM8BAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-16T18:40:31.932Z",
               "IsPinned": true,
@@ -37,14 +45,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Appointments.cshtml",
-              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Appointment\\Appointments.cshtml",
-              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Views\\Appointment\\Appointments.cshtml",
-              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Appointment\\Appointments.cshtml",
-              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Views\\Appointment\\Appointments.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAH8AAAAqAAAAAAAAAA==",
+              "Title": "DoctorController.cs",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Controllers\\DoctorController.cs",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Controllers\\DoctorController.cs",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Controllers\\DoctorController.cs",
+              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Controllers\\DoctorController.cs",
+              "ViewState": "AgIAAL8BAAAAAAAAAAAQwN8BAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T13:01:26.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Update.cshtml",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Appointment\\Update.cshtml",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\Areas\\admin\\Views\\Appointment\\Update.cshtml",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\Areas\\admin\\Views\\Appointment\\Update.cshtml",
+              "RelativeToolTip": "MedishcMVCProject\\Areas\\admin\\Views\\Appointment\\Update.cshtml",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAIwJgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-20T15:07:44.66Z",
+              "WhenOpened": "2025-06-21T11:10:34.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UpdateAppointmentVM.cs",
+              "DocumentMoniker": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\ViewModels\\AppointmentVM\\UpdateAppointmentVM.cs",
+              "RelativeDocumentMoniker": "MedishcMVCProject\\ViewModels\\AppointmentVM\\UpdateAppointmentVM.cs",
+              "ToolTip": "C:\\Users\\uvape\\OneDrive\\Desktop\\Folders\\MedilixMVC\\MedishcMVCProject\\MedishcMVCProject\\ViewModels\\AppointmentVM\\UpdateAppointmentVM.cs",
+              "RelativeToolTip": "MedishcMVCProject\\ViewModels\\AppointmentVM\\UpdateAppointmentVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T11:06:26.348Z",
               "EditorCaption": ""
             }
           ]

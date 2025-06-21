@@ -35,35 +35,45 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
-<style>
-    #appointmentsCal {
-        max-width: 100%;
-        margin: 20px auto;
-    }
 
-    .fc-event-title {
-        white-space: normal; 
-        font-size: 12px;
-        color: #116aef;
-        padding: 2px 4px;
-        line-height: 1.2;
+<style>
+    .fc .fc-daygrid-day {
+        height: 100px;
+        overflow: hidden;
     }
 
     .fc-daygrid-event {
-        background-color: #e9f3ff;
-        border: 1px solid #bcdcff;
-        border-radius: 6px;
-        margin-bottom: 2px;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
+
+    .fc .fc-col-header-cell,
+    .fc .fc-timegrid-col {
+        border-left: 1px solid #ccc !important;
+        border-right: 1px solid #ccc !important;
+        box-sizing: border-box;
+    }
+
+    .fc .fc-col-header-cell {
+        text-align: center;
+        padding: 8px 0;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+        .fc .fc-col-header-cell:first-child {
+            border-left: 2px solid red !important;
+        }
 
     .fc .fc-toolbar-title {
         font-size: 18px;
-        font-weight: 600;
+        font-weight: bold;
     }
 
 </style>
 
-<!-- Calendar Container -->
 <div class="app-body">
     <div class="row gx-3">
         <div class="col-12">
@@ -80,85 +90,172 @@
     </div>
 </div>
 
-<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var calendarEl = document.getElementById("appointmentsCal");
+        const calendarEl = document.getElementById("appointmentsCal");
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'az',
+            firstDay: 1,
             initialView: 'dayGridMonth',
-            initialDate: new Date().toISOString().split('T')[0],
             editable: true,
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,dayGridWeek,dayGridDay'
+            height: 800,
+            dayMaxEvents: 4,
+            displayEventTime: false,
+
+            views: {
+                dayGridMonth: {
+                    dayMaxEvents: 4,
+                    fixedWeekCount: false
+                },
+                    timeGridWeek: {
+        slotMinTime: "06:00:00",
+        slotMaxTime: "18:00:00", 
+        slotDuration: "00:30:00",
+        allDaySlot: false,
+        expandRows: true,
+        height: 'auto',
+        columnHeaderContent: function (arg) {
+            const date = arg.date;
+            const day = date.getDate().toString().padStart(2, '0');
+            const weekday = date.toLocaleDateString('az', { weekday: 'short' });
+            return `${day} / ${weekday}`;
+        }
+    },
+    timeGridDay: {
+        slotMinTime: "06:00:00",
+        slotMaxTime: "18:00:00",
+        slotDuration: "00:30:00",
+        allDaySlot: false,
+        expandRows: true,
+        height: 'auto',
+        columnHeaderContent: function (arg) {
+            const date = arg.date;
+            const day = date.getDate().toString().padStart(2, '0');
+            const weekday = date.toLocaleDateString('az', { weekday: 'short' });
+            return `${day} / ${weekday}`;
+        }
+    }
             },
+
+            customButtons: {
+                prevYear: {
+                    text: '«',
+                    click: function () {
+                        const date = calendar.getDate();
+                        calendar.gotoDate(new Date(date.getFullYear() - 1, date.getMonth(), 1));
+                    }
+                },
+                nextYear: {
+                    text: '»',
+                    click: function () {
+                        const date = calendar.getDate();
+                        calendar.gotoDate(new Date(date.getFullYear() + 1, date.getMonth(), 1));
+                    }
+                }
+            },
+
+            headerToolbar: {
+                left: 'prevYear,prev,next,nextYear,today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+
             events: function (fetchInfo, successCallback, failureCallback) {
                 fetch('/Admin/Appointment/GetCalendarEvents')
                     .then(response => response.json())
                     .then(data => {
-                        const styledEvents = data.map(e => ({
-                            id: e.id,
-                            title: e.title.replace(/\n/g, "\n"),
-                            start: e.start,
-                            url: e.url || null
-                        }));
-                        successCallback(styledEvents);
+                        const events = data.map(e => {
+                            const start = new Date(e.start);
+                            const end = new Date(start.getTime() + 30 * 60000); 
+
+                            return {
+                                id: e.id,
+                                title: e.title,
+                                start: start.toISOString(),
+                                end: end.toISOString(),
+                                url: e.url || null
+                            };
+                        });
+
+                        successCallback(events);
                     })
-                    .catch(err => failureCallback(err));
+                    .catch(error => {
+                        console.error("Event yükləmə xətası:", error);
+                        failureCallback(error);
+                    });
             },
+
             eventClick: function (info) {
                 if (info.event.url) {
                     window.location.href = info.event.url;
                 }
                 info.jsEvent.preventDefault();
             },
-            eventDidMount: function (info) {
-                const target = info.el.querySelector('.fc-event-title');
-                if (target && !target.dataset.converted) {
-                    target.innerHTML = info.event.title.replace(/\n/g, '<br>');
-                    target.dataset.converted = "true";
+
+            eventDrop: function (info) {
+                const event = info.event;
+                const newDate = event.start;
+
+                const newDateStr = newDate.toISOString().split('T')[0];
+                const hours = newDate.getHours().toString().padStart(2, '0');
+                const minutes = newDate.getMinutes().toString().padStart(2, '0');
+                const newTimeStr = `${hours}:${minutes}`;
+
+                fetch('/Admin/Appointment/UpdateDate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        appointmentId: event.id,
+                        newDate: newDateStr,
+                        newTime: newTimeStr
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert(data.message);
+                        info.revert();
+                    }
+                })
+                .catch(error => {
+                    console.error("Tarix yeniləmə xətası:", error);
+                    alert("Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.");
+                    info.revert();
+                });
+            },
+
+            datesSet: function (arg) {
+                const view = arg.view;
+                const titleEl = document.querySelector('.fc-toolbar-title');
+
+                if (view.type === 'timeGridWeek') {
+                    const start = new Date(view.currentStart);
+                    const end = new Date(view.currentEnd);
+                    end.setDate(end.getDate() - 1);
+
+                    const month = start.toLocaleString('default', { month: 'short' });
+                    titleEl.innerText = `${month}/${start.getDate()}–${end.getDate()}, ${start.getFullYear()}`;
                 }
-            },
-                eventDrop: function (info) {
-        const event = info.event;
 
-        const newDateStr = event.startStr.split('T')[0];
+                if (view.type === 'timeGridDay') {
+                    const date = new Date(view.currentStart);
+                    const day = date.toLocaleDateString('az', { weekday: 'long' });
+                    const month = date.toLocaleDateString('default', { month: 'short' });
+                    const dayNum = date.getDate();
+                    titleEl.innerText = `${dayNum} ${month} / ${day}`;
+                }
 
-        fetch('/Admin/Appointment/UpdateDate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                appointmentId: event.id,
-                newDate: newDateStr
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (!data.success) {
-                alert(data.message);
-
-                calendar.getEventById(event.id)?.remove();
-
-                calendar.refetchEvents();
-            } else {
-                calendar.refetchEvents();
+                if (view.type === 'dayGridMonth') {
+                    const date = new Date(view.currentStart);
+                    const month = date.toLocaleDateString('default', { month: 'long' });
+                    const year = date.getFullYear();
+                    titleEl.innerText = `${month} ${year}`;
+                }
             }
-        })
-        .catch(() => {
-            alert("An unexpected error occurred.");
-
-            calendar.getEventById(event.id)?.remove();
-            calendar.refetchEvents();
-        });
-    }
         });
 
         calendar.render();
-        calendar.today();
     });
 </script>
