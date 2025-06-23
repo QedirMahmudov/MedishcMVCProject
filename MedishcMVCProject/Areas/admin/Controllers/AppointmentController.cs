@@ -432,7 +432,6 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             appointment.Description = vm.Description;
 
             await _context.SaveChangesAsync();
-
             return RedirectToAction(nameof(List));
         }
 
