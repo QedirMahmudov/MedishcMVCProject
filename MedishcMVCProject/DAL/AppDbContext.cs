@@ -58,6 +58,18 @@ namespace MedishcMVCProject.DAL
                .HasConversion(
                    v => v.ToString(),
                    v => (OwnerType)Enum.Parse(typeof(OwnerType), v));
+
+            modelBuilder.Entity<Doctor>()
+                .HasOne(d => d.Specialist)
+                .WithMany(s => s.Doctors)
+                .HasForeignKey(d => d.SpecialistId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Specialist>()
+                .HasOne(s => s.HeadDoctor)
+                .WithMany()
+                .HasForeignKey(s => s.HeadDoctorId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 

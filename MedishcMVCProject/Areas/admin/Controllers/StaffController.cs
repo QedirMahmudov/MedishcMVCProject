@@ -308,7 +308,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 .Where(ci => ci.OwnerType == OwnerType.Staff && selectedIds.Contains(ci.OwnerId))
                 .ToListAsync();
 
-            foreach (var staff in staffs)
+            foreach (Staff? staff in staffs)
             {
                 staff.Image.DeleteFile(_env.WebRootPath, "assets", "images", "staff");
             }

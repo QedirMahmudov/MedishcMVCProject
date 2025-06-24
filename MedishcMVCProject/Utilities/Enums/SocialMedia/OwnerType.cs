@@ -4,7 +4,8 @@
     {
         Doctor,
         Patient,
-        Staff
+        Staff,
+        Specialist
     }
 
 }
