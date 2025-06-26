@@ -15,7 +15,15 @@ namespace MedishcMVCProject.ViewModels
         [Range(1, 100, ErrorMessage = "Age must be between 1 and 100")]
         public int Age { get; set; }
         public GenderEnum Gender { get; set; }
+        [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }
+        [MaxLength(100)]
+        public string UserName { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        [DataType(DataType.Password)]
+        [Compare(nameof(Password))]
+        public string ConfirmPassword { get; set; }
         public string? PhoneNumber { get; set; }
         [Required]
         public int? SpecialistId { get; set; }

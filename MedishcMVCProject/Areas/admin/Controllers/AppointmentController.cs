@@ -3,6 +3,7 @@ using MedishcMVCProject.Models;
 using MedishcMVCProject.Utilities;
 using MedishcMVCProject.Utilities.Helpers;
 using MedishcMVCProject.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +14,24 @@ namespace MedishcMVCProject.Areas.admin.Controllers
     public class AppointmentController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public AppointmentController(AppDbContext context)
+        public AppointmentController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult Appointments()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login", "Account");
+
+            var appointments = await _context.Appointments
+                .Include(a => a.Doctor)
+                .Where(a => a.AppUserId == user.Id)
+                .ToListAsync();
+
+            return View(appointments);
         }
         public async Task<IActionResult> List(string patientName = null, string doctorName = null, string department = null, string time = null)
         {

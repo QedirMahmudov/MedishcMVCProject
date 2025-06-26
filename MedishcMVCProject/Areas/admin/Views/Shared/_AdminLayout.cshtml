@@ -1,4 +1,45 @@
-﻿<!DOCTYPE html>
+﻿@using MedishcMVCProject.DAL
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+@inject AppDbContext _context
+
+@{
+    AppUser currentUser = null;
+    string initials = "JB";
+    string fullName = "Guest";
+    string role = "User";
+    string doctorImagePath = "/assets/images/default-user.png";
+
+    if (SignInManager.IsSignedIn(User))
+    {
+        currentUser = await UserManager.GetUserAsync(User);
+
+        if (currentUser != null)
+        {
+            var name = currentUser.Name ?? "";
+            var surname = currentUser.Surname ?? "";
+
+            initials = $"{(name.Length > 0 ? name[0] : 'N')}{(surname.Length > 0 ? surname[0] : 'S')}";
+            fullName = $"{name} {surname}".Trim();
+
+            var roles = await UserManager.GetRolesAsync(currentUser);
+            role = roles.FirstOrDefault() ?? "User";
+
+            var doctor = await _context.Doctors
+                .FirstOrDefaultAsync(d => d.AppUserId == currentUser.Id);
+
+            if (doctor?.Image != null)
+            {
+                doctorImagePath = $"/assets/images/team/full/{doctor.Image}";
+            }
+        }
+    }
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 
 
@@ -360,23 +401,35 @@
                 </div>
                 <!-- Header actions ends -->
                 <!-- Header user settings starts -->
-                <div class="dropdown ms-2">
-                    <a id="userSettings" class="dropdown-toggle d-flex align-items-center" href="#!" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="avatar-box">JB<span class="status busy"></span></div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end shadow-lg">
-                        <div class="px-3 py-2">
-                            <span class="small">Admin</span>
-                            <h6 class="m-0">James Bruton</h6>
-                        </div>
-                        <div class="mx-3 my-2 d-grid">
-                            <a asp-controller="Account" asp-action="Logout"  class="btn btn-danger">Logout</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div class="dropdown ms-2">
+                        <a id="userSettings" class="dropdown-toggle d-flex align-items-center" href="#!" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="avatar-box">
+                                <img src="@doctorImagePath" alt="Profile" class="rounded-circle" style="width:36px; height:36px; object-fit:cover;" />
+                                <span class="status busy"></span>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end shadow-lg">
+                            <div class="px-3 py-2">
+                                <span class="small">@role</span>
+                                <h6 class="m-0">@fullName</h6>
+                            </div>
+                            <div class="mx-3 my-2 d-grid">
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button class="btn btn-danger">Logout</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Header user settings ends -->
-
+                }
+                else
+                {
+                    <div class="ms-2">
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Login</a>
+                    </div>
+                }
             </div>
             <!-- App header actions ends -->
 
@@ -398,7 +451,184 @@
                 </div>
                 <!-- Sidebar profile ends -->
                 <!-- Sidebar menu starts -->
+
+
+
+
                 <div class="sidebarMenuScroll">
+                    <ul class="sidebar-menu">
+                        <!-- Bütün istifadəçilər üçün görünən əsas səhifə -->
+                        <li class="active current-page">
+                            <a asp-controller="Home" asp-action="Index">
+                                <i class="ri-home-6-line"></i>
+                                <span class="menu-text">Hospital Dashboard</span>
+                            </a>
+                        </li>
+
+                        @* Admin üçün *@
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="treeview">
+                                <a href="#!">
+                                    <i class="ri-stethoscope-line"></i>
+                                    <span class="menu-text">Doctors</span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a asp-controller="Doctor" asp-action="List">Doctors List</a></li>
+                                    <li><a asp-controller="Doctor" asp-action="Cards">Doctors Cards</a></li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a asp-controller="Patient" asp-action="List">
+                                    <i class="ri-heart-pulse-line"></i>
+                                    <span class="menu-text">Patients</span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a asp-controller="Patient" asp-action="List">Patients List</a></li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="#!">
+                                    <i class="ri-nurse-line"></i>
+                                    <span class="menu-text">Staff</span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a asp-controller="Staff" asp-action="List">Staff List</a></li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="#!">
+                                    <i class="ri-dossier-line"></i>
+                                    <span class="menu-text">Appointments</span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a asp-controller="Appointment" asp-action="Appointments">Appointments</a></li>
+                                    <li><a asp-controller="Appointment" asp-action="List">Appointments List</a></li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="#!">
+                                    <i class="ri-building-2-line"></i>
+                                    <span class="menu-text">Departments</span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a asp-controller="Specialist" asp-action="List">Departments List</a></li>
+                                    <li><a href="add-department.html">Add Department</a></li>
+                                    <li><a href="edit-department.html">Edit Department</a></li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="#!">
+                                    <i class="ri-secure-payment-line"></i>
+                                    <span class="menu-text">Accounts</span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="income.html">Income</a></li>
+                                    <li><a href="payments.html">Payments</a></li>
+                                    <li><a href="invoices.html">Invoices</a></li>
+                                    <li><a href="invoice-details.html">Invoice Details</a></li>
+                                    <li><a href="create-invoice.html">Create Invoice</a></li>
+                                    <li><a href="expenses.html">Expenses</a></li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="#!">
+                                    <i class="ri-money-dollar-circle-line"></i>
+                                    <span class="menu-text">Salaries</span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a asp-controller="Salary" asp-action="List">Salary List</a></li>
+                                    <li><a href="payslip.html">Payslip</a></li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="#!">
+                                    <i class="ri-hotel-bed-line"></i>
+                                    <span class="menu-text">Rooms</span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="room-statistics.html">Statistics</a></li>
+                                    <li><a href="rooms-allotted.html">Rooms Allotted</a></li>
+                                    <li><a href="rooms-by-dept.html">Rooms By Department</a></li>
+                                    <li><a href="available-rooms.html">Available Rooms</a></li>
+                                    <li><a href="book-room.html">Book Room</a></li>
+                                    <li><a href="add-room.html">Add Room</a></li>
+                                    <li><a href="edit-room.html">Edit Room</a></li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="#!">
+                                    <i class="ri-car-washing-line"></i>
+                                    <span class="menu-text">Ambulance</span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="ambulance-list.html">Ambulance List</a></li>
+                                    <li><a href="add-ambulance.html">Add Ambulance</a></li>
+                                    <li><a href="edit-ambulance.html">Edit Ambulance</a></li>
+                                    <li><a href="ambulance-call-list.html">Ambulance Call List</a></li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Doctor"))
+                        {
+                            <li class="treeview">
+                                <a asp-controller="Appointment" asp-action="Appointments">
+                                    <i class="ri-calendar-check-line"></i>
+                                    <span class="menu-text">My Appointments</span>
+                                </a>
+                            </li>
+                            <li class="treeview">
+                                <a asp-controller="Patient" asp-action="List">
+                                    <i class="ri-user-heart-line"></i>
+                                    <span class="menu-text">My Patients</span>
+                                </a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Patient"))
+                        {
+                            <li class="treeview">
+                                <a asp-controller="Appointment" asp-action="Book">
+                                    <i class="ri-add-line"></i>
+                                    <span class="menu-text">Book Appointment</span>
+                                </a>
+                            </li>
+                            <li class="treeview">
+                                <a asp-controller="Patient" asp-action="Profile">
+                                    <i class="ri-user-line"></i>
+                                    <span class="menu-text">My Profile</span>
+                                </a>
+                            </li>
+                        }
+
+                        <li><a href="gallery.html"><i class="ri-tent-line"></i><span class="menu-text">Gallery</span></a></li>
+                        <li><a href="news.html"><i class="ri-news-line"></i><span class="menu-text">News & Updates</span></a></li>
+                        <li class="treeview">
+                            <a href="#!">
+                                <i class="ri-login-circle-line"></i>
+                                <span class="menu-text">Login/Signup</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                                <li><a asp-controller="Account" asp-action="Register">Signup</a></li>
+                                <li><a href="forgot-password.html">Forgot Password</a></li>
+                                <li><a href="reset-password.html">Reset Password</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+
+
+
+
+
+
+
+
+
+                @* <div class="sidebarMenuScroll">
                     <ul class="sidebar-menu">
                         <li class="active current-page">
                             <a asp-controller="Home" asp-action="Index" >
@@ -588,7 +818,7 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <a asp-controller="Account" asp-action="Login" @* asp-route-returnurl="@Context.Request.Path.Value" *@>Login</a>
+                                    <a asp-controller="Account" asp-action="Login" >Login</a>
                                 </li>
                                 <li>
                                     <a asp-controller="Account" asp-action="Register">Signup</a>
@@ -602,7 +832,7 @@
                             </ul>
                         </li>
                     </ul>
-                </div>
+                </div> *@
                 <!-- Sidebar menu ends -->
                 <!-- Sidebar contact starts -->
                 <div class="sidebar-contact">

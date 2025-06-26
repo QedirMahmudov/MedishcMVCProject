@@ -4,6 +4,7 @@ using MedishcMVCProject.Utilities;
 using MedishcMVCProject.Utilities.Extensions;
 using MedishcMVCProject.Utilities.Helpers;
 using MedishcMVCProject.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +15,15 @@ namespace MedishcMVCProject.Areas.admin.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public DoctorController(AppDbContext context, IWebHostEnvironment env)
+        public DoctorController(AppDbContext context, IWebHostEnvironment env, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _env = env;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
         public IActionResult List(string doctorName = null, string department = null)
         {
@@ -132,16 +137,10 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             doctorVM.Specialists = await _context.Specialists.ToListAsync();
 
             if (!Helpers.HasDigit(doctorVM.Name))
-            {
                 ModelState.AddModelError(nameof(doctorVM.Name), "Name cannot contain digits");
-            }
 
             if (!Helpers.HasDigit(doctorVM.Surname))
-            {
                 ModelState.AddModelError(nameof(doctorVM.Surname), "Surname cannot contain digits");
-            }
-
-            //**********BASLAMA VE BITME SAATININ 1 i DOLANDA OBRIDE DOLMALIDI AMMA SPANDA CIXMIR ERROR!*************
 
             if (doctorVM.WorkingHours != null)
             {
@@ -151,51 +150,57 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                     bool hasClose = item.CloseTime.HasValue;
 
                     if (hasOpen != hasClose)
-                    {
-                        ModelState.AddModelError(
-                            string.Empty,
-                            $"{item.DayOfWeek} start or end time are missing!"
-                        );
-                    }
+                        ModelState.AddModelError(string.Empty, $"{item.DayOfWeek} start or end time are missing!");
                 }
             }
 
-
-
-
-
-
             if (!ModelState.IsValid)
-            {
                 return View(doctorVM);
-            }
 
-            bool result = doctorVM.Specialists.Any(s => s.Id == doctorVM.SpecialistId);
-
-            if (!result)
+            if (!doctorVM.Specialists.Any(s => s.Id == doctorVM.SpecialistId))
             {
                 ModelState.AddModelError(nameof(doctorVM.SpecialistId), "Specialist does not exist");
                 return View(doctorVM);
             }
 
-
-
             if (!doctorVM.MainPhoto.ValidateType("image/"))
             {
-                ModelState.AddModelError(nameof(CreateDoctorVM.MainPhoto), "file type is incorrect");
+                ModelState.AddModelError(nameof(CreateDoctorVM.MainPhoto), "File type is incorrect");
                 return View(doctorVM);
             }
 
             if (!doctorVM.MainPhoto.ValidateSize(FileType.MB, 1))
             {
-                ModelState.AddModelError(nameof(CreateDoctorVM.MainPhoto), "file must be less than 500kb");
+                ModelState.AddModelError(nameof(CreateDoctorVM.MainPhoto), "File must be less than 1MB");
                 return View(doctorVM);
             }
 
             string image = await doctorVM.MainPhoto.CreateFileAsync(_env.WebRootPath, "assets", "images", "team", "full");
 
+            AppUser user = new AppUser
+            {
+                UserName = doctorVM.UserName,
+                Email = doctorVM.Email,
+                Name = doctorVM.Name,
+                Surname = doctorVM.Surname
+            };
 
-            Doctor doctor = new Doctor()
+            IdentityResult userResult = await _userManager.CreateAsync(user, doctorVM.Password);
+
+            if (!userResult.Succeeded)
+            {
+                foreach (var error in userResult.Errors)
+                    ModelState.AddModelError("", error.Description);
+
+                return View(doctorVM);
+            }
+
+            if (!await _roleManager.RoleExistsAsync("Doctor"))
+                await _roleManager.CreateAsync(new IdentityRole("Doctor"));
+
+            await _userManager.AddToRoleAsync(user, "Doctor");
+
+            Doctor doctor = new Doctor
             {
                 Name = doctorVM.Name.Capitalize(),
                 Surname = doctorVM.Surname.Capitalize(),
@@ -207,28 +212,23 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 MainDescription = doctorVM.MainDescription,
                 ReviewCount = doctorVM.ReviewCount,
                 ZodocRating = doctorVM.ZodocRating,
-
+                AppUserId = user.Id,
                 WorkingHours = Enum.GetValues(typeof(DayOfWeekEnum))
-                                    .Cast<DayOfWeekEnum>()
-                                    .Select(day =>
-                                    {
-                                        WorkingHourVM input = doctorVM.WorkingHours?.FirstOrDefault(x => x.DayOfWeek == day);
-                                        return new WorkingHours
-                                        {
-                                            DayOfWeek = day,
-                                            OpenTime = input?.OpenTime,
-                                            CloseTime = input?.CloseTime
-                                        };
-                                    }).ToList(),
-
+                                   .Cast<DayOfWeekEnum>()
+                                   .Select(day =>
+                                   {
+                                       var input = doctorVM.WorkingHours?.FirstOrDefault(x => x.DayOfWeek == day);
+                                       return new WorkingHours
+                                       {
+                                           DayOfWeek = day,
+                                           OpenTime = input?.OpenTime,
+                                           CloseTime = input?.CloseTime
+                                       };
+                                   }).ToList()
             };
-
-
-
 
             await _context.Doctors.AddAsync(doctor);
             await _context.SaveChangesAsync();
-
 
             var contactInfos = new List<(ContactType, string?)>
             {
@@ -239,12 +239,10 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             };
 
             Helpers.AddContactInfos(_context, OwnerType.Doctor, doctor.Id, contactInfos);
-
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(List));
         }
-
 
 
         public async Task<IActionResult> Update(int? id)
