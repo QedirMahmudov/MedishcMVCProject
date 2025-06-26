@@ -1,0 +1,103 @@
+﻿@model RegisterVM
+
+@{
+    Layout = null;
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Signup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="~/admin/images/favicon.svg">
+    <link rel="stylesheet" href="~/admin/fonts/remix/remixicon.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/admin/css/main.min.css" asp-append-version="true" />
+
+    <style>
+        .full-height-center {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="login-bg">
+
+    <div class="container full-height-center">
+        <div class="auth-box w-100" style="max-width: 500px;">
+            <form asp-action="Register" asp-controller="Account" asp-area="Admin" method="post">
+                <div class="text-center mb-4">
+                    <a asp-controller="Home" asp-action="Index" class="auth-logo">
+                        <img src="~/admin/images/logo-dark.svg" alt="Logo" style="max-width: 150px;" />
+                    </a>
+                </div>
+
+                <h4 class="mb-4 text-center">Signup</h4>
+
+                <div class="text-danger mb-3" asp-validation-summary="ModelOnly"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Surname" class="form-label"></label>
+                    <input asp-for="Surname" class="form-control" placeholder="Enter surname" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="UserName" class="form-label"></label>
+                    <input asp-for="UserName" class="form-control" placeholder="Enter username" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" placeholder="Enter email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" placeholder="Enter password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ConfirmPassword" class="form-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Role">Select Role <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="ri-shield-user-line"></i> 
+                        </span>
+                        <select asp-for="Role" class="form-select" asp-items="ViewBag.Roles">
+                            <option selected disabled>Choose Role</option>
+                        </select>
+                    </div>
+                    <span class="text-danger" asp-validation-for="Role"></span>
+                </div>
+                <div class="mb-3 d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Signup</button>
+                    <a asp-area="Admin" asp-controller="Account" asp-action="Login" class="btn btn-secondary">Already have an account? Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Optional: Validation Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.13/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>

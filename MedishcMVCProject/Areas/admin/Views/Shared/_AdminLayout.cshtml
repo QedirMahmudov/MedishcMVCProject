@@ -371,7 +371,7 @@
                             <h6 class="m-0">James Bruton</h6>
                         </div>
                         <div class="mx-3 my-2 d-grid">
-                            <a href="login.html" class="btn btn-danger">Logout</a>
+                            <a asp-controller="Account" asp-action="Logout"  class="btn btn-danger">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -588,10 +588,10 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li>
-                                    <a href="login.html">Login</a>
+                                    <a asp-controller="Account" asp-action="Login" @* asp-route-returnurl="@Context.Request.Path.Value" *@>Login</a>
                                 </li>
                                 <li>
-                                    <a href="signup.html">Signup</a>
+                                    <a asp-controller="Account" asp-action="Register">Signup</a>
                                 </li>
                                 <li>
                                     <a href="forgot-password.html">Forgot Password</a>
