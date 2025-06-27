@@ -1,6 +1,7 @@
 ﻿using MedishcMVCProject.DAL;
 using MedishcMVCProject.Models;
 using MedishcMVCProject.Utilities;
+using MedishcMVCProject.Utilities.Enums;
 using MedishcMVCProject.Utilities.Helpers;
 using MedishcMVCProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -21,15 +22,38 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             _context = context;
             _userManager = userManager;
         }
-        public IActionResult Appointments()
+        public async Task<IActionResult> Appointments()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return RedirectToAction("Login", "Account");
+            AppUser? user = await _userManager.GetUserAsync(User);
+            if (user is null)
+                return RedirectToAction("Login", "Account");
 
-            var appointments = await _context.Appointments
-                .Include(a => a.Doctor)
-                .Where(a => a.AppUserId == user.Id)
-                .ToListAsync();
+            List<Appointment> appointments;
+
+            if (User.IsInRole(nameof(UserRole.Admin)))
+            {
+                appointments = await _context.Appointments
+                    .Include(a => a.Patient)
+                    .Include(a => a.Doctor)
+                    .ToListAsync();
+            }
+            else if (User.IsInRole(nameof(UserRole.Doctor)))
+            {
+                Doctor? doctor = await _context.Doctors
+                    .FirstOrDefaultAsync(d => d.AppUserId == user.Id);
+
+                if (doctor == null) return NotFound();
+
+                appointments = await _context.Appointments
+                    .Where(a => a.DoctorId == doctor.Id)
+                    .Include(a => a.Patient)
+                    .Include(a => a.Doctor)
+                    .ToListAsync();
+            }
+            else
+            {
+                return Forbid();
+            }
 
             return View(appointments);
         }
@@ -133,14 +157,31 @@ namespace MedishcMVCProject.Areas.admin.Controllers
         }
 
 
-        public IActionResult GetCalendarEvents()
+        public async Task<IActionResult> GetCalendarEvents()
         {
+            AppUser? user = await _userManager.GetUserAsync(User);
+            if (user is null) return Unauthorized();
+
             DateTime today = DateTime.Today;
 
-            List<Appointment> appointments = _context.Appointments
+            //Sorgu tolist olana qeder hazirlanir...
+            IQueryable<Appointment> query = _context.Appointments
                 .Include(x => x.Patient)
-                .Where(x => x.Date.Date >= today)
-                .ToList();
+                .Include(x => x.Doctor)
+                .Where(x => x.Date.Date >= today);
+
+            if (User.IsInRole("Doctor"))
+            {
+                Doctor? doctor = await _context.Doctors
+                    .FirstOrDefaultAsync(d => d.AppUserId == user.Id);
+
+                if (doctor is null) return NotFound();
+
+
+                query = query.Where(x => x.DoctorId == doctor.Id);
+            }
+
+            List<Appointment>? appointments = await query.ToListAsync();
 
             var events = appointments.Select(x => new
             {
@@ -149,7 +190,6 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 start = $"{x.Date:yyyy-MM-dd}T{x.Time}",
                 url = $"/Appointments/Details/{x.Id}"
             });
-
 
             return Json(events);
         }
@@ -356,53 +396,40 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 DoctorId = appointment.DoctorId,
                 SpecialistId = specialistId,
                 Time = appointment.Time.ToString(@"hh\:mm"),
-                Email = _context.ContactInfos
-                            .Where(c => c.OwnerType == OwnerType.Patient && c.OwnerId == appointment.PatientId && c.ContactType == ContactType.Email)
-                            .Select(c => c.Value)
-                            .FirstOrDefault() ?? "",
+                Email = await _context.ContactInfos
+                    .Where(c => c.OwnerType == OwnerType.Patient && c.OwnerId == appointment.PatientId && c.ContactType == ContactType.Email)
+                    .Select(c => c.Value)
+                    .FirstOrDefaultAsync() ?? "",
 
-                Specialists = _context.Specialists
-                                .Select(s => new SelectListItem
-                                {
-                                    Value = s.Id.ToString(),
-                                    Text = s.Name
-                                }).ToList(),
+                Specialists = await _context.Specialists
+                    .Select(s => new SelectListItem
+                    {
+                        Value = s.Id.ToString(),
+                        Text = s.Name
+                    }).ToListAsync(),
 
-                Doctors = _context.Doctors
-                                .Where(d => d.SpecialistId == specialistId)
-                                .Select(d => new SelectListItem
-                                {
-                                    Value = d.Id.ToString(),
-                                    Text = d.Name + " " + d.Surname
-                                }).ToList()
+                Doctors = await _context.Doctors
+                    .Where(d => d.SpecialistId == specialistId)
+                    .Select(d => new SelectListItem
+                    {
+                        Value = d.Id.ToString(),
+                        Text = d.Name + " " + d.Surname
+                    }).ToListAsync()
             };
 
             return View(vm);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Update(UpdateAppointmentVM vm)
         {
             if (!ModelState.IsValid)
             {
-                vm.Specialists = await _context.Specialists
-                    .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name })
-                    .ToListAsync();
-
-                vm.Doctors = await _context.Doctors
-                    .Where(d => d.SpecialistId == vm.SpecialistId)
-                    .Select(d => new SelectListItem
-                    {
-                        Value = d.Id.ToString(),
-                        Text = d.Name + " " + d.Surname
-                    }).ToListAsync();
-
+                await LoadDropdowns(vm);
                 return View(vm);
             }
 
             Appointment? appointment = await _context.Appointments
-                .Include(a => a.Doctor)
                 .FirstOrDefaultAsync(a => a.Id == vm.AppointmentId);
 
             if (appointment == null) return NotFound();
@@ -410,6 +437,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             if (!TimeSpan.TryParse(vm.Time, out TimeSpan parsedTime))
             {
                 ModelState.AddModelError("Time", "Saat formatı yanlışdır.");
+                await LoadDropdowns(vm);
                 return View(vm);
             }
 
@@ -422,18 +450,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             if (isConflict)
             {
                 ModelState.AddModelError(string.Empty, "Bu tarix və saatda artıq təyinat var.");
-                vm.Specialists = await _context.Specialists
-                    .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name })
-                    .ToListAsync();
-
-                vm.Doctors = await _context.Doctors
-                    .Where(d => d.SpecialistId == vm.SpecialistId)
-                    .Select(d => new SelectListItem
-                    {
-                        Value = d.Id.ToString(),
-                        Text = d.Name + " " + d.Surname
-                    }).ToListAsync();
-
+                await LoadDropdowns(vm);
                 return View(vm);
             }
 
@@ -446,6 +463,23 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             return RedirectToAction(nameof(List));
         }
 
+        private async Task LoadDropdowns(UpdateAppointmentVM vm)
+        {
+            vm.Specialists = await _context.Specialists
+                .Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Name
+                }).ToListAsync();
+
+            vm.Doctors = await _context.Doctors
+                .Where(d => d.SpecialistId == vm.SpecialistId)
+                .Select(d => new SelectListItem
+                {
+                    Value = d.Id.ToString(),
+                    Text = d.Name + " " + d.Surname
+                }).ToListAsync();
+        }
 
         [HttpPost]
         public async Task<IActionResult> DeleteSelected(List<int> selectedIds)

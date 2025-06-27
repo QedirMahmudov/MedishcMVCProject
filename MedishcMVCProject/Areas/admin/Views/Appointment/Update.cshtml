@@ -20,8 +20,9 @@
 
                             <div class="col-xxl-3 col-lg-4 col-sm-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Specialist</label>
-                                    <select asp-for="SpecialistId" asp-items="Model.Specialists" class="form-select" disabled>
+                                    <label asp-for="SpecialistId" class="form-label">Specialist</label>
+                                    <select asp-for="SpecialistId" asp-items="Model.Specialists" class="form-select" id="specialistSelect">
+                                        <option value="">-- Select Specialist --</option>
                                     </select>
                                     <span asp-validation-for="SpecialistId" class="text-danger"></span>
                                 </div>
@@ -30,8 +31,12 @@
                             <div class="col-xxl-3 col-lg-4 col-sm-6">
                                 <div class="mb-3">
                                     <label asp-for="DoctorId" class="form-label">Doctor</label>
-                                    <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-select" id="doctorSelect">
+                                    <select asp-for="DoctorId" class="form-select" id="doctorSelect">
                                         <option value="">-- Select Doctor --</option>
+                                        @foreach (var doctor in Model.Doctors)
+                                        {
+                                            <option value="@doctor.Value" selected="@(doctor.Value == Model.DoctorId.ToString())">@doctor.Text</option>
+                                        }
                                     </select>
                                     <span asp-validation-for="DoctorId" class="text-danger"></span>
                                 </div>
@@ -50,7 +55,6 @@
                                     <label asp-for="Time" class="form-label"></label>
                                     <select asp-for="Time" class="form-select" id="timeSelect">
                                         <option value="">-- Select Time --</option>
-                                        @* Saat slotları AJAX-la yüklənəcək *@
                                     </select>
                                     <span asp-validation-for="Time" class="text-danger"></span>
                                 </div>
@@ -83,6 +87,28 @@
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
     <script>
+        function loadDoctors() {
+            const specialistId = $('#specialistSelect').val();
+            const doctorSelect = $('#doctorSelect');
+            const selectedDoctorId = '@Model.DoctorId';
+
+            if (!specialistId) return;
+
+            $.get('@Url.Action("GetDoctorsBySpecialist", "Appointment", new { area = "Admin" })', { specialistId }, function (data) {
+                doctorSelect.empty().append($('<option>', { value: '', text: '-- Select Doctor --' }));
+
+                $.each(data, function (i, item) {
+                    doctorSelect.append($('<option>', {
+                        value: item.value,
+                        text: item.text,
+                        selected: item.value === selectedDoctorId
+                    }));
+                });
+
+                doctorSelect.trigger('change');
+            });
+        }
+
         function loadAvailableTimes() {
             const doctorId = $('#doctorSelect').val();
             const date = $('input[name="Date"]').val();
@@ -101,25 +127,23 @@
                 data: { doctorId: doctorId, date: date },
                 success: function (data) {
                     timeSelect.empty();
-
-                    let hasSelectedTime = false;
-                    const selectedTime = "@Model.Time";
+                    const selectedTime = '@(Model.Time?.Trim() ?? "")';
+                    let found = false;
 
                     $.each(data, function (i, time) {
                         const isSelected = time === selectedTime;
-                        if (isSelected) hasSelectedTime = true;
-
                         timeSelect.append($('<option>', {
                             value: time,
                             text: time,
                             selected: isSelected
                         }));
+                        if (isSelected) found = true;
                     });
 
-                    if (!hasSelectedTime && selectedTime) {
+                    if (!found && selectedTime) {
                         timeSelect.prepend($('<option>', {
                             value: selectedTime,
-                            text: selectedTime,
+                            text: selectedTime + ' (Keçmiş vaxt)',
                             selected: true
                         }));
                     }
@@ -141,10 +165,15 @@
         }
 
         $(document).ready(function () {
+            $('#specialistSelect').change(function () {
+                loadDoctors();
+                $('#timeSelect').empty();
+            });
+
             $('#doctorSelect').change(loadAvailableTimes);
             $('input[name="Date"]').change(loadAvailableTimes);
 
-            loadAvailableTimes();
+            loadDoctors(); 
         });
     </script>
 }

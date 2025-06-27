@@ -384,6 +384,7 @@ wwwroot\assets\images\team\full\75f8191c-55e3-4c41-ba35-c68e163e0ee3.jpg
 wwwroot\assets\images\team\full\7c140a33-1db8-4f90-b9f8-e30e42abacf4.png
 wwwroot\assets\images\team\full\81f8d0e9-8b8d-415f-9c21-6159d0f95ca3.png
 wwwroot\assets\images\team\full\87be2bac-4fee-48b0-a897-02158c4d36b1.png
+wwwroot\assets\images\team\full\8a51d9c5-7ea2-46f3-8fe9-d215d4b7dca6.png
 wwwroot\assets\images\team\full\91dbf0c9-4edd-4697-baf6-61301144e260.jpg
 wwwroot\assets\images\team\full\a9341b93-c1af-4eeb-a074-bfc5b054434e.png
 wwwroot\assets\images\team\full\b3aa39a0-3f63-42e3-87e3-364cae11fffd.jpg
