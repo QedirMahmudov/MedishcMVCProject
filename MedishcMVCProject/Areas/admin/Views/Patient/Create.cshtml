@@ -59,6 +59,19 @@
                                         </div>
                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                             <div class="mb-3">
+                                                <label class="form-label" asp-for="DoctorEmail">Doctor Email <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="ri-mail-line"></i>
+                                                    </span>
+                                                    <input type="email" asp-for="DoctorEmail" class="form-control" placeholder="Enter doctor's email" />
+                                                </div>
+                                                <span class="text-danger" asp-validation-for="DoctorEmail"></span>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                            <div class="mb-3">
                                                 <label class="form-label" asp-for="Age">Age <span class="text-danger">*</span></label>
                                                 <div class="input-group">
                                                     <span class="input-group-text">

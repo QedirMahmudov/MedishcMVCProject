@@ -4,8 +4,10 @@ using MedishcMVCProject.Utilities;
 using MedishcMVCProject.Utilities.Extensions;
 using MedishcMVCProject.Utilities.Helpers;
 using MedishcMVCProject.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace MedishcMVCProject.Areas.admin.Controllers
 {
@@ -14,34 +16,70 @@ namespace MedishcMVCProject.Areas.admin.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
+        private readonly UserManager<AppUser> _userManager;
 
-        public PatientController(AppDbContext context, IWebHostEnvironment env)
+        public PatientController(AppDbContext context, IWebHostEnvironment env, UserManager<AppUser> userManager)
         {
             _context = context;
             _env = env;
+            _userManager = userManager;
         }
-        public IActionResult List(string patientName = null, string disease = null, string bloodgroup = null)
+        public async Task<IActionResult> List(string patientName = null, string disease = null, string bloodgroup = null)
         {
-            List<GetPatientVM> patients = _context.Patients
-         .Include(x => x.BloodGroup)
-         .Include(x => x.Disease)
-         .Select(p => new GetPatientVM
-         {
-             Id = p.Id,
-             Name = p.Name,
-             Surname = p.Surname,
-             Image = p.Image,
-             Age = p.Age,
-             MainDescription = p.MainDescription,
-             BloodName = p.BloodGroup.Name,
-             DiseaseName = p.Disease.Name,
-             GenderName = p.Gender.ToString()
-         }).ToList();
+            List<GetPatientVM> patients;
 
-            List<ContactInfo>? contactInfos = _context.ContactInfos
-                                        .Where(c => c.OwnerType == OwnerType.Patient &&
-                                                   (c.ContactType == ContactType.Email || c.ContactType == ContactType.Phone))
-                                        .ToList();
+            if (User.IsInRole("Doctor"))
+            {
+                string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                Doctor? doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.AppUserId == userId);
+                if (doctor == null) return Unauthorized();
+
+                var appointmentPatientIds = await _context.Appointments
+                    .Where(a => a.DoctorId == doctor.Id)
+                    .Select(a => a.PatientId)
+                    .Distinct()
+                    .ToListAsync();
+
+                patients = await _context.Patients
+                    .Where(p => p.DoctorId == doctor.Id || appointmentPatientIds.Contains(p.Id))
+                    .Include(p => p.BloodGroup)
+                    .Include(p => p.Disease)
+                    .Select(p => new GetPatientVM
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Surname = p.Surname,
+                        Image = p.Image,
+                        Age = p.Age,
+                        MainDescription = p.MainDescription,
+                        BloodName = p.BloodGroup.Name,
+                        DiseaseName = p.Disease.Name,
+                        GenderName = p.Gender.ToString()
+                    }).ToListAsync();
+            }
+            else
+            {
+                patients = await _context.Patients
+                    .Include(p => p.BloodGroup)
+                    .Include(p => p.Disease)
+                    .Select(p => new GetPatientVM
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Surname = p.Surname,
+                        Image = p.Image,
+                        Age = p.Age,
+                        MainDescription = p.MainDescription,
+                        BloodName = p.BloodGroup.Name,
+                        DiseaseName = p.Disease.Name,
+                        GenderName = p.Gender.ToString()
+                    }).ToListAsync();
+            }
+
+            List<ContactInfo> contactInfos = await _context.ContactInfos
+                .Where(c => c.OwnerType == OwnerType.Patient &&
+                           (c.ContactType == ContactType.Email || c.ContactType == ContactType.Phone))
+                .ToListAsync();
 
             foreach (GetPatientVM patient in patients)
             {
@@ -51,19 +89,8 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 ContactInfo? phoneContact = contacts.FirstOrDefault(c => c.ContactType == ContactType.Phone);
 
                 patient.Email = emailContact?.Value;
-
-                //                             birnece neticeni eyni anda qaytarmaqa yarayir OUT.
-                if (int.TryParse(phoneContact?.Value, out int phone))
-                {
-                    patient.PhoneNumber = phone;
-                }
-                else
-                {
-                    patient.PhoneNumber = 0;
-                }
+                patient.PhoneNumber = int.TryParse(phoneContact?.Value, out int phone) ? phone : 0;
             }
-
-
 
             patients = Helpers.FilterByText(patients, p => p.Name + " " + p.Surname, patientName);
             patients = Helpers.FilterByText(patients, p => p.DiseaseName, disease);
@@ -71,8 +98,6 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             return View(patients);
         }
-
-
         public async Task<IActionResult> Profile(int? id)
         {
             if (id is null || id <= 0) return BadRequest();
@@ -120,7 +145,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             CreatePatientVM patientVM = new CreatePatientVM()
             {
                 BloodGroups = await _context.BloodGroups.ToListAsync(),
-                Diseases = await _context.Diseases.ToListAsync()
+                Diseases = await _context.Diseases.ToListAsync(),
             };
 
             return View(patientVM);
@@ -140,6 +165,29 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             {
                 ModelState.AddModelError(nameof(patientVM.Surname), "Surname cannot contain digits");
             }
+
+
+            AppUser? doctorUser = await _userManager.FindByEmailAsync(patientVM.DoctorEmail);
+            if (doctorUser == null)
+            {
+                ModelState.AddModelError(nameof(patientVM.DoctorEmail), "Doctor with this email was not found.");
+                patientVM.Doctors = await _context.Doctors.ToListAsync();
+                patientVM.BloodGroups = await _context.BloodGroups.ToListAsync();
+                patientVM.Diseases = await _context.Diseases.ToListAsync();
+                return View(patientVM);
+            }
+
+            Doctor? doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.AppUserId == doctorUser.Id);
+            if (doctor == null)
+            {
+                ModelState.AddModelError(nameof(patientVM.DoctorEmail), "No doctor found linked to this email.");
+                patientVM.Doctors = await _context.Doctors.ToListAsync();
+                patientVM.BloodGroups = await _context.BloodGroups.ToListAsync();
+                patientVM.Diseases = await _context.Diseases.ToListAsync();
+                return View(patientVM);
+            }
+
+
 
             if (!ModelState.IsValid)
             {
@@ -228,6 +276,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 MainDescription = patientVM.MainDescription,
                 BloodGroupId = patientVM.BloodGroupId.Value,
                 DiseaseId = patientVM.DiseaseId.Value,
+                DoctorId = doctor.Id
             };
 
 
