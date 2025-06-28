@@ -37,7 +37,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                     .Include(a => a.Doctor)
                     .ToListAsync();
             }
-            else if (User.IsInRole(nameof(UserRole.Doctor)))
+            else if (User.IsInRole("Doctor") || User.IsInRole("HeadDoctor"))
             {
                 Doctor? doctor = await _context.Doctors
                     .FirstOrDefaultAsync(d => d.AppUserId == user.Id);
@@ -57,31 +57,51 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             return View(appointments);
         }
+        public async Task<IActionResult> Details(int id)
+        {
+            Appointment? appointment = await _context.Appointments
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (appointment is null) return NotFound();
+
+
+            return RedirectToAction("Profile", "Patient", new { area = "Admin", id = appointment.PatientId });
+        }
         public async Task<IActionResult> List(string patientName = null, string doctorName = null, string department = null, string time = null)
         {
             DateTime now = DateTime.Now;
             DateTime today = now.Date;
             TimeSpan currentTime = now.TimeOfDay;
 
-            List<Appointment> expiredAppointments = await _context.Appointments
+            List<Appointment>? expiredAppointments = await _context.Appointments
                 .Where(a => !a.IsDeleted &&
-                           (a.Date.Date < today ||
-                            (a.Date.Date == today && a.Time < currentTime)))
+                           (a.Date < today || (a.Date == today && a.Time < currentTime)))
                 .ToListAsync();
 
             foreach (var item in expiredAppointments)
-            {
                 item.IsDeleted = true;
-            }
 
             if (expiredAppointments.Any())
                 await _context.SaveChangesAsync();
 
-            List<GetAppointmentVM> appointments = await _context.Appointments
+            IQueryable<Appointment> query = _context.Appointments
                 .Include(a => a.Patient)
                 .Include(a => a.Doctor)
                     .ThenInclude(d => d.Specialist)
-                .Where(a => !a.IsDeleted)
+                .Where(a => !a.IsDeleted);
+
+            if (User.IsInRole("Doctor") || User.IsInRole("HeadDoctor"))
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.AppUserId == user.Id);
+
+                if (doctor == null)
+                    return NotFound("Doctor profile not found.");
+
+                query = query.Where(a => a.DoctorId == doctor.Id);
+            }
+
+            var appointments = await query
                 .OrderBy(a => a.Date)
                 .ThenBy(a => a.Time)
                 .Select(a => new GetAppointmentVM
@@ -125,12 +145,30 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAvailableTimes(int doctorId, DateTime date)
+        public async Task<IActionResult> GetAvailableTimes(int? doctorId, string? doctorEmail, DateTime date)
         {
+            Doctor? doctor = null;
+
+            if (doctorId.HasValue)
+            {
+                doctor = await _context.Doctors.FindAsync(doctorId.Value);
+            }
+            else if (!string.IsNullOrWhiteSpace(doctorEmail))
+            {
+                AppUser? user = await _userManager.FindByEmailAsync(doctorEmail.Trim());
+                if (user != null)
+                {
+                    doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.AppUserId == user.Id);
+                }
+            }
+
+            if (doctor == null)
+                return Json(new List<string>());
+
             DayOfWeekEnum dayOfWeek = (DayOfWeekEnum)date.DayOfWeek;
 
-            WorkingHours? workingHour = await _context.WorkingHours
-                .FirstOrDefaultAsync(x => x.DoctorId == doctorId && x.DayOfWeek == dayOfWeek);
+            var workingHour = await _context.WorkingHours
+                .FirstOrDefaultAsync(x => x.DoctorId == doctor.Id && x.DayOfWeek == dayOfWeek);
 
             if (workingHour == null || !workingHour.OpenTime.HasValue || !workingHour.CloseTime.HasValue)
             {
@@ -140,14 +178,14 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             var timeSlots = new List<string>();
             var time = workingHour.OpenTime.Value;
 
-            while (time <= workingHour.CloseTime.Value)
+            while (time < workingHour.CloseTime.Value)
             {
                 timeSlots.Add(time.ToString(@"hh\:mm"));
                 time = time.Add(TimeSpan.FromMinutes(30));
             }
 
             var bookedTimes = await _context.Appointments
-                .Where(a => a.DoctorId == doctorId && a.Date.Date == date.Date)
+                .Where(a => a.DoctorId == doctor.Id && a.Date.Date == date.Date)
                 .Select(a => a.Time.ToString(@"hh\:mm"))
                 .ToListAsync();
 
@@ -155,7 +193,6 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             return Json(availableSlots);
         }
-
 
         public async Task<IActionResult> GetCalendarEvents()
         {
@@ -170,13 +207,12 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 .Include(x => x.Doctor)
                 .Where(x => x.Date.Date >= today);
 
-            if (User.IsInRole("Doctor"))
+            if (User.IsInRole("Doctor") || User.IsInRole("HeadDoctor"))
             {
                 Doctor? doctor = await _context.Doctors
                     .FirstOrDefaultAsync(d => d.AppUserId == user.Id);
 
                 if (doctor is null) return NotFound();
-
 
                 query = query.Where(x => x.DoctorId == doctor.Id);
             }
@@ -188,7 +224,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 id = x.Id,
                 title = $"{x.Time:hh\\:mm} - {x.Patient.Name} {x.Patient.Surname}",
                 start = $"{x.Date:yyyy-MM-dd}T{x.Time}",
-                url = $"/Appointments/Details/{x.Id}"
+                url = $"/Admin/Appointment/Details/{x.Id}"
             });
 
             return Json(events);
@@ -269,110 +305,133 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
 
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            CreateAppointmentVM appointmentVM = new CreateAppointmentVM
+            CreateAppointmentVM appointmentVM = new CreateAppointmentVM();
+
+            if (User.IsInRole("Admin"))
             {
-                Specialists = _context.Specialists
-                    .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name }).ToList(),
-                Doctors = new List<SelectListItem>()
-            };
+                appointmentVM.Specialists = await _context.Specialists
+                    .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name })
+                    .ToListAsync();
+                appointmentVM.Doctors = new List<SelectListItem>();
+            }
 
             return View(appointmentVM);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateAppointmentVM appointmentVM)
+        public async Task<IActionResult> Create(CreateAppointmentVM vm)
         {
-            if (appointmentVM.Date.Date < DateTime.Today)
+            Doctor? doctor = null;
+
+            if (User.IsInRole("Doctor"))
             {
-                ModelState.AddModelError(nameof(appointmentVM.Date), "Appointment date cannot be in the past.");
+                ModelState.Remove(nameof(vm.SpecialistId));
+                ModelState.Remove(nameof(vm.DoctorId));
+
+                AppUser user = await _userManager.GetUserAsync(User);
+                doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.AppUserId == user.Id);
+
+                if (doctor == null)
+                    ModelState.AddModelError("", "Your doctor profile was not found.");
             }
             else
             {
-                DayOfWeekEnum selectedDay = (DayOfWeekEnum)appointmentVM.Date.DayOfWeek;
-
-                var doctorWorkingHour = await _context.WorkingHours
-                    .FirstOrDefaultAsync(h => h.DoctorId == appointmentVM.DoctorId && h.DayOfWeek == selectedDay);
-
-                if (doctorWorkingHour == null)
-                {
-                    ModelState.AddModelError("", "The selected doctor does not work on this day.");
-                }
-                else if (!TimeSpan.TryParse(appointmentVM.Time, out var selectedTime))
-                {
-                    ModelState.AddModelError(nameof(appointmentVM.Time), "Invalid time format.");
-                }
-                else if (selectedTime < doctorWorkingHour.OpenTime || selectedTime > doctorWorkingHour.CloseTime)
-                {
-                    string start = doctorWorkingHour.OpenTime.Value.ToString(@"hh\:mm");
-                    string end = doctorWorkingHour.CloseTime.Value.ToString(@"hh\:mm");
-                    ModelState.AddModelError(nameof(appointmentVM.Time), $"The doctor is available only between {start} and {end}.");
-                }
+                if (vm.DoctorId == null)
+                    ModelState.AddModelError(nameof(vm.DoctorId), "Please select a doctor.");
                 else
-                {
-                    bool isBooked = await _context.Appointments.AnyAsync(a =>
-                        a.DoctorId == appointmentVM.DoctorId &&
-                        a.Date == appointmentVM.Date &&
-                        a.Time == selectedTime);
+                    doctor = await _context.Doctors.FindAsync(vm.DoctorId.Value);
 
-                    if (isBooked)
-                    {
-                        ModelState.AddModelError(nameof(appointmentVM.Time), "The selected time is already booked.");
-                    }
-                }
+                if (doctor == null)
+                    ModelState.AddModelError(nameof(vm.DoctorId), "Doctor not found.");
             }
 
             ContactInfo? contact = await _context.ContactInfos
                 .FirstOrDefaultAsync(x => x.ContactType == ContactType.Email &&
-                                          x.Value == appointmentVM.Email &&
+                                          x.Value == vm.Email &&
                                           x.OwnerType == OwnerType.Patient);
 
             if (contact == null)
+                ModelState.AddModelError(nameof(vm.Email), "No patient found with the provided email.");
+
+            Patient? patient = contact != null ? await _context.Patients.FindAsync(contact.OwnerId) : null;
+
+            if (contact != null && patient == null)
+                ModelState.AddModelError(nameof(vm.Email), "Patient not found.");
+
+            if (vm.Date.Date < DateTime.Today)
             {
-                ModelState.AddModelError(nameof(appointmentVM.Email), "No patient found with the provided email.");
+                ModelState.AddModelError(nameof(vm.Date), "Appointment date cannot be in the past.");
             }
-            else
+
+            if (!TimeSpan.TryParse(vm.Time, out var selectedTime))
             {
-                Patient? patient = await _context.Patients.FindAsync(contact.OwnerId);
-                if (patient == null)
+                ModelState.AddModelError(nameof(vm.Time), "Invalid time format.");
+            }
+            else if (doctor != null)
+            {
+                DayOfWeekEnum selectedDay = (DayOfWeekEnum)vm.Date.DayOfWeek;
+
+                WorkingHours? workingHour = await _context.WorkingHours
+                    .FirstOrDefaultAsync(h => h.DoctorId == doctor.Id && h.DayOfWeek == selectedDay);
+
+                if (workingHour == null)
                 {
-                    ModelState.AddModelError(nameof(appointmentVM.Email), "Patient not found!");
+                    ModelState.AddModelError(nameof(vm.Time), "The doctor does not work on the selected day.");
+                }
+                else if (selectedTime < workingHour.OpenTime || selectedTime >= workingHour.CloseTime)
+                {
+                    string start = workingHour.OpenTime.Value.ToString(@"hh\:mm");
+                    string end = workingHour.CloseTime.Value.ToString(@"hh\:mm");
+                    ModelState.AddModelError(nameof(vm.Time), $"The doctor is available only between {start} and {end}.");
                 }
                 else
                 {
-                    if (ModelState.IsValid)
+                    bool isBooked = await _context.Appointments.AnyAsync(a =>
+                        a.DoctorId == doctor.Id &&
+                        a.Date == vm.Date &&
+                        a.Time == selectedTime);
+
+                    if (isBooked)
                     {
-                        var appointment = new Appointment
-                        {
-                            DoctorId = appointmentVM.DoctorId.Value,
-                            PatientId = patient.Id,
-                            Date = appointmentVM.Date,
-                            Time = TimeSpan.Parse(appointmentVM.Time),
-                            Description = appointmentVM.Description
-                        };
-
-                        _context.Appointments.Add(appointment);
-                        await _context.SaveChangesAsync();
-
-                        return RedirectToAction(nameof(List));
+                        ModelState.AddModelError(nameof(vm.Time), "The selected time is already booked.");
                     }
                 }
             }
 
-            appointmentVM.Specialists = _context.Specialists
-                .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name })
-                .ToList();
+            if (ModelState.IsValid)
+            {
+                var appointment = new Appointment
+                {
+                    DoctorId = doctor!.Id,
+                    PatientId = patient!.Id,
+                    Date = vm.Date,
+                    Time = selectedTime,
+                    Description = vm.Description
+                };
 
-            appointmentVM.Doctors = _context.Doctors
-                .Where(d => d.SpecialistId == appointmentVM.SpecialistId)
-                .Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name + " " + d.Surname })
-                .ToList();
+                _context.Appointments.Add(appointment);
+                await _context.SaveChangesAsync();
 
-            return View(appointmentVM);
+                return RedirectToAction(nameof(List));
+            }
+
+            if (User.IsInRole("Admin"))
+            {
+                vm.Specialists = await _context.Specialists
+                    .Select(s => new SelectListItem { Value = s.Id.ToString(), Text = s.Name })
+                    .ToListAsync();
+
+                vm.Doctors = await _context.Doctors
+                    .Where(d => d.SpecialistId == vm.SpecialistId)
+                    .Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Name + " " + d.Surname })
+                    .ToListAsync();
+            }
+
+            return View(vm);
         }
-
 
         public async Task<IActionResult> Update(int? id)
         {

@@ -14,7 +14,8 @@ namespace MedishcMVCProject.ViewModels
         public DateTime Date { get; set; }
         public string Time { get; set; } = null!;
         public string Description { get; set; }
-
+        [EmailAddress]
+        public string? DoctorEmail { get; set; }
         public List<SelectListItem>? Specialists { get; set; }
         public List<SelectListItem>? Doctors { get; set; }
     }

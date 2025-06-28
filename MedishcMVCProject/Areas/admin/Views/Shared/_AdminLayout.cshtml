@@ -352,17 +352,20 @@
 
                                 <!-- Messages list starts -->
                                 <div class="p-3">
-                                    <div class="d-flex py-2">
-                                        <img src="~/admin/images/user3.png" class="img-shadow img-3x me-3 rounded-5"
-                                             alt="Hospital Admin Templates">
-                                        <div class="m-0">
-                                            <h6 class="mb-1 fw-semibold">Nick Gonzalez</h6>
-                                            <p class="mb-1">
-                                                Appointed as a new President 2014-2025
-                                            </p>
-                                            <p class="small m-0 opacity-50">Today, 07:30pm</p>
+                                    @if (currentUser != null)
+                                    {
+                                        <div class="d-flex py-2">
+                                            <img src="@doctorImagePath" class="img-shadow img-3x me-3 rounded-5"
+                                                 alt="User Image">
+                                            <div class="m-0">
+                                                <h6 class="mb-1 fw-semibold">@fullName</h6>
+                                                <p class="mb-1">
+                                                    Role: @role
+                                                </p>
+                                                <p class="small m-0 opacity-50">@DateTime.Now.ToString("HH:mm tt") Today</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                     <div class="d-flex py-2">
                                         <img src="~/admin/images/user1.png" class="img-shadow img-3x me-3 rounded-5"
                                              alt="Hospital Admin Templates">
@@ -443,10 +446,10 @@
 
                 <!-- Sidebar profile starts -->
                 <div class="sidebar-profile">
-                    <img src="~/admin/images/user6.png" class="img-shadow img-3x me-3 rounded-5" alt="Hospital Admin Templates">
+                    <img src="@doctorImagePath" class="img-shadow img-3x me-3 rounded-5" alt="User Image">
                     <div class="m-0">
-                        <h5 class="mb-1 profile-name text-nowrap text-truncate">Nick Gonzalez</h5>
-                        <p class="m-0 small profile-name text-nowrap text-truncate">Dept Admin</p>
+                        <h5 class="mb-1 profile-name text-nowrap text-truncate">@fullName</h5>
+                        <p class="m-0 small profile-name text-nowrap text-truncate">@role</p>
                     </div>
                 </div>
                 <!-- Sidebar profile ends -->
@@ -570,13 +573,17 @@
                             </li>
                         }
 
-                        @if (User.IsInRole("Doctor"))
+                        @if (User.IsInRole("Doctor") || User.IsInRole("HeadDoctor"))
                         {
                             <li class="treeview">
-                                <a asp-controller="Appointment" asp-action="Appointments">
-                                    <i class="ri-calendar-check-line"></i>
-                                    <span class="menu-text">My Appointments</span>
+                                <a href="#!">
+                                    <i class="ri-dossier-line"></i>
+                                    <span class="menu-text">Appointments</span>
                                 </a>
+                                <ul class="treeview-menu">
+                                    <li><a asp-controller="Appointment" asp-action="Appointments">Appointments</a></li>
+                                    <li><a asp-controller="Appointment" asp-action="List">Appointments List</a></li>
+                                </ul>
                             </li>
                             <li class="treeview">
                                 <a asp-controller="Patient" asp-action="List">

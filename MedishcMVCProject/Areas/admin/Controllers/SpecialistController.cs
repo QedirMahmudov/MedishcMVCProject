@@ -3,6 +3,7 @@ using MedishcMVCProject.Models;
 using MedishcMVCProject.Utilities;
 using MedishcMVCProject.Utilities.Helpers;
 using MedishcMVCProject.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +13,12 @@ namespace MedishcMVCProject.Areas.admin.Controllers
     public class SpecialistController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public SpecialistController(AppDbContext context)
+        public SpecialistController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult List(string specialistName = null)
         {
@@ -88,10 +91,21 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                                 d.Name.ToLower() == name.ToLower() &&
                                 d.Surname.ToLower() == surname.ToLower());
 
-                        if (headDoctor == null)
+                        if (headDoctor is null)
                         {
                             ModelState.AddModelError(nameof(vm.HeadDoctorFullName), "Doctor not found with the given full name.");
                             return View(vm);
+                        }
+
+                        AppUser? appUser = await _userManager.FindByIdAsync(headDoctor.AppUserId);
+                        if (appUser != null)
+                        {
+                            var oldRoles = await _userManager.GetRolesAsync(appUser);
+                            if (oldRoles.Contains("Doctor"))
+                                await _userManager.RemoveFromRoleAsync(appUser, "Doctor");
+
+                            if (!oldRoles.Contains("HeadDoctor"))
+                                await _userManager.AddToRoleAsync(appUser, "HeadDoctor");
                         }
 
                         Specialist specialist = new Specialist
@@ -119,7 +133,6 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             return View(vm);
         }
-
 
         public async Task<IActionResult> Update(int? id)
         {
@@ -198,6 +211,17 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             {
                 ModelState.AddModelError(nameof(UpdateSpecialistVM.HeadDoctorFullName), "This doctor does not exist in the system.");
                 return View(specialistVM);
+            }
+
+            AppUser? appUser = await _userManager.FindByIdAsync(existingDoctor.AppUserId);
+            if (appUser != null)
+            {
+                var oldRoles = await _userManager.GetRolesAsync(appUser);
+                if (oldRoles.Contains("Doctor"))
+                    await _userManager.RemoveFromRoleAsync(appUser, "Doctor");
+
+                if (!oldRoles.Contains("HeadDoctor"))
+                    await _userManager.AddToRoleAsync(appUser, "HeadDoctor");
             }
 
             specialist.HeadDoctorId = existingDoctor.Id;

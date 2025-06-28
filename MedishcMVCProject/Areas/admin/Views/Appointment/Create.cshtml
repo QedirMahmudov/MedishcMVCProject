@@ -1,7 +1,6 @@
 ﻿@model CreateAppointmentVM
 
 <form asp-action="Create" method="post">
-
     <div class="app-body">
         <div class="row gx-3">
             <div class="col-sm-12">
@@ -12,37 +11,53 @@
                     </div>
                     <div class="card-body">
                         <div class="row gx-3">
+                            <!-- Patient Email -->
                             <div class="col-xxl-3 col-lg-4 col-sm-6">
                                 <div class="mb-3">
                                     <label asp-for="Email" class="form-label"></label>
-                                    <input asp-for="Email" class="form-control" placeholder="Enter email address" />
+                                    <input asp-for="Email" class="form-control" placeholder="Enter patient's email address" />
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                             </div>
 
-                           
-
-                            <div class="col-xxl-3 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label asp-for="SpecialistId" class="form-label">Specialist</label>
-                                    <select asp-for="SpecialistId" asp-items="Model.Specialists" class="form-select" id="specialistSelect">
-                                        <option value="">-- Select Specialist --</option>
-                                    </select>
-                                    <span asp-validation-for="SpecialistId" class="text-danger"></span>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <!-- Specialist Dropdown -->
+                                <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                    <div class="mb-3">
+                                        <label asp-for="SpecialistId" class="form-label">Specialist</label>
+                                        <select asp-for="SpecialistId" asp-items="Model.Specialists" class="form-select" id="specialistSelect">
+                                            <option value="">-- Select Specialist --</option>
+                                        </select>
+                                        <span asp-validation-for="SpecialistId" class="text-danger"></span>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-xxl-3 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label asp-for="DoctorId" class="form-label">Doctor</label>
-                                    <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-select" id="doctorSelect">
-                                        <option value="">-- Select Specialist First --</option>
-                                    </select>
-                                    <span asp-validation-for="DoctorId" class="text-danger"></span>
+                                <!-- Doctor Dropdown -->
+                                <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                    <div class="mb-3">
+                                        <label asp-for="DoctorId" class="form-label">Doctor</label>
+                                        <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-select" id="doctorSelect">
+                                            <option value="">-- Select Specialist First --</option>
+                                        </select>
+                                        <span asp-validation-for="DoctorId" class="text-danger"></span>
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <!-- Doctor Email Input for Doctor role -->
+                                <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                    <div class="mb-3">
+                                        <label asp-for="DoctorEmail" class="form-label">Doctor Email</label>
+                                        <input asp-for="DoctorEmail" class="form-control" placeholder="Enter your email address" />
+                                        <span asp-validation-for="DoctorEmail" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            }
 
-                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                            <!-- Date Picker -->
+                             <div class="col-xxl-3 col-lg-4 col-sm-6">
                                 <div class="mb-3">
                                     <label asp-for="Date" class="form-label"></label>
                                     <input asp-for="Date" class="form-control" type="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
@@ -50,6 +65,7 @@
                                 </div>
                             </div>
 
+                            <!-- Time Dropdown -->
                             <div class="col-xxl-3 col-lg-4 col-sm-6">
                                 <div class="mb-3">
                                     <label asp-for="Time" class="form-label"></label>
@@ -60,6 +76,7 @@
                                 </div>
                             </div>
 
+                            <!-- Description -->
                             <div class="col-sm-12">
                                 <div class="mb-3">
                                     <label asp-for="Description" class="form-label"></label>
@@ -68,6 +85,7 @@
                                 </div>
                             </div>
 
+                            <!-- Submit buttons -->
                             <div class="col-sm-12">
                                 <div class="d-flex gap-2 justify-content-end">
                                     <a asp-action="List" class="btn btn-outline-secondary">Cancel</a>
@@ -87,18 +105,23 @@
 
     <script>
         function loadAvailableTimes() {
-            var doctorId = $('#doctorSelect').val();
+            var doctorId = $('#doctorSelect').val(); 
+            var doctorEmail = $('input[name="DoctorEmail"]').val(); 
             var date = $('input[name="Date"]').val();
             var timeSelect = $('#timeSelect');
             timeSelect.empty();
 
-            if (doctorId && date) {
+            if ((doctorId || doctorEmail) && date) {
                 timeSelect.append($('<option>', { value: '', text: 'Loading...' }));
 
                 $.ajax({
                     url: '@Url.Action("GetAvailableTimes", "Appointment", new { area = "Admin" })',
                     type: 'GET',
-                    data: { doctorId: doctorId, date: date },
+                    data: {
+                        doctorId: doctorId,
+                        doctorEmail: doctorEmail,
+                        date: date
+                    },
                     success: function (data) {
                         timeSelect.empty();
                         timeSelect.append($('<option>', { value: '', text: '-- Select Time --' }));
@@ -156,9 +179,9 @@
                 }
             });
 
-            // Ayrı-ayrı dəyişmələr üçün çağır:
-            $('#doctorSelect').change(loadAvailableTimes);
-            $('input[name="Date"]').change(loadAvailableTimes);
+            $('#doctorSelect').change(loadAvailableTimes);          
+            $('input[name="DoctorEmail"]').on('change blur keyup', loadAvailableTimes); 
+            $('input[name="Date"]').change(loadAvailableTimes);     
         });
     </script>
 }
