@@ -1,4 +1,6 @@
-﻿<section class="page-title page-title-blank bg-white" id="page-title">
+﻿@model List<CartItemVM>
+
+<section class="page-title page-title-blank bg-white" id="page-title">
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-6">
@@ -9,103 +11,275 @@
                         <li class="breadcrumb-item active" aria-current="page">Cart</li>
                     </ol>
                 </div>
-                <!-- End .title -->
             </div>
-            <!-- End .col-lg-8-->
         </div>
-        <!-- End .row-->
     </div>
-    <!-- End .container-->
 </section>
-<!-- End #page-title-->
-<!--
-============================
-Shop Cart Section
-============================
--->
+
 <section class="shop shop-cart bg-white" id="shopcart">
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="cart-table table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr class="cart-product">
-                                <th class="cart-product-item">Product</th>
-                                <th class="cart-product-price">Price</th>
-                                <th class="cart-product-quantity">Quantity</th>
-                                <th class="cart-product-total">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="cart-product">
-                                <td class="cart-product-item">
-                                    <div class="cart-product-remove"><img src="~/assets/images/shop/cross.png" alt="icon" /></div>
-                                    <div class="cart-product-img"><img src="~/assets/images/shop/thumb/1.png" alt="product" /></div>
-                                    <div class="cart-product-name">
-                                        <h6>natural cacao powder</h6>
-                                    </div>
-                                </td>
-                                <td class="cart-product-price">$ 10.00</td>
-                                <td class="cart-product-quantity">
-                                    <div class="product-quantity">
-                                        <input class="pro-qunt" type="text" value="2" readonly="" data-max="10" data-min="1" data-step="1" /><span><a class="minus" href="javascript:void(0)"><i class="fa fa-minus"></i></a><a class="plus" href="javascript:void(0)"><i class="fa fa-plus"></i></a></span>
-                                    </div>
-                                </td>
-                                <td class="cart-product-total">$ 10.00</td>
-                            </tr>
-                            <tr class="cart-product">
-                                <td class="cart-product-item">
-                                    <div class="cart-product-remove"><img src="~/assets/images/shop/cross.png" alt="icon" /></div>
-                                    <div class="cart-product-img"><img src="~/assets/images/shop/thumb/2.png" alt="product" /></div>
-                                    <div class="cart-product-name">
-                                        <h6>bioteen complex</h6>
-                                    </div>
-                                </td>
-                                <td class="cart-product-price">$ 39.00</td>
-                                <td class="cart-product-quantity">
-                                    <div class="product-quantity">
-                                        <input class="pro-qunt" type="text" value="2" readonly="" data-max="10" data-min="1" data-step="1" /><span><a class="minus" href="javascript:void(0)"><i class="fa fa-minus"></i></a><a class="plus" href="javascript:void(0)"><i class="fa fa-plus"></i></a></span>
-                                    </div>
-                                </td>
-                                <td class="cart-product-total">$ 39.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
+        @if (Model != null && Model.Any())
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div class="cart-table table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr class="cart-product">
+                                    <th class="cart-product-item">Product</th>
+                                    <th class="cart-product-price">Price</th>
+                                    <th class="cart-product-quantity">Quantity</th>
+                                    <th class="cart-product-total">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="cart-product" data-id="@item.ProductId" data-price="@item.Price">
+                                        <td class="cart-product-item">
+                                            <div class="cart-product-remove">
+                                                <img src="~/assets/images/shop/cross.png" alt="Remove" style="cursor: pointer;" />
+                                            </div>
+                                            <div class="cart-product-img">
+                                                <img src="/assets/images/shop/thumb/@item.ImageUrl" alt="product" />
+                                            </div>
+                                            <div class="cart-product-name">
+                                                <h6>@item.ProductName</h6>
+                                            </div>
+                                        </td>
+                                        <td class="cart-product-price">$@item.Price</td>
+                                        <td class="cart-product-quantity">
+                                            <div class="product-quantity">
+                                                <input class="pro-qunt" type="text" value="@item.Quantity" readonly="" data-max="10" data-min="1" data-step="1" />
+                                                <span>
+                                                    <a class="minus" href="javascript:void(0)"><i class="fa fa-minus"></i></a>
+                                                    <a class="plus" href="javascript:void(0)"><i class="fa fa-plus"></i></a>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="cart-product-total">$@item.Total</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <!-- .cart-table end-->
-            </div>
-            <!-- End .col-lg-12-->
-            <div class="col-12">
-                <div class="cart-product-action">
-                    <form class="form-inline">
-                        <input class="form-control" id="coupon" type="text" placeholder="Coupon Code" />
-                        <button class="btn btn--secondary btn-radius-right" type="submit">Apply Coupon</button>
-                    </form>
-                    <div><a class="btn btn--secondary btn-radius-right" href="#">update cart</a><a class="btn btn--secondary btn-radius-right" asp-action="Checkout">Checkout</a></div>
+
+                <div class="col-12">
+                    <div class="cart-product-action">
+                        <form class="form-inline">
+                            <input class="form-control" id="coupon" type="text" placeholder="Coupon Code" />
+                            <button class="btn btn--secondary btn-radius-right" type="submit">Apply Coupon</button>
+                        </form>
+                        <div>
+                            <button class="btn btn--secondary btn-radius-right" id="update-cart-btn">Update Cart</button>
+                            <a class="btn btn--primary btn-radius-right" asp-action="Checkout">Checkout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="cart-total-amount">
+                        <h5>Cart Totals:</h5>
+                        <table class="table">
+                            <tbody>
+                                @{
+                                    var subtotal = Model.Sum(x => x.Total);
+                                }
+                                <tr>
+                                    <td class="head">Subtotal</td>
+                                    <td id="subtotal-amount">$@subtotal.ToString("F2")</td>
+                                </tr>
+                                <tr>
+                                    <td class="head">Total</td>
+                                    <td class="amount" id="total-amount">$@subtotal.ToString("F2")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a class="btn btn--primary btn-radius-right" asp-controller="Shop" asp-action="Checkout">Proceed to Checkout</a>
+                    </div>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="cart-total-amount">
-                    <h5>Cart Totals :</h5>
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td class="head">Subtotal</td>
-                                <td>$140</td>
-                            </tr>
-                            <tr>
-                                <td class="head">total</td>
-                                <td class="amount">$140</td>
-                            </tr>
-                        </tbody>
-                    </table><a class="btn btn--secondary btn-radius-right" asp-action="Checkout">procced to checkout</a>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 text-center py-5">
+                    <div class="empty-cart">
+                        <i class="fa fa-shopping-cart fa-5x text-muted mb-4"></i>
+                        <h3>Your cart is empty</h3>
+                        <p class="text-muted">Looks like you haven't added anything to your cart yet.</p>
+                        <a class="btn btn--primary mt-3" asp-controller="Shop" asp-action="Index">Continue Shopping</a>
+                    </div>
                 </div>
-                <!-- .cart-total-amount end-->
             </div>
-            <!-- End .col-lg-6-->
-        </div>
-        <!-- End .row-->
+        }
     </div>
-    <!-- End .container-->
 </section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Anti-forgery token
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (settings.type === 'POST') {
+                        xhr.setRequestHeader("RequestVerificationToken", $('input[name="__RequestVerificationToken"]').val());
+                    }
+                }
+            });
+
+            // Update totals function
+            function updateTotals() {
+                let subtotal = 0;
+
+                $('.cart-product').each(function () {
+                    const quantity = parseInt($(this).find('.pro-qunt').val()) || 0;
+                    const price = parseFloat($(this).data('price')) || 0;
+                    const total = quantity * price;
+
+                    $(this).find('.cart-product-total').text('$' + total.toFixed(2));
+                    subtotal += total;
+                });
+
+                $('#subtotal-amount').text('$' + subtotal.toFixed(2));
+                $('#total-amount').text('$' + subtotal.toFixed(2));
+            }
+
+            // Plus button click
+            $('.plus').on('click', function (e) {
+                e.preventDefault();
+
+                const $input = $(this).closest('.product-quantity').find('.pro-qunt');
+                const $row = $(this).closest('.cart-product');
+                const productId = $row.data('id');
+                let value = parseInt($input.val()) || 0;
+                const max = parseInt($input.data('max')) || 10;
+
+                if (value < max) {
+                    value += 1;
+                    $input.val(value);
+                    updateTotals();
+                    updateCartOnServer(productId, value);
+                }
+            });
+
+            // Minus button click
+            $('.minus').on('click', function (e) {
+                e.preventDefault();
+
+                const $input = $(this).closest('.product-quantity').find('.pro-qunt');
+                const $row = $(this).closest('.cart-product');
+                const productId = $row.data('id');
+                let value = parseInt($input.val()) || 0;
+                const min = parseInt($input.data('min')) || 1;
+
+                if (value > min) {
+                    value -= 1;
+                    $input.val(value);
+                    updateTotals();
+                    updateCartOnServer(productId, value);
+                }
+            });
+
+            // Remove product from cart
+            $('.cart-product-remove img').on('click', function (e) {
+                e.preventDefault();
+
+                const $row = $(this).closest('.cart-product');
+                const productId = $row.data('id');
+
+                if (confirm('Are you sure you want to remove this item from your cart?')) {
+                    removeFromCart(productId, $row);
+                }
+            });
+
+            // Update cart quantity on server
+            function updateCartOnServer(productId, quantity) {
+                $.ajax({
+                    url: '@Url.Action("UpdateCartQuantity", "Shop")',
+                    type: 'POST',
+                    data: {
+                        productId: productId,
+                        quantity: quantity
+                    },
+                    success: function(response) {
+                        if (!response.success) {
+                            alert('Error updating cart: ' + response.message);
+                            location.reload();
+                        }
+                    },
+                    error: function() {
+                        alert('Error occurred while updating cart!');
+                        location.reload();
+                    }
+                });
+            }
+
+            // Remove item from cart
+            function removeFromCart(productId, $row) {
+                $.ajax({
+                    url: '@Url.Action("RemoveFromCart", "Shop")',
+                    type: 'POST',
+                    data: {
+                        id: productId
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $row.fadeOut(300, function() {
+                                $(this).remove();
+                                updateTotals();
+
+                                // If no items left, reload page to show empty cart
+                                if ($('.cart-product').length === 0) {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error occurred! Please try again.');
+                    }
+                });
+            }
+
+            // Update cart button
+            $('#update-cart-btn').on('click', function(e) {
+                e.preventDefault();
+
+                const cartData = [];
+                $('.cart-product').each(function() {
+                    const productId = $(this).data('id');
+                    const quantity = parseInt($(this).find('.pro-qunt').val()) || 0;
+
+                    cartData.push({
+                        productId: productId,
+                        quantity: quantity
+                    });
+                });
+
+                $.ajax({
+                    url: '@Url.Action("UpdateCart", "Shop")',
+                    type: 'POST',
+                    data: JSON.stringify(cartData),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Cart updated successfully!');
+                        } else {
+                            alert('Error updating cart: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error occurred while updating cart!');
+                    }
+                });
+            });
+
+            // Initialize totals
+            updateTotals();
+        });
+    </script>
+}

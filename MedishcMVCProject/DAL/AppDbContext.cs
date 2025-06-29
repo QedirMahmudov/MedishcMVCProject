@@ -1,4 +1,5 @@
 ﻿using MedishcMVCProject.Models;
+using MedishcMVCProject.Models.Pharmacy;
 using MedishcMVCProject.Utilities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,14 @@ namespace MedishcMVCProject.DAL
         public DbSet<Designation> Designations { get; set; }
         //Appointment
         public DbSet<Appointment> Appointments { get; set; }
+        //Pharmacy
+        public DbSet<Product> Products { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

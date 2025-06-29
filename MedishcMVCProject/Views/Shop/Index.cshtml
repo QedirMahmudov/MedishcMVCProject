@@ -1,7 +1,8 @@
-﻿@{
+﻿@using MedishcMVCProject.Models.Pharmacy
+@model List<Product>
+@{
     Layout = "_PharmacyLayout";
 }
-
 
 <section class="page-title bg-overlay bg-overlay-dark bg-parallax" id="page-title">
     <div class="bg-section"><img src="~/assets/images/page-titles/1.jpg" alt="Background" /></div>
@@ -58,159 +59,30 @@ Shop Products Section
                     <!-- End .col-lg-12-->
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="product-item" data-hover="">
-                            <div class="product-img">
-                                <a asp-controller="Shop" asp-action="ProductDetail"><img src="~/assets/images/shop/grid/1.jpg" alt="Product" /></a><a class="add-to-cart"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                                <div class="badge"></div>
+                    @foreach (var product in Model)
+                    {
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="product-item" data-hover="">
+                                <div class="product-img">
+                                    <a asp-action="ProductDetail" asp-route-id="@product.Id">
+                                        <img src="/assets/images/shop/grid/@product.ImageUrl" alt="@product.Name" />
+                                    </a>
+                                    <form asp-action="AddToCart" asp-controller="Shop" method="post" class="add-to-cart-form">
+                                        <input type="hidden" name="productId" value="@product.Id" />
+                                        <button type="submit" class="add-to-cart btn btn-sm btn-primary">
+                                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="product-content">
+                                    <div class="product-title">
+                                        <a asp-action="ProductDetail" asp-route-id="@product.Id">@product.Name</a>
+                                    </div>
+                                    <div class="product-price"><span>$@product.Price</span></div>
+                                </div>
                             </div>
-                            <!-- .product-img end-->
-                            <div class="product-content">
-                                <div class="product-title"><a href="shop-single.html">green tea</a></div>
-                                <!-- .product-title end-->
-                                <div class="product-price"><span>$15.00</span></div>
-                                <!-- .product-price end-->
-                            </div>
-                            <!-- .product-content end-->
                         </div>
-                        <!-- .product end-->
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="product-item" data-hover="">
-                            <div class="product-img">
-                                <a asp-action="ProductDetail"><img src="~/assets/images/shop/grid/1.jpg" alt="Product" /></a><a class="add-to-cart"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                                <div class="badge"></div>
-                            </div>
-                            <!-- .product-img end-->
-                            <div class="product-content">
-                                <div class="product-title"><a href="shop-single.html">biotin complex</a></div>
-                                <!-- .product-title end-->
-                                <div class="product-price"><span>$25.00</span></div>
-                                <!-- .product-price end-->
-                            </div>
-                            <!-- .product-content end-->
-                        </div>
-                        <!-- .product end-->
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="product-item" data-hover="">
-                            <div class="product-img">
-                                <a asp-action="ProductDetail"><img src="~/assets/images/shop/grid/1.jpg" alt="Product" /></a><a class="add-to-cart"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                                <div class="badge">new</div>
-                            </div>
-                            <!-- .product-img end-->
-                            <div class="product-content">
-                                <div class="product-title"><a href="shop-single.html">facial serum</a></div>
-                                <!-- .product-title end-->
-                                <div class="product-price"><span>$37.00</span></div>
-                                <!-- .product-price end-->
-                            </div>
-                            <!-- .product-content end-->
-                        </div>
-                        <!-- .product end-->
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="product-item" data-hover="">
-                            <div class="product-img">
-                                <a asp-action="ProductDetail"><img src="~/assets/images/shop/grid/1.jpg" alt="Product" /></a><a class="add-to-cart"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                                <div class="badge"></div>
-                            </div>
-                            <!-- .product-img end-->
-                            <div class="product-content">
-                                <div class="product-title"><a href="shop-single.html">calming herps</a></div>
-                                <!-- .product-title end-->
-                                <div class="product-price"><span>$10.00</span></div>
-                                <!-- .product-price end-->
-                            </div>
-                            <!-- .product-content end-->
-                        </div>
-                        <!-- .product end-->
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="product-item" data-hover="">
-                            <div class="product-img">
-                                <a asp-action="ProductDetail"><img src="~/assets/images/shop/grid/1.jpg" alt="Product" /></a><a class="add-to-cart"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                                <div class="badge"></div>
-                            </div>
-                            <!-- .product-img end-->
-                            <div class="product-content">
-                                <div class="product-title"><a href="shop-single.html">essential oil</a></div>
-                                <!-- .product-title end-->
-                                <div class="product-price"><span>$28.00</span></div>
-                                <!-- .product-price end-->
-                            </div>
-                            <!-- .product-content end-->
-                        </div>
-                        <!-- .product end-->
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="product-item" data-hover="">
-                            <div class="product-img">
-                                <a asp-action="ProductDetail"><img src="~/assets/images/shop/grid/1.jpg" alt="Product" /></a><a class="add-to-cart"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                                <div class="badge">sale</div>
-                            </div>
-                            <!-- .product-img end-->
-                            <div class="product-content">
-                                <div class="product-title"><a href="shop-single.html">natural cacao powder</a></div>
-                                <!-- .product-title end-->
-                                <div class="product-price"><span>$16.00</span></div>
-                                <!-- .product-price end-->
-                            </div>
-                            <!-- .product-content end-->
-                        </div>
-                        <!-- .product end-->
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="product-item" data-hover="">
-                            <div class="product-img">
-                                <a asp-action="ProductDetail"><img src="~/assets/images/shop/grid/1.jpg" alt="Product" /></a><a class="add-to-cart"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                                <div class="badge"></div>
-                            </div>
-                            <!-- .product-img end-->
-                            <div class="product-content">
-                                <div class="product-title"><a href="shop-single.html">natural gel</a></div>
-                                <!-- .product-title end-->
-                                <div class="product-price"><span>$24.00</span></div>
-                                <!-- .product-price end-->
-                            </div>
-                            <!-- .product-content end-->
-                        </div>
-                        <!-- .product end-->
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="product-item" data-hover="">
-                            <div class="product-img">
-                                <a asp-action="ProductDetail"><img src="~/assets/images/shop/grid/1.jpg" alt="Product" /></a><a class="add-to-cart"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                                <div class="badge"></div>
-                            </div>
-                            <!-- .product-img end-->
-                            <div class="product-content">
-                                <div class="product-title"><a href="shop-single.html">goji powder</a></div>
-                                <!-- .product-title end-->
-                                <div class="product-price"><span>$19.00</span></div>
-                                <!-- .product-price end-->
-                            </div>
-                            <!-- .product-content end-->
-                        </div>
-                        <!-- .product end-->
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <div class="product-item" data-hover="">
-                            <div class="product-img">
-                                <a asp-action="ProductDetail"><img src="~/assets/images/shop/grid/1.jpg" alt="Product" /></a><a class="add-to-cart"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                                <div class="badge"></div>
-                            </div>
-                            <!-- .product-img end-->
-                            <div class="product-content">
-                                <div class="product-title"><a href="shop-single.html">blood pressure</a></div>
-                                <!-- .product-title end-->
-                                <div class="product-price"><span>$34.00</span></div>
-                                <!-- .product-price end-->
-                            </div>
-                            <!-- .product-content end-->
-                        </div>
-                        <!-- .product end-->
-                    </div>
+                    }
                 </div>
                 <!-- End .row-->
             </div>

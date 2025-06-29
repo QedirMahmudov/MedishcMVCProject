@@ -1,4 +1,9 @@
-﻿<!doctype html>
+﻿@using MedishcMVCProject.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<!doctype html>
 <html dir="ltr" lang="en-us">
 
 <!-- mirrored from demo.zytheme.com/medisch/shop-products.html by httrack website copier/3.x [xr&co'2014], sat, 07 jun 2025 14:52:50 gmt -->
@@ -213,7 +218,7 @@
                                 </li>
                             </ul><span>total: <i class="total-price">$26.00</i></span>
                             <div class="cart--control">
-                                <button class="btn">view cart</button>
+                                <a asp-controller="Shop" asp-action="ViewCart">View Cart</a>
                             </div>
                         </div>
                     </div>
@@ -265,7 +270,25 @@
                             </ul>
                         </li>
                         <li class="nav-item" id="contact" data-hover=""><a asp-controller="Contact" asp-action="Index"><span>contact</span></a></li>
-
+                        <li class="nav-item has-dropdown">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                var user = await UserManager.GetUserAsync(User);
+                                <a class="dropdown-toggle" href="#">@user.Name @user.Surname</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a asp-controller="PharmacyAccount" asp-action="Profile">Profile</a></li>
+                                    <li class="nav-item"><a asp-controller="PharmacyAccount" asp-action="Logout">Logout</a></li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <a class="dropdown-toggle" href="#">Pharmacy</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a asp-controller="PharmacyAccount" asp-action="Login">Login</a></li>
+                                    <li class="nav-item"><a asp-controller="PharmacyAccount" asp-action="Register">Register</a></li>
+                                </ul>
+                            }
+                        </li>
                     </ul>
                     <div class="module-holder">
                         <!-- start .module-cart -->
@@ -292,7 +315,8 @@
                                     </li>
                                 </ul><span>total: <i class="total-price">$26.00</i></span>
                                 <div class="cart--control">
-                                    <button class="btn">view cart</button>
+                                    <a class="btn" asp-controller="Shop" asp-action="ViewCart">View Cart</a>
+
                                 </div>
                             </div>
                         </div>
@@ -443,6 +467,7 @@
     <script src="~/assets/js/vendor/jquery-3.6.0.min.js"></script>
     <script src="~/assets/js/vendor.min.js"></script>
     <script src="~/assets/js/functions.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 
 <!-- mirrored from demo.zytheme.com/medisch/shop-products.html by httrack website copier/3.x [xr&co'2014], sat, 07 jun 2025 14:52:51 gmt -->
