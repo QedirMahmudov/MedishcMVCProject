@@ -275,7 +275,7 @@ namespace MedishcMVCProject.Controllers
                 return RedirectToAction("Checkout");
             }
 
-            using var transaction = await _context.Database.BeginTransactionAsync();
+            //using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 var order = new Order
@@ -293,29 +293,30 @@ namespace MedishcMVCProject.Controllers
                 };
 
                 _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
+
 
                 var payment = new Payment
                 {
-                    OrderId = order.Id,
+                    Order = order,
                     Amount = order.TotalAmount,
                     PaidAt = DateTime.Now,
                     Method = PaymentMethod.Stripe,
-                    Status = PaymentStatus.Completed
+                    Status = PaymentStatus.Completed,
+                    FailureReason = "tst"
                 };
 
                 _context.Payments.Add(payment);
                 _context.CartItems.RemoveRange(cartItems);
 
                 await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
+                //await transaction.CommitAsync();
 
                 TempData["Success"] = "Ödəniş uğurla tamamlandı. Sifarişiniz qəbul edildi.";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync();
+                //await transaction.RollbackAsync();
                 TempData["Error"] = "Ödəniş sonrası xəta baş verdi.";
                 return RedirectToAction("Checkout");
             }
