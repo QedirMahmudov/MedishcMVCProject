@@ -32,9 +32,15 @@ namespace MedishcMVCProject.Controllers
             };
             return View(vm);
         }
-        public IActionResult PharmacyIndex()
+        public async Task<IActionResult> PharmacyIndex()
         {
-            return View();
+            PharmacyHomeVM? vm = new PharmacyHomeVM
+            {
+                Products = await _context.Products.Take(12).ToListAsync(),
+                Blogs = await _context.Blogs.Include(b => b.Author).Take(6).ToListAsync()
+            };
+
+            return View(vm);
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿<section class="slider slider-5" id="slider-5">
+﻿@using MedishcMVCProject.Models
+@model PharmacyHomeVM
+
+<section class="slider slider-5" id="slider-5">
     <div class="container-fluid pr-0 pl-0">
         <div class="slider-carousel owl-carousel carousel-navs carousel-dots" data-slide="1" data-slide-rs="1" data-autoplay="true" data-nav="true" data-dots="true" data-space="0" data-loop="true" data-speed="800" data-slider-id="#custom-carousel">
             <!--  Start .slide-->
@@ -10,7 +13,7 @@
                             <div class="slide-content align-items-center text-center">
                                 <h1 class="slide-headline">medical supplies and equipment</h1>
                                 <p class="slide-desc">The health and well-being of our patients and their health care team will always be our priority, so we follow the best practices.</p>
-                                <div class="slide-action"><a class="btn btn--white btn-line btn-line-after btn-line-inversed" href="page-about.html"> <span>more about us</span><span class="line"> <span></span></span></a><a class="btn btn--primary btn-line btn-line-after" href="page-products.html"> <span>shop now</span><span class="line"> <span></span></span></a></div>
+                                <div class="slide-action"><a class="btn btn--white btn-line btn-line-after btn-line-inversed" asp-controller="AboutUs" asp-action="AboutUs"> <span>more about us</span><span class="line"> <span></span></span></a><a class="btn btn--primary btn-line btn-line-after" asp-controller="Shop" asp-action="Index"> <span>shop now</span><span class="line"> <span></span></span></a></div>
                             </div>
                             <!-- End .slide-content -->
                         </div>
@@ -28,7 +31,7 @@
                             <div class="slide-content align-items-center text-center">
                                 <h1 class="slide-headline">your first medical choice</h1>
                                 <p class="slide-desc">The health and well-being of our patients and their health care team will always be our priority, so we follow the best practices.</p>
-                                <div class="slide-action"><a class="btn btn--white btn-line btn-line-after btn-line-inversed" href="page-about.html"> <span>more about us</span><span class="line"> <span></span></span></a><a class="btn btn--primary btn-line btn-line-after" href="page-products.html"> <span>shop now</span><span class="line"> <span></span></span></a></div>
+                                <div class="slide-action"><a class="btn btn--white btn-line btn-line-after btn-line-inversed" asp-controller="AboutUs" asp-action="AboutUs"> <span>more about us</span><span class="line"> <span></span></span></a><a class="btn btn--primary btn-line btn-line-after" asp-controller="Shop" asp-action="Index"> <span>shop now</span><span class="line"> <span></span></span></a></div>
                             </div>
                             <!-- End .slide-content -->
                         </div>
@@ -58,142 +61,30 @@ Shop Section
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="product-item" data-hover="">
-                    <div class="product-img">
-                        <img src="~/assets/images/shop/grid/1.jpg" alt="Product" /><a class="add-to-cart" href="#"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                        <div class="badge"></div>
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="product-item" data-hover="">
+                        <div class="product-img">
+                            <a asp-action="ProductDetail" asp-route-id="@product.Id">
+                                <img src="/assets/images/shop/grid/@product.ImageUrl" alt="@product.Name" />
+                            </a>
+                            <form asp-action="AddToCart" asp-controller="Shop" method="post" class="add-to-cart-form">
+                                <input type="hidden" name="productId" value="@product.Id" />
+                                <button type="submit" class="add-to-cart btn btn-sm btn-primary">
+                                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                                </button>
+                            </form>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-title">
+                                <a asp-action="ProductDetail" asp-route-id="@product.Id">@product.Name</a>
+                            </div>
+                            <div class="product-price"><span>$@product.Price</span></div>
+                        </div>
                     </div>
-                    <!-- .product-img end-->
-                    <div class="product-content">
-                        <div class="product-title"><a href="shop-single.html">green tea</a></div>
-                        <!-- .product-title end-->
-                        <div class="product-price"><span>$15.00</span></div>
-                        <!-- .product-price end-->
-                    </div>
-                    <!-- .product-content end-->
                 </div>
-                <!-- .product end-->
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="product-item" data-hover="">
-                    <div class="product-img">
-                        <img src="~/assets/images/shop/grid/2.jpg" alt="Product" /><a class="add-to-cart" href="#"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                        <div class="badge"></div>
-                    </div>
-                    <!-- .product-img end-->
-                    <div class="product-content">
-                        <div class="product-title"><a href="shop-single.html">biotin complex</a></div>
-                        <!-- .product-title end-->
-                        <div class="product-price"><span>$25.00</span></div>
-                        <!-- .product-price end-->
-                    </div>
-                    <!-- .product-content end-->
-                </div>
-                <!-- .product end-->
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="product-item" data-hover="">
-                    <div class="product-img">
-                        <img src="~/assets/images/shop/grid/3.jpg" alt="Product" /><a class="add-to-cart" href="#"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                        <div class="badge">new</div>
-                    </div>
-                    <!-- .product-img end-->
-                    <div class="product-content">
-                        <div class="product-title"><a href="shop-single.html">facial serum</a></div>
-                        <!-- .product-title end-->
-                        <div class="product-price"><span>$37.00</span></div>
-                        <!-- .product-price end-->
-                    </div>
-                    <!-- .product-content end-->
-                </div>
-                <!-- .product end-->
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="product-item" data-hover="">
-                    <div class="product-img">
-                        <img src="~/assets/images/shop/grid/4.jpg" alt="Product" /><a class="add-to-cart" href="#"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                        <div class="badge"></div>
-                    </div>
-                    <!-- .product-img end-->
-                    <div class="product-content">
-                        <div class="product-title"><a href="shop-single.html">calming herps</a></div>
-                        <!-- .product-title end-->
-                        <div class="product-price"><span>$10.00</span></div>
-                        <!-- .product-price end-->
-                    </div>
-                    <!-- .product-content end-->
-                </div>
-                <!-- .product end-->
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="product-item" data-hover="">
-                    <div class="product-img">
-                        <img src="~/assets/images/shop/grid/5.jpg" alt="Product" /><a class="add-to-cart" href="#"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                        <div class="badge"></div>
-                    </div>
-                    <!-- .product-img end-->
-                    <div class="product-content">
-                        <div class="product-title"><a href="shop-single.html">essential oil</a></div>
-                        <!-- .product-title end-->
-                        <div class="product-price"><span>$28.00</span></div>
-                        <!-- .product-price end-->
-                    </div>
-                    <!-- .product-content end-->
-                </div>
-                <!-- .product end-->
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="product-item" data-hover="">
-                    <div class="product-img">
-                        <img src="~/assets/images/shop/grid/6.jpg" alt="Product" /><a class="add-to-cart" href="#"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                        <div class="badge">sale</div>
-                    </div>
-                    <!-- .product-img end-->
-                    <div class="product-content">
-                        <div class="product-title"><a href="shop-single.html">natural cacao powder</a></div>
-                        <!-- .product-title end-->
-                        <div class="product-price"><span>$16.00</span></div>
-                        <!-- .product-price end-->
-                    </div>
-                    <!-- .product-content end-->
-                </div>
-                <!-- .product end-->
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="product-item" data-hover="">
-                    <div class="product-img">
-                        <img src="~/assets/images/shop/grid/7.jpg" alt="Product" /><a class="add-to-cart" href="#"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                        <div class="badge"></div>
-                    </div>
-                    <!-- .product-img end-->
-                    <div class="product-content">
-                        <div class="product-title"><a href="shop-single.html">natural gel</a></div>
-                        <!-- .product-title end-->
-                        <div class="product-price"><span>$24.00</span></div>
-                        <!-- .product-price end-->
-                    </div>
-                    <!-- .product-content end-->
-                </div>
-                <!-- .product end-->
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="product-item" data-hover="">
-                    <div class="product-img">
-                        <img src="~/assets/images/shop/grid/8.jpg" alt="Product" /><a class="add-to-cart" href="#"><i class="fas fa-shopping-cart"></i> add to cart</a>
-                        <div class="badge"></div>
-                    </div>
-                    <!-- .product-img end-->
-                    <div class="product-content">
-                        <div class="product-title"><a href="shop-single.html">goji powder</a></div>
-                        <!-- .product-title end-->
-                        <div class="product-price"><span>$19.00</span></div>
-                        <!-- .product-price end-->
-                    </div>
-                    <!-- .product-content end-->
-                </div>
-                <!-- .product end-->
-            </div>
+            }
         </div>
         <!-- End .row-->
     </div>
@@ -310,210 +201,55 @@ Blog #3 Section
         </div>
         <!-- End .row-->
         <div class="carousel owl-carousel carousel-dots" data-slide="3" data-slide-rs="2" data-autoplay="true" data-nav="false" data-dots="true" data-space="30" data-loop="true" data-speed="200">
-            <div>
-                <div class="blog-entry" data-hover="">
-                    <div class="entry-img">
-                        <div class="entry-date">
-                            <div class="entry-content"><span class="day">20</span><span class="month">jan</span><span class="year">2021</span></div>
-                        </div>
-                        <!-- End .entry-date--><a href="blog-single-sidebar.html"><img src="~/assets/images/blog/grid/1.jpg" alt="6 tips to protect your mental health when sick" /></a>
-                    </div>
-                    <!-- End .entry-img-->
-                    <div class="entry-content">
-                        <div class="entry-meta">
-                            <div class="entry-category">
-                                <a href="javascript:void(0)">mental health</a><a href="javascript:void(0)">wellness</a>
+            @foreach (var item in Model.Blogs)
+            {
+                <div class="item">
+                    <div class="blog-entry" data-hover="">
+                        <div class="entry-img">
+                            <div class="entry-date">
+                                <div class="entry-content">
+                                    <span class="day">@item.CreatedAt.Day</span>
+                                    <span class="month">@item.CreatedAt.ToString("MMMM")</span>
+                                    <span class="year">@item.CreatedAt.Year</span>
+                                </div>
                             </div>
-                            <div class="divider"></div>
-                            <div class="entry-author">
-                                <p>martin king</p>
-                            </div>
-                        </div>
-                        <div class="entry-title">
-                            <h4><a href="blog-single-sidebar.html">6 tips to protect your mental health when sick</a></h4>
-                        </div>
-                        <div class="entry-bio">
-                            <p>It’s normal to feel anxiety, worry and grief any time you’re diagnosed with a condition that’s certainly true if you test positive for COVID-19, or...</p>
-                        </div>
-                        <div class="entry-more">
-                            <a class="btn btn--white btn-line btn-line-before btn-line-inversed" href="blog-single-sidebar.html">
-                                <div class="line"> <span> </span></div><span>read more</span>
+                            <a asp-controller="Blog" asp-action="BlogDetail" asp-route-id="@item.Id">
+                                <img src="~/assets/images/blog/grid/@item.Image" alt="@item.Title" />
                             </a>
+                        </div>
+                        <div class="entry-content">
+                            <div class="entry-meta">
+                                <div class="entry-category">
+                                    @if (item.BlogCategories != null)
+                                    {
+                                        foreach (var category in item.BlogCategories)
+                                        {
+                                            <a href="javascript:void(0)">@category.Category.Name</a>
+                                        }
+                                    }
+                                </div>
+                                <div class="divider"></div>
+                                <div class="entry-author">
+                                    <p>@item.Author.Name</p>
+                                </div>
+                            </div>
+                            <div class="entry-title">
+                                <h4>
+                                    <a asp-controller="Blog" asp-action="BlogDetail" asp-route-id="@item.Id">@item.Title</a>
+                                </h4>
+                            </div>
+                            <div class="entry-bio">
+                                <p>@(item.Description.Length > 150 ? item.Description.Substring(0, 150) + "..." : item.Description)</p>
+                            </div>
+                            <div class="entry-more">
+                                <a class="btn btn--white btn-line btn-line-before btn-line-inversed" asp-controller="Blog" asp-action="BlogDetail" asp-route-id="@item.Id">
+                                    <div class="line"><span></span></div><span>read more</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- End .entry-content-->
-            </div>
-            <div>
-                <div class="blog-entry" data-hover="">
-                    <div class="entry-img">
-                        <div class="entry-date">
-                            <div class="entry-content"><span class="day">20</span><span class="month">jan</span><span class="year">2021</span></div>
-                        </div>
-                        <!-- End .entry-date--><a href="blog-single-sidebar.html"><img src="~/assets/images/blog/grid/2.jpg" alt="Unsure About Wearing a Face Mask? How and Why" /></a>
-                    </div>
-                    <!-- End .entry-img-->
-                    <div class="entry-content">
-                        <div class="entry-meta">
-                            <div class="entry-category">
-                                <a href="javascript:void(0)">infectious</a><a href="javascript:void(0)">tips</a>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="entry-author">
-                                <p>John Ezak</p>
-                            </div>
-                        </div>
-                        <div class="entry-title">
-                            <h4><a href="blog-single-sidebar.html">Unsure About Wearing a Face Mask? How and Why</a></h4>
-                        </div>
-                        <div class="entry-bio">
-                            <p>That means that you should still be following any shelter-in-place orders in your community. But when you’re venturing out to the grocery store, pharmacy or...</p>
-                        </div>
-                        <div class="entry-more">
-                            <a class="btn btn--white btn-line btn-line-before btn-line-inversed" href="blog-single-sidebar.html">
-                                <div class="line"> <span> </span></div><span>read more</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End .entry-content-->
-            </div>
-            <div>
-                <div class="blog-entry" data-hover="">
-                    <div class="entry-img">
-                        <div class="entry-date">
-                            <div class="entry-content"><span class="day">20</span><span class="month">jan</span><span class="year">2021</span></div>
-                        </div>
-                        <!-- End .entry-date--><a href="blog-single-sidebar.html"><img src="~/assets/images/blog/grid/3.jpg" alt="Tips for Eating Healthy When Working From Home" /></a>
-                    </div>
-                    <!-- End .entry-img-->
-                    <div class="entry-content">
-                        <div class="entry-meta">
-                            <div class="entry-category">
-                                <a href="javascript:void(0)">lifestyle</a><a href="javascript:void(0)">nutrition</a>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="entry-author">
-                                <p>Saul Wade</p>
-                            </div>
-                        </div>
-                        <div class="entry-title">
-                            <h4><a href="blog-single-sidebar.html">Tips for Eating Healthy When Working From Home</a></h4>
-                        </div>
-                        <div class="entry-bio">
-                            <p>You’re on a conference call and somehow wandered into the kitchen. Next thing know you’re eating crackers and dry cereal out of the box. Or...</p>
-                        </div>
-                        <div class="entry-more">
-                            <a class="btn btn--white btn-line btn-line-before btn-line-inversed" href="blog-single-sidebar.html">
-                                <div class="line"> <span> </span></div><span>read more</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End .entry-content-->
-            </div>
-            <div>
-                <div class="blog-entry" data-hover="">
-                    <div class="entry-img">
-                        <div class="entry-date">
-                            <div class="entry-content"><span class="day">20</span><span class="month">jan</span><span class="year">2021</span></div>
-                        </div>
-                        <!-- End .entry-date--><a href="blog-single-sidebar.html"><img src="~/assets/images/blog/grid/4.jpg" alt="Why Coronavirus Cases Among Adults Is Bad News" /></a>
-                    </div>
-                    <!-- End .entry-img-->
-                    <div class="entry-content">
-                        <div class="entry-meta">
-                            <div class="entry-category">
-                                <a href="javascript:void(0)">mental health</a><a href="javascript:void(0)">wellness</a>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="entry-author">
-                                <p>Mark Ezak</p>
-                            </div>
-                        </div>
-                        <div class="entry-title">
-                            <h4><a href="blog-single-sidebar.html">Why Coronavirus Cases Among Adults Is Bad News</a></h4>
-                        </div>
-                        <div class="entry-bio">
-                            <p>A new surge of coronavirus cases has spread across the country and while there’s still so much to learn about the virus, how it’s transmitted...</p>
-                        </div>
-                        <div class="entry-more">
-                            <a class="btn btn--white btn-line btn-line-before btn-line-inversed" href="blog-single-sidebar.html">
-                                <div class="line"> <span> </span></div><span>read more</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End .entry-content-->
-            </div>
-            <div>
-                <div class="blog-entry" data-hover="">
-                    <div class="entry-img">
-                        <div class="entry-date">
-                            <div class="entry-content"><span class="day">20</span><span class="month">jan</span><span class="year">2021</span></div>
-                        </div>
-                        <!-- End .entry-date--><a href="blog-single-sidebar.html"><img src="~/assets/images/blog/grid/5.jpg" alt="Why Do People Get Kidney Stones in the Summer?" /></a>
-                    </div>
-                    <!-- End .entry-img-->
-                    <div class="entry-content">
-                        <div class="entry-meta">
-                            <div class="entry-category">
-                                <a href="javascript:void(0)">infectious</a><a href="javascript:void(0)">tips</a>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="entry-author">
-                                <p>Janette Baker</p>
-                            </div>
-                        </div>
-                        <div class="entry-title">
-                            <h4><a href="blog-single-sidebar.html">Why Do People Get Kidney Stones in the Summer?</a></h4>
-                        </div>
-                        <div class="entry-bio">
-                            <p>Summer may have just officially started, but kidney stone season began a couple of weeks ago. Doctors see an increase in kidney stone cases when...</p>
-                        </div>
-                        <div class="entry-more">
-                            <a class="btn btn--white btn-line btn-line-before btn-line-inversed" href="blog-single-sidebar.html">
-                                <div class="line"> <span> </span></div><span>read more</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End .entry-content-->
-            </div>
-            <div>
-                <div class="blog-entry" data-hover="">
-                    <div class="entry-img">
-                        <div class="entry-date">
-                            <div class="entry-content"><span class="day">20</span><span class="month">jan</span><span class="year">2021</span></div>
-                        </div>
-                        <!-- End .entry-date--><a href="blog-single-sidebar.html"><img src="~/assets/images/blog/grid/6.jpg" alt="Do Any Drugs Really Work to Treat Coronavirus?" /></a>
-                    </div>
-                    <!-- End .entry-img-->
-                    <div class="entry-content">
-                        <div class="entry-meta">
-                            <div class="entry-category">
-                                <a href="javascript:void(0)">lifestyle</a><a href="javascript:void(0)">nutrition</a>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="entry-author">
-                                <p>Marie Black</p>
-                            </div>
-                        </div>
-                        <div class="entry-title">
-                            <h4><a href="blog-single-sidebar.html">Do Any Drugs Really Work to Treat Coronavirus?</a></h4>
-                        </div>
-                        <div class="entry-bio">
-                            <p>While most people who get COVID-19 are able to recover at home, the rush is on to find a treatment that’s safe and effective against...</p>
-                        </div>
-                        <div class="entry-more">
-                            <a class="btn btn--white btn-line btn-line-before btn-line-inversed" href="blog-single-sidebar.html">
-                                <div class="line"> <span> </span></div><span>read more</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- End .entry-content-->
-            </div>
+            }
         </div>
         <!-- End .carousel-->
     </div>

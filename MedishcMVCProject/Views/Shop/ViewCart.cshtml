@@ -115,171 +115,173 @@
             </div>
         }
     </div>
-</section>
+
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Anti-forgery token
-            $.ajaxSetup({
-                beforeSend: function(xhr, settings) {
-                    if (settings.type === 'POST') {
-                        xhr.setRequestHeader("RequestVerificationToken", $('input[name="__RequestVerificationToken"]').val());
-                    }
-                }
-            });
-
-            // Update totals function
-            function updateTotals() {
-                let subtotal = 0;
-
-                $('.cart-product').each(function () {
-                    const quantity = parseInt($(this).find('.pro-qunt').val()) || 0;
-                    const price = parseFloat($(this).data('price')) || 0;
-                    const total = quantity * price;
-
-                    $(this).find('.cart-product-total').text('$' + total.toFixed(2));
-                    subtotal += total;
-                });
-
-                $('#subtotal-amount').text('$' + subtotal.toFixed(2));
-                $('#total-amount').text('$' + subtotal.toFixed(2));
-            }
-
-            // Plus button click
-            $('.plus').on('click', function (e) {
-                e.preventDefault();
-
-                const $input = $(this).closest('.product-quantity').find('.pro-qunt');
-                const $row = $(this).closest('.cart-product');
-                const productId = $row.data('id');
-                let value = parseInt($input.val()) || 0;
-                const max = parseInt($input.data('max')) || 10;
-
-                if (value < max) {
-                    value += 1;
-                    $input.val(value);
-                    updateTotals();
-                    updateCartOnServer(productId, value);
-                }
-            });
-
-            // Minus button click
-            $('.minus').on('click', function (e) {
-                e.preventDefault();
-
-                const $input = $(this).closest('.product-quantity').find('.pro-qunt');
-                const $row = $(this).closest('.cart-product');
-                const productId = $row.data('id');
-                let value = parseInt($input.val()) || 0;
-                const min = parseInt($input.data('min')) || 1;
-
-                if (value > min) {
-                    value -= 1;
-                    $input.val(value);
-                    updateTotals();
-                    updateCartOnServer(productId, value);
-                }
-            });
-
-            // Remove product from cart
-            $('.cart-product-remove img').on('click', function (e) {
-                e.preventDefault();
-
-                const $row = $(this).closest('.cart-product');
-                const productId = $row.data('id');
-
-                if (confirm('Are you sure you want to remove this item from your cart?')) {
-                    removeFromCart(productId, $row);
-                }
-            });
-
-            // Update cart quantity on server
-            function updateCartOnServer(productId, quantity) {
-                $.ajax({
-                    url: '@Url.Action("UpdateCartQuantity", "Shop")',
-                    type: 'POST',
-                    data: {
-                        productId: productId,
-                        quantity: quantity
-                    },
-                    success: function(response) {
-                        if (!response.success) {
-                            alert('Error updating cart: ' + response.message);
-                            location.reload();
+        <script>
+            $(document).ready(function () {
+                // CSRF token üçün
+                $.ajaxSetup({
+                    beforeSend: function (xhr, settings) {
+                        if (settings.type === 'POST') {
+                            xhr.setRequestHeader("RequestVerificationToken", $('input[name="__RequestVerificationToken"]').val());
                         }
-                    },
-                    error: function() {
-                        alert('Error occurred while updating cart!');
-                        location.reload();
                     }
                 });
-            }
 
-            // Remove item from cart
-            function removeFromCart(productId, $row) {
-                $.ajax({
-                    url: '@Url.Action("RemoveFromCart", "Shop")',
-                    type: 'POST',
-                    data: {
-                        id: productId
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            $row.fadeOut(300, function() {
-                                $(this).remove();
+                // Total hesablamaq
+                function updateTotals() {
+                    let subtotal = 0;
+
+                    $('.cart-product').each(function () {
+                        const quantity = parseInt($(this).find('.pro-qunt').val()) || 0;
+                        const price = parseFloat($(this).data('price')) || 0;
+                        const total = quantity * price;
+
+                        $(this).find('.cart-product-total').text('$' + total.toFixed(2));
+                        subtotal += total;
+                    });
+
+                    $('#subtotal-amount').text('$' + subtotal.toFixed(2));
+                    $('#total-amount').text('$' + subtotal.toFixed(2));
+                }
+
+                // Serverdə miqdarı yenilə
+                function updateCartOnServer(productId, quantity, $row) {
+                    $.ajax({
+                        url: '@Url.Action("UpdateCartQuantity", "Shop")',
+                        type: 'POST',
+                        data: {
+                            productId: productId,
+                            quantity: quantity
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                const price = parseFloat($row.data('price')) || 0;
+                                const total = price * quantity;
+
+                                $row.find('.pro-qunt').val(quantity);
+                                $row.find('.cart-product-total').text('$' + total.toFixed(2));
+
                                 updateTotals();
-
-                                // If no items left, reload page to show empty cart
-                                if ($('.cart-product').length === 0) {
-                                    location.reload();
-                                }
-                            });
-                        } else {
-                            alert('Error: ' + response.message);
+                            } else {
+                                alert('Xəta: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('Server xətası!');
                         }
-                    },
-                    error: function() {
-                        alert('Error occurred! Please try again.');
+                    });
+                }
+
+                // Səbətdən sil
+                function removeFromCart(productId, $row) {
+                    $.ajax({
+                        url: '@Url.Action("RemoveFromCart", "Shop")',
+                        type: 'POST',
+                        data: {
+                            id: productId
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                $row.fadeOut(300, function () {
+                                    $(this).remove();
+                                    updateTotals();
+
+                                    if ($('.cart-product').length === 0) {
+                                        location.reload(); // boş səbət görünməsi üçün
+                                    }
+                                });
+                            } else {
+                                alert('Silinmədi: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('Silərkən xəta baş verdi!');
+                        }
+                    });
+                }
+
+                // Plus düyməsi
+                $('.plus').on('click', function (e) {
+                    e.preventDefault();
+
+                    const $input = $(this).closest('.product-quantity').find('.pro-qunt');
+                    const $row = $(this).closest('.cart-product');
+                    const productId = $row.data('id');
+                    let quantity = parseInt($input.val()) || 0;
+                    const max = parseInt($input.data('max')) || 10;
+
+                    if (quantity < max) {
+                        quantity += 1;
+                        updateCartOnServer(productId, quantity, $row);
                     }
                 });
-            }
 
-            // Update cart button
-            $('#update-cart-btn').on('click', function(e) {
-                e.preventDefault();
+                // Minus düyməsi
+                $('.minus').on('click', function (e) {
+                    e.preventDefault();
 
-                const cartData = [];
-                $('.cart-product').each(function() {
-                    const productId = $(this).data('id');
-                    const quantity = parseInt($(this).find('.pro-qunt').val()) || 0;
+                    const $input = $(this).closest('.product-quantity').find('.pro-qunt');
+                    const $row = $(this).closest('.cart-product');
+                    const productId = $row.data('id');
+                    let quantity = parseInt($input.val()) || 0;
+                    const min = parseInt($input.data('min')) || 1;
 
-                    cartData.push({
-                        productId: productId,
-                        quantity: quantity
+                    if (quantity > min) {
+                        quantity -= 1;
+                        updateCartOnServer(productId, quantity, $row);
+                    }
+                });
+
+                // Sil düyməsi
+                $('.cart-product-remove img').on('click', function (e) {
+                    e.preventDefault();
+
+                    const $row = $(this).closest('.cart-product');
+                    const productId = $row.data('id');
+
+                    if (confirm('Bu məhsulu silmək istəyirsiniz?')) {
+                        removeFromCart(productId, $row);
+                    }
+                });
+
+                // "Update Cart" düyməsi
+                $('#update-cart-btn').on('click', function (e) {
+                    e.preventDefault();
+
+                    const cartData = [];
+                    $('.cart-product').each(function () {
+                        const productId = $(this).data('id');
+                        const quantity = parseInt($(this).find('.pro-qunt').val()) || 0;
+
+                        cartData.push({
+                            productId: productId,
+                            quantity: quantity
+                        });
+                    });
+
+                    $.ajax({
+                        url: '@Url.Action("UpdateCart", "Shop")',
+                        type: 'POST',
+                        data: JSON.stringify(cartData),
+                        contentType: 'application/json',
+                        success: function (response) {
+                            if (response.success) {
+                                updateTotals();
+                                alert('Səbət uğurla yeniləndi!');
+                            } else {
+                                alert('Yenilənmədi: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('Yeniləmə zamanı xəta baş verdi!');
+                        }
                     });
                 });
 
-                $.ajax({
-                    url: '@Url.Action("UpdateCart", "Shop")',
-                    type: 'POST',
-                    data: JSON.stringify(cartData),
-                    contentType: 'application/json',
-                    success: function(response) {
-                        if (response.success) {
-                            alert('Cart updated successfully!');
-                        } else {
-                            alert('Error updating cart: ' + response.message);
-                        }
-                    },
-                    error: function() {
-                        alert('Error occurred while updating cart!');
-                    }
-                });
+                // İlk açılışda total yenilə
+                updateTotals();
             });
-
-            // Initialize totals
-            updateTotals();
-        });
-    </script>
+        </script>
 }

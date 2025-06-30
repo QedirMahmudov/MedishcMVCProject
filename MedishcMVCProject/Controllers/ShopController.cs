@@ -87,6 +87,28 @@ namespace MedishcMVCProject.Controllers
             return View(cartVMs);
         }
         [HttpPost]
+        public async Task<IActionResult> UpdateCartQuantity(int productId, int quantity)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Json(new { success = false, message = "İstifadəçi tapılmadı" });
+
+            var cartItem = await _context.CartItems
+                .FirstOrDefaultAsync(c => c.ProductId == productId && c.UserId == user.Id);
+
+            if (cartItem != null)
+            {
+                cartItem.Quantity = quantity;
+                _context.CartItems.Update(cartItem);
+                await _context.SaveChangesAsync();
+                return Json(new { success = true, message = "Miqdar yeniləndi" });
+            }
+
+            return Json(new { success = false, message = "Məhsul tapılmadı" });
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> RemoveFromCart(int id)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -103,26 +125,6 @@ namespace MedishcMVCProject.Controllers
                 _context.CartItems.Remove(cartItem);
                 await _context.SaveChangesAsync();
                 return Json(new { success = true, message = "Məhsul silindi" });
-            }
-
-            return Json(new { success = false, message = "Məhsul tapılmadı" });
-        }
-        [HttpPost]
-        public async Task<IActionResult> UpdateCartQuantity(int productId, int quantity)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return Json(new { success = false, message = "İstifadəçi tapılmadı" });
-
-            var cartItem = await _context.CartItems
-                .FirstOrDefaultAsync(c => c.ProductId == productId && c.UserId == user.Id);
-
-            if (cartItem != null)
-            {
-                cartItem.Quantity = quantity;
-                _context.CartItems.Update(cartItem);
-                await _context.SaveChangesAsync();
-                return Json(new { success = true, message = "Miqdar yeniləndi" });
             }
 
             return Json(new { success = false, message = "Məhsul tapılmadı" });

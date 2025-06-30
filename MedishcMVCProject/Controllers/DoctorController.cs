@@ -21,6 +21,7 @@ namespace MedishcMVCProject.Controllers
                                         .Include(d => d.Specialist)
                                         .Include(d => d.Degree)
                                         .Include(d => d.University)
+                                        .Take(6)
                                         .ToList();
 
             DoctorIndexVM vm = new DoctorIndexVM

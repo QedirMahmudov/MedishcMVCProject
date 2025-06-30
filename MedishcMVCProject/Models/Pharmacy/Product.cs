@@ -1,4 +1,4 @@
-﻿namespace MedishcMVCProject.Models.Pharmacy
+﻿namespace MedishcMVCProject.Models
 {
     public class Product : Base
     {
