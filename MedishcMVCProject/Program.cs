@@ -20,6 +20,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(opt =>
     opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
 }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/admin/account/login";
+    options.AccessDeniedPath = "/admin/account/login";
+});
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
@@ -31,6 +36,8 @@ var app = builder.Build();
 
 
 app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 
 StripeConfiguration.ApiKey = builder.Configuration["Stripe:Secretkey"];
 app.MapControllerRoute(

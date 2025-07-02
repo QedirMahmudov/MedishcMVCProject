@@ -1,4 +1,5 @@
-﻿@model DoctorIndexVM
+﻿@using MedishcMVCProject.ViewModels.DoctorVM
+@model DoctorListVM
 
 
 <section class="hero hero-2 bg-overlay bg-overlay-dark">
@@ -46,7 +47,7 @@ Team Modern Section
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="team-member" data-hover="">
                         <div class="team-member-holder">
-                            <div class="team-img"><a class="link" asp-action="DoctorDetail" asp-route-id="@item.Id"></a><img src="~/assets/images/team/grid/@item.Image" alt="team member" /></div>
+                            <div class="team-img"><a class="link" asp-action="DoctorDetail" asp-route-id="@item.Id"></a><img src="~/assets/images/team/full/@item.Image" alt="team member" /></div>
                             <!-- End .team-img-->
                             <div class="team-content-holder">
                                 <div class="team-content">
@@ -70,10 +71,31 @@ Team Modern Section
         <!-- End .row-->
         <div class="row">
             <div class="col-12 clearfix text--center">
-                <ul class="pagination">
-                    <li><a class="current" href="javascript:void(0)">1</a></li>
-                    <li><a href="javascript:void(0)">2</a></li>
-                    <li><a href="#" aria-label="Next"><i class="icon-arrow-right"></i></a></li>
+                <ul class="pagination justify-content-center">
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+                    }
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

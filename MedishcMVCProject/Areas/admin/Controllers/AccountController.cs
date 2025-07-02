@@ -108,11 +108,10 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             }
 
-            if (returnUrl is null)
+            if (string.IsNullOrWhiteSpace(returnUrl) || !Url.IsLocalUrl(returnUrl))
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
-
 
             return Redirect(returnUrl);
         }

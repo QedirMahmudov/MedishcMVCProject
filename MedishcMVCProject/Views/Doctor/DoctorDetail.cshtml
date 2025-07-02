@@ -9,16 +9,16 @@
                     <div class="team-modern team-modern-2">
                         <div class="team-member">
                             <div class="team-member-holder">
-                                <div class="team-img"><a class="link" href="javascript:void(0)"></a><img src="~/assets/images/team/grid/@Model.Doctor.Image" alt="team member" /></div>
+                                <div class="team-img"><a class="link" href="javascript:void(0)"></a><img src="~/assets/images/team/full/@(Model.Doctor?.Image ?? "default.jpg")" alt="team member" /></div>
                                 <!-- End .team-img-->
                                 <div class="team-content-holder">
                                     <div class="team-content">
                                         <div class="team-title">
-                                            <h4><a href="javascript:void(0)">@Model.Doctor.Name @Model.Doctor.Surname</a></h4>
+                                            <h4><a href="javascript:void(0)">@(Model.Doctor?.Name ?? "N/A") @(Model.Doctor?.Surname ?? "")</a></h4>
                                         </div>
-                                        <div class="team-cat"><a href="javascript:void(0)">@Model.Doctor.Specialist.Name Specialist</a></div>
+                                        <div class="team-cat"><a href="javascript:void(0)">@(Model.Doctor?.Specialist?.Name ?? "N/A") Specialist</a></div>
                                         <div class="team-desc">
-                                            <p>@Model.Doctor.MainDescription</p>
+                                            <p>@(Model.Doctor?.MainDescription ?? "No description available")</p>
                                         </div>
                                         <div class="team-social"> <a href="javascript:void(0)"><i class="fab fa-facebook-f"> </i></a><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a><a href="javascript:void(0)"><i class="fas fa-envelope"></i></a><a href="javascript:void(0)"><i class="fas fa-phone-alt"></i></a></div>
                                     </div>
@@ -30,9 +30,9 @@
                 </div>
                 <div class="col-12 col-lg-3 content-merged order-2 order-lg-0">
                     <div class="hero-rating">
-                        <span class="num">@Model.Doctor.ZodocRating</span>
+                        <span class="num">@(Model.Doctor?.ZodocRating ?? 0)</span>
                         <div class="rating-body">
-                            <p><a href="#">zodoc</a> Overall Rating, based on @Model.Doctor.ReviewCount reviews</p>
+                            <p><a href="#">zodoc</a> Overall Rating, based on @(Model.Doctor?.ReviewCount ?? 0) reviews</p>
                         </div>
                     </div>
                 </div>
@@ -74,19 +74,29 @@ Doctor Profile Modern Section
                             <i class="flaticon-014-uniform"></i>
                             <h5>opening hours </h5>
                             <ul class="list-unstyled">
-                                @foreach (var item in Model.OpeningHours)
+                                @if (Model.WorkingHours != null && Model.WorkingHours.Any())
                                 {
-                                    <li>
-                                        <span>@item.DayOfWeek</span>
-                                        @if (!item.OpenTime.HasValue || !item.CloseTime.HasValue)
-                                        {
-                                            <span>Closed</span>
-                                        }
-                                        else
-                                        {
-                                            <span>@item.OpenTime - @item.CloseTime</span>
-                                        }
-                                    </li>
+                                    foreach (var item in Model.WorkingHours)
+                                    {
+                                        <li>
+                                            <span>@(item != null ? item.DayOfWeek.ToString() : "N/A")</span>
+                                            @if (item == null
+                                                 || !item.OpenTime.HasValue
+                                                 || !item.CloseTime.HasValue
+                                                 || (item.OpenTime.Value == TimeSpan.Zero && item.CloseTime.Value == TimeSpan.Zero))
+                                            {
+                                                <span>Closed</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@item.OpenTime.Value.ToString(@"hh\:mm") - @item.CloseTime.Value.ToString(@"hh\:mm")</span>
+                                            }
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li><span>No working hours provided</span></li>
                                 }
                             </ul>
                         </div>
@@ -132,8 +142,8 @@ Doctor Profile Modern Section
             <div class="col-12 col-lg-8">
                 <div class="entry-bio">
                     <h5 class="entry-heading">biography</h5>
-                    <p class="entry-desc strong">@Model.Doctor.MainDescription</p>
-                    <p class="entry-desc">@Model.Doctor.AdditionalDescription</p>
+                    <p class="entry-desc strong">@(Model.Doctor?.MainDescription ?? "No main description available")</p>
+                    <p class="entry-desc">@(Model.Doctor?.AdditionalDescription ?? "No additional description available")</p>
                 </div>
                 <div class="entry-table">
                     <table class="table table-striped">
@@ -143,7 +153,7 @@ Doctor Profile Modern Section
                                     <div class="content head">speciality </div>
                                 </td>
                                 <td>
-                                    <div class="content">@Model.Doctor.Specialist.Name</div>
+                                    <div class="content">@(Model.Doctor?.Specialist?.Name ?? "N/A")</div>
                                 </td>
                             </tr>
                             <tr>
@@ -151,7 +161,7 @@ Doctor Profile Modern Section
                                     <div class="content head">degrees</div>
                                 </td>
                                 <td>
-                                    <div class="content">@Model.Doctor.Degree.Name</div>
+                                    <div class="content">@(Model.Doctor?.Degree?.Name ?? "N/A")</div>
                                 </td>
                             </tr>
                             <tr>
@@ -182,7 +192,7 @@ Doctor Profile Modern Section
                                     <div class="content head">university</div>
                                 </td>
                                 <td>
-                                    <div class="content">@Model.Doctor.University.Name</div>
+                                    <div class="content">@(Model.Doctor?.University?.Name ?? "N/A")</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -196,9 +206,16 @@ Doctor Profile Modern Section
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <ul class="list-unstyled">
-                                    @foreach (var item in Model.PriceLists)
+                                    @if (Model.PriceLists != null && Model.PriceLists.Any())
                                     {
-                                        <li>@item.Name <span class="price">$@item.Price</span></li>
+                                        foreach (var item in Model.PriceLists)
+                                        {
+                                            <li>@(item?.Name ?? "N/A") <span class="price">$@(item?.Price ?? 0)</span></li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li>No price list available</li>
                                     }
                                 </ul>
                             </div>

@@ -8,7 +8,13 @@ namespace MedishcMVCProject.ViewModels
         public Degree Degree { get; set; }
         public Specialist Specialist { get; set; }
         public University University { get; set; }
-        public List<WorkingHours> OpeningHours { get; set; }
+        public List<WorkingHours> WorkingHours { get; set; }
         public List<PriceList> PriceLists { get; set; }
+
+        public DoctorDetailVM()
+        {
+            WorkingHours = new List<WorkingHours>();
+            PriceLists = new List<PriceList>();
+        }
     }
 }

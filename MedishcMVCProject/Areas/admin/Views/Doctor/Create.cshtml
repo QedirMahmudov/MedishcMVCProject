@@ -13,7 +13,7 @@
 
                     <!-- Form starts here -->
                     <form method="post" enctype="multipart/form-data" class="forms-sample">
-                        
+
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <!-- Custom tabs starts -->
                         <div class="custom-tabs-container">
@@ -96,7 +96,7 @@
                                                         <i class="ri-user-3-line"></i>
                                                     </span>
                                                     <select asp-for="Gender" class="form-select">
-                                                        <option selected disabled value="">Choose Gender</option>
+                                                        <option selected disabled value="-1">Choose Gender</option>
                                                         <option value="0">Male</option>
                                                         <option value="1">Female</option>
                                                     </select>
@@ -143,7 +143,7 @@
                                                 <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                             <div class="mb-3">
                                                 <label class="form-label" asp-for="ZodocRating">ZodocRating(1-5) <span class="text-danger"></span></label>
@@ -227,8 +227,7 @@
                                                         <input type="hidden" name="WorkingHours[@i].DayOfWeek" value="@((int)day)" />
                                                     </div>
                                                     <!-- Manual validation spans -->
-
-                                                  @*   <span class="text-danger field-validation-valid"
+                                                    @*   <span class="text-danger field-validation-valid"
                                                           data-valmsg-for="OpeningHours[@i].OpenTime"
                                                           data-valmsg-replace="true"></span>
                                                     <span class="text-danger field-validation-valid"

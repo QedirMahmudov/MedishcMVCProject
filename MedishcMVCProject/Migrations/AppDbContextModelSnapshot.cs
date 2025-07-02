@@ -132,7 +132,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Author", b =>
@@ -152,7 +152,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Blog", b =>
@@ -188,7 +188,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.BlogCategory", b =>
@@ -211,7 +211,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("BlogCategories");
+                    b.ToTable("BlogCategories", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.BloodGroup", b =>
@@ -231,7 +231,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BloodGroups");
+                    b.ToTable("BloodGroups", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Category", b =>
@@ -251,7 +251,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Clinic", b =>
@@ -279,7 +279,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clinics");
+                    b.ToTable("Clinics", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.ClinicService", b =>
@@ -304,7 +304,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("ClinicId");
 
-                    b.ToTable("ClinicServices");
+                    b.ToTable("ClinicServices", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.ContactInfo", b =>
@@ -334,7 +334,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactInfos");
+                    b.ToTable("ContactInfos", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Degree", b =>
@@ -354,7 +354,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Degrees");
+                    b.ToTable("Degrees", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Designation", b =>
@@ -374,7 +374,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Designations");
+                    b.ToTable("Designations", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Disease", b =>
@@ -394,7 +394,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Diseases");
+                    b.ToTable("Diseases", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Doctor", b =>
@@ -462,7 +462,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("UniversityId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.MedicalService", b =>
@@ -494,7 +494,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MedicalServices");
+                    b.ToTable("MedicalServices", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Patient", b =>
@@ -547,7 +547,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.PatientReport", b =>
@@ -575,7 +575,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("PatientReports");
+                    b.ToTable("PatientReports", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Pharmacy.CartItem", b =>
@@ -605,7 +605,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Pharmacy.Order", b =>
@@ -636,7 +636,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Pharmacy.OrderItem", b =>
@@ -668,7 +668,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Pharmacy.Payment", b =>
@@ -705,7 +705,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.PriceList", b =>
@@ -733,7 +733,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("PriceLists");
+                    b.ToTable("PriceLists", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Product", b =>
@@ -777,7 +777,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("SpecialistId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.ProductCategory", b =>
@@ -794,7 +794,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategories", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.ProductTag", b =>
@@ -809,7 +809,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("ProductTag");
+                    b.ToTable("ProductTag", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Specialist", b =>
@@ -834,7 +834,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("HeadDoctorId");
 
-                    b.ToTable("Specialists");
+                    b.ToTable("Specialists", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Staff", b =>
@@ -870,7 +870,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("DesignationId");
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staffs", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Tag", b =>
@@ -887,7 +887,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.University", b =>
@@ -907,7 +907,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Universities");
+                    b.ToTable("Universities", (string)null);
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.WorkingHours", b =>
@@ -937,7 +937,7 @@ namespace MedishcMVCProject.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("WorkingHours");
+                    b.ToTable("WorkingHours", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
