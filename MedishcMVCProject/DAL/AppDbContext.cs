@@ -47,6 +47,8 @@ namespace MedishcMVCProject.DAL
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
 
 
@@ -80,6 +82,22 @@ namespace MedishcMVCProject.DAL
                 .WithMany()
                 .HasForeignKey(s => s.HeadDoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ProductTag>()
+            .HasKey(pt => new { pt.ProductId, pt.TagId });
+
+            modelBuilder.Entity<ProductTag>()
+                .HasOne(pt => pt.Product)
+                .WithMany(p => p.ProductTags)
+                .HasForeignKey(pt => pt.ProductId);
+
+            modelBuilder.Entity<ProductTag>()
+                .HasOne(pt => pt.Tag)
+                .WithMany(t => t.ProductTags)
+                .HasForeignKey(pt => pt.TagId);
+
+
+
         }
     }
 

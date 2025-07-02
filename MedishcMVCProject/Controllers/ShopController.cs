@@ -19,16 +19,109 @@ namespace MedishcMVCProject.Controllers
             _context = context;
             _userManager = userManager;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+        int? specialistId,
+        string? search,
+        decimal? minPrice,
+        decimal? maxPrice,
+        int? tagId,
+        int page = 1,
+        string? sortOrder = null)
         {
-            List<Product>? products = await _context.Products.ToListAsync();
-            return View(products);
+            int pageSize = 6;
+
+            var productsQuery = _context.Products.AsQueryable();
+
+            if (specialistId.HasValue)
+                productsQuery = productsQuery.Where(p => p.SpecialistId == specialistId.Value);
+
+            if (!string.IsNullOrWhiteSpace(search))
+                productsQuery = productsQuery.Where(p => p.Name.Contains(search) || p.Description.Contains(search));
+
+            if (minPrice.HasValue)
+                productsQuery = productsQuery.Where(p => p.Price >= minPrice.Value);
+
+            if (maxPrice.HasValue)
+                productsQuery = productsQuery.Where(p => p.Price <= maxPrice.Value);
+
+            if (tagId.HasValue)
+                productsQuery = productsQuery.Where(p => p.ProductTags.Any(pt => pt.TagId == tagId.Value));
+
+            productsQuery = sortOrder switch
+            {
+                "newest" => productsQuery.OrderByDescending(p => p.Id),
+                "oldest" => productsQuery.OrderBy(p => p.Id),
+                "highestPrice" => productsQuery.OrderByDescending(p => p.Price),
+                "lowestPrice" => productsQuery.OrderBy(p => p.Price),
+                _ => productsQuery.OrderBy(p => p.Name)
+            };
+
+            int totalProducts = await productsQuery.CountAsync();
+
+            var products = await productsQuery
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var specialistCounts = await _context.Specialists
+                .Select(s => new SpecialistCountVM
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    ProductCount = _context.Products.Count(p => p.SpecialistId == s.Id)
+                }).ToListAsync();
+
+            var recentProducts = await _context.Products
+                .OrderByDescending(p => p.Id)
+                .Take(3)
+                .ToListAsync();
+
+            var tags = await _context.Tags.ToListAsync();
+
+            var viewModel = new ShopVM
+            {
+                Products = products,
+                SpecialistCounts = specialistCounts,
+                Search = search,
+                RecentProducts = recentProducts,
+                MinPrice = minPrice,
+                MaxPrice = maxPrice,
+                Tags = tags,
+                SelectedTagId = tagId,
+                SelectedSpecialistId = specialistId,
+                CurrentPage = page,
+                TotalPages = (int)Math.Ceiling(totalProducts / (double)pageSize),
+                SortOrder = sortOrder
+            };
+
+            return View(viewModel);
         }
 
-        public IActionResult ProductDetail()
+        public async Task<IActionResult> ProductDetail(int id)
         {
-            return View();
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.ProductTags)
+                    .ThenInclude(pt => pt.Tag)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+                return NotFound();
+
+            var relatedProducts = await _context.Products
+                .Where(p => p.CategoryId == product.CategoryId && p.Id != product.Id)
+                .Take(4)
+                .ToListAsync();
+
+            var vm = new ProductDetailVM
+            {
+                Product = product,
+                RelatedProducts = relatedProducts
+            };
+
+            return View(vm);
         }
+
 
 
         [HttpPost]

@@ -708,37 +708,6 @@ namespace MedishcMVCProject.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("MedishcMVCProject.Models.Pharmacy.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Products");
-                });
-
             modelBuilder.Entity("MedishcMVCProject.Models.PriceList", b =>
                 {
                     b.Property<int>("Id")
@@ -765,6 +734,82 @@ namespace MedishcMVCProject.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("PriceLists");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SKU")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("SpecialistId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("SpecialistId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.ProductCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.ProductTag", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ProductTag");
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Specialist", b =>
@@ -826,6 +871,23 @@ namespace MedishcMVCProject.Migrations
                     b.HasIndex("DesignationId");
 
                     b.ToTable("Staffs");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.University", b =>
@@ -1144,7 +1206,7 @@ namespace MedishcMVCProject.Migrations
 
             modelBuilder.Entity("MedishcMVCProject.Models.Pharmacy.CartItem", b =>
                 {
-                    b.HasOne("MedishcMVCProject.Models.Pharmacy.Product", "Product")
+                    b.HasOne("MedishcMVCProject.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1180,7 +1242,7 @@ namespace MedishcMVCProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MedishcMVCProject.Models.Pharmacy.Product", "Product")
+                    b.HasOne("MedishcMVCProject.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1211,6 +1273,40 @@ namespace MedishcMVCProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.Product", b =>
+                {
+                    b.HasOne("MedishcMVCProject.Models.ProductCategory", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("MedishcMVCProject.Models.Specialist", "Specialist")
+                        .WithMany()
+                        .HasForeignKey("SpecialistId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Specialist");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.ProductTag", b =>
+                {
+                    b.HasOne("MedishcMVCProject.Models.Product", "Product")
+                        .WithMany("ProductTags")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MedishcMVCProject.Models.Tag", "Tag")
+                        .WithMany("ProductTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.Specialist", b =>
@@ -1352,9 +1448,24 @@ namespace MedishcMVCProject.Migrations
                     b.Navigation("Items");
                 });
 
+            modelBuilder.Entity("MedishcMVCProject.Models.Product", b =>
+                {
+                    b.Navigation("ProductTags");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.ProductCategory", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("MedishcMVCProject.Models.Specialist", b =>
                 {
                     b.Navigation("Doctors");
+                });
+
+            modelBuilder.Entity("MedishcMVCProject.Models.Tag", b =>
+                {
+                    b.Navigation("ProductTags");
                 });
 
             modelBuilder.Entity("MedishcMVCProject.Models.University", b =>

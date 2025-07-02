@@ -50,7 +50,7 @@
                                         <td class="cart-product-price">$@item.Price</td>
                                         <td class="cart-product-quantity">
                                             <div class="product-quantity">
-                                                <input class="pro-qunt" type="text" value="@item.Quantity" readonly="" data-max="10" data-min="1" data-step="1" />
+                                                <input class="pro-qunt" type="text" value="@item.Quantity" readonly="" data-max="100" data-min="1" data-step="1" />
                                                 <span>
                                                     <a class="minus" href="javascript:void(0)"><i class="fa fa-minus"></i></a>
                                                     <a class="plus" href="javascript:void(0)"><i class="fa fa-plus"></i></a>
@@ -120,7 +120,6 @@
 @section Scripts {
         <script>
             $(document).ready(function () {
-                // CSRF token üçün
                 $.ajaxSetup({
                     beforeSend: function (xhr, settings) {
                         if (settings.type === 'POST') {
@@ -129,7 +128,6 @@
                     }
                 });
 
-                // Total hesablamaq
                 function updateTotals() {
                     let subtotal = 0;
 
@@ -146,7 +144,6 @@
                     $('#total-amount').text('$' + subtotal.toFixed(2));
                 }
 
-                // Serverdə miqdarı yenilə
                 function updateCartOnServer(productId, quantity, $row) {
                     $.ajax({
                         url: '@Url.Action("UpdateCartQuantity", "Shop")',
@@ -174,7 +171,6 @@
                     });
                 }
 
-                // Səbətdən sil
                 function removeFromCart(productId, $row) {
                     $.ajax({
                         url: '@Url.Action("RemoveFromCart", "Shop")',
@@ -189,7 +185,7 @@
                                     updateTotals();
 
                                     if ($('.cart-product').length === 0) {
-                                        location.reload(); // boş səbət görünməsi üçün
+                                        location.reload(); 
                                     }
                                 });
                             } else {
@@ -202,7 +198,6 @@
                     });
                 }
 
-                // Plus düyməsi
                 $('.plus').on('click', function (e) {
                     e.preventDefault();
 
@@ -218,7 +213,6 @@
                     }
                 });
 
-                // Minus düyməsi
                 $('.minus').on('click', function (e) {
                     e.preventDefault();
 
@@ -234,7 +228,6 @@
                     }
                 });
 
-                // Sil düyməsi
                 $('.cart-product-remove img').on('click', function (e) {
                     e.preventDefault();
 
@@ -246,7 +239,6 @@
                     }
                 });
 
-                // "Update Cart" düyməsi
                 $('#update-cart-btn').on('click', function (e) {
                     e.preventDefault();
 
@@ -280,7 +272,6 @@
                     });
                 });
 
-                // İlk açılışda total yenilə
                 updateTotals();
             });
         </script>

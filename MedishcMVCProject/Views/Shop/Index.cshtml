@@ -1,5 +1,5 @@
 ﻿@using MedishcMVCProject.Models
-@model List<Product>
+@model ShopVM
 @{
     Layout = "_PharmacyLayout";
 }
@@ -14,23 +14,15 @@
                         <h1>our products</h1>
                     </div>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Shop</li>
                     </ol>
                 </div>
-                <!-- End .title -->
             </div>
-            <!-- End .col-lg-6-->
         </div>
-        <!-- End .row-->
     </div>
-    <!-- End .container-->
 </section>
-<!--
-============================
-Shop Products Section
-============================
--->
+
 <section class="shop" id="shop">
     <div class="container">
         <div class="row">
@@ -39,27 +31,39 @@ Shop Products Section
                     <div class="col-12">
                         <div class="shop-options">
                             <div class="products-show">
-                                <p>showing 1:9 of 45 products</p>
+                                <p>showing @Model.Products.Count of @Model.SpecialistCounts.Sum(s => s.ProductCount) products</p>
                             </div>
-                            <div class="products-sort">
-                                <div class="select-holder">
-                                    <select>
-                                        <option selected="" value="Default">Product Name</option>
-                                        <option value="Larger">Newest Items</option>
-                                        <option value="Larger">oldest Items</option>
-                                        <option value="Larger">Hot Items</option>
-                                        <option value="Small">Highest Price</option>
-                                        <option value="Medium">Lowest Price</option>
-                                    </select>
+                            <div class="products-sort d-flex justify-content-between align-items-center">
+                                <div class="select-holder" style="flex: 1 1 auto; max-width: 70%;">
+                                    <form asp-action="Index" method="get" id="sortForm" style="display: inline; width: 100%;">
+                                        <input type="hidden" name="specialistId" value="@Model.SelectedTagId" />
+                                        <input type="hidden" name="search" value="@Model.Search" />
+                                        <input type="hidden" name="minPrice" value="@Model.MinPrice" />
+                                        <input type="hidden" name="maxPrice" value="@Model.MaxPrice" />
+                                        <input type="hidden" name="tagId" value="@Model.SelectedTagId" />
+
+                                        <select name="sortOrder" onchange="document.getElementById('sortForm').submit();" style="width: 100%;">
+                                            <option value="">Product Name</option>
+                                            <option value="newest">Newest Items</option>
+                                            <option value="oldest">Oldest Items</option>
+                                            <option value="hot">Hot Items</option>
+                                            <option value="highestPrice">Highest Price</option>
+                                            <option value="lowestPrice">Lowest Price</option>
+                                        </select>
+                                    </form>
+                                </div>
+
+                                <div style="flex: 0 0 auto; margin-left: 15px;">
+                                    <a href="@Url.Action("ViewCart", "Shop")" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-shopping-cart"></i> View Cart
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <!-- .shop-options end-->
                     </div>
-                    <!-- End .col-lg-12-->
                 </div>
                 <div class="row">
-                    @foreach (var product in Model)
+                    @foreach (var product in Model.Products)
                     {
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="product-item" data-hover="">
@@ -73,6 +77,7 @@ Shop Products Section
                                             <i class="fas fa-shopping-cart"></i> Add to Cart
                                         </button>
                                     </form>
+
                                 </div>
                                 <div class="product-content">
                                     <div class="product-title">
@@ -84,126 +89,258 @@ Shop Products Section
                         </div>
                     }
                 </div>
-                <!-- End .row-->
             </div>
-            <!-- End .col-lg-9-->
-            <!--
-            ============================
-            Sidebar Shop #01
-            ============================
-            -->
+
             <div class="col-12 col-lg-3">
                 <div class="sidebar sidebar-shop">
-                    <!-- Categories-->
                     <div class="widget widget-categories">
                         <div class="widget-title">
                             <h5>categories</h5>
                         </div>
                         <div class="widget-content">
                             <ul class="list-unstyled">
-                                <li><a href="javascript:void(0)">neurology</a><span>9</span></li>
-                                <li><a href="javascript:void(0)">cardiology</a><span>2</span></li>
-                                <li><a href="javascript:void(0)">pathology</a><span>5</span></li>
-                                <li><a href="javascript:void(0)">labotatory</a><span>1</span></li>
-                                <li><a href="javascript:void(0)">pediatric</a><span>7</span></li>
+                                <li>
+                                    <a asp-action="Index" asp-controller="Shop">All</a>
+                                    <span>@Model.SpecialistCounts.Sum(s => s.ProductCount)</span>
+                                </li>
+                                @foreach (var specialist in Model.SpecialistCounts)
+                                {
+                                    <li>
+                                        <a asp-action="Index" asp-route-specialistId="@specialist.Id" class="@(specialist.Id == Model.SelectedTagId ? "selected" : "")">@specialist.Name</a>
+                                        <span>@specialist.ProductCount</span>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
-                    <!-- End .widget-categories-->
+
                     <!-- Search-->
                     <div class="widget widget-search">
                         <div class="widget-title">
                             <h5>search</h5>
                         </div>
                         <div class="widget-content">
-                            <form class="form-search">
+                            <form asp-action="Index" method="get" class="form-search">
+                                <input type="hidden" name="specialistId" value="@Model.SelectedTagId" />
+                                <input type="hidden" name="minPrice" value="@Model.MinPrice" />
+                                <input type="hidden" name="maxPrice" value="@Model.MaxPrice" />
+                                <input type="hidden" name="tagId" value="@Model.SelectedTagId" />
+
                                 <div class="input-group">
-                                    <input class="form-control" type="text" placeholder="Search ..." /><span class="input-group-btn">
-                                        <button class="btn" type="button"><i class="icon-search"></i></button>
+                                    <input class="form-control" type="text" name="search" placeholder="Search ..." value="@Model.Search" />
+                                    <span class="input-group-btn">
+                                        <button class="btn" type="submit"><i class="icon-search"></i></button>
                                     </span>
                                 </div>
-                                <!-- /input-group-->
                             </form>
                         </div>
                     </div>
-                    <!-- End .widget-search-->
+
                     <!-- Recent Products-->
                     <div class="widget widget-recent-products">
                         <div class="widget-title">
-                            <h5>products</h5>
+                            <h5>Recent Products</h5>
                         </div>
                         <div class="widget-content">
-                            <!-- Start .product-->
-                            <div class="product">
-                                <div class="product-img"><img src="~/assets/images/shop/thumb/1.jpg" alt="product" /></div>
-                                <div class="product-desc">
-                                    <div class="product-title"><a href="shop-single.html">calming herps</a></div>
-                                    <div class="product-meta"><span>$10.00</span></div>
+                            @foreach (var item in Model.RecentProducts)
+                            {
+                                <div class="product">
+                                    <div class="product-img">
+                                        <a asp-action="ProductDetail" asp-route-id="@item.Id">
+                                            <img src="/assets/images/shop/thumb/@item.ImageUrl" alt="@item.Name" />
+                                        </a>
+                                    </div>
+                                    <div class="product-desc">
+                                        <div class="product-title">
+                                            <a asp-action="ProductDetail" asp-route-id="@item.Id">@item.Name</a>
+                                        </div>
+                                        <div class="product-meta"><span>$@item.Price</span></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- End .product -->
-                            <!-- Start .product-->
-                            <div class="product">
-                                <div class="product-img"><img src="~/assets/images/shop/thumb/2.jpg" alt="product" /></div>
-                                <div class="product-desc">
-                                    <div class="product-title"><a href="shop-single.html">goji powder</a></div>
-                                    <div class="product-meta"><span>$19.00</span></div>
-                                </div>
-                            </div>
-                            <!-- End .product -->
-                            <!-- Start .product-->
-                            <div class="product">
-                                <div class="product-img"><img src="~/assets/images/shop/thumb/3.jpg" alt="product" /></div>
-                                <div class="product-desc">
-                                    <div class="product-title"><a href="shop-single.html">biotin complex</a></div>
-                                    <div class="product-meta"><span>$25.00</span></div>
-                                </div>
-                            </div>
-                            <!-- End .product -->
+                            }
                         </div>
                     </div>
-                    <!-- End .widget-recent-products -->
-                    <!-- Widget Filter-->
+
                     <div class="widget widget-filter">
                         <div class="widget-title">
                             <h5>filter by price</h5>
                         </div>
                         <div class="widget-content clearfix">
-                            <div id="slider-range"></div>
-                            <p class="slider-mount">
-                                <label for="amount">Price:  </label>
-                                <input id="amount" type="text" readonly="" /><a class="btn-filter" href="#">Filter</a>
-                            </p>
+                            <form asp-action="Index" method="get">
+                                <input type="hidden" name="specialistId" value="@Model.SelectedTagId" />
+                                <input type="hidden" name="search" value="@Model.Search" />
+                                <input type="hidden" name="tagId" value="@Model.SelectedTagId" />
+
+                                <div id="slider-range" style="margin-bottom: 10px;"></div>
+                                <p class="slider-mount">
+                                    <label for="amount">Price:</label>
+                                    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;" />
+                                    <input type="hidden" name="minPrice" id="minPrice" />
+                                    <input type="hidden" name="maxPrice" id="maxPrice" />
+                                    <button class="btn btn-primary btn-sm mt-2" type="submit">Filter</button>
+                                </p>
+                            </form>
                         </div>
                     </div>
-                    <!-- End .widget-filter-->
+
                     <!-- Tags-->
                     <div class="widget widget-tags">
                         <div class="widget-title">
                             <h5>Tags</h5>
                         </div>
                         <div class="widget-content">
-                            <a href="javascript:void(0)">life style</a><a href="javascript:void(0)">nutrition</a><a href="javascript:void(0)">infectious</a><a href="javascript:void(0)">disease</a><a href="javascript:void(0)">insights</a><a href="javascript:void(0)">urinary</a><a href="javascript:void(0)">tips</a>
+                            @foreach (var tag in Model.Tags)
+                            {
+                                <a asp-action="Index" asp-route-tagId="@tag.Id" class="@(tag.Id == Model.SelectedTagId ? "selected" : "")">@tag.Name</a>
+                            }
                         </div>
                     </div>
-                    <!-- End .widget-tags -->
                 </div>
-                <!-- End .sidebar-->
             </div>
-            <!-- End .col-lg-3-->
         </div>
-        <!-- End .row-->
+
         <div class="row">
-            <div class="col-12 clearfix text--center">
+            <div class="col-12 clearfix text-center">
                 <ul class="pagination">
-                    <li><a class="current" href="javascript:void(0)">1</a></li>
-                    <li><a href="javascript:void(0)">2</a></li>
-                    <li><a href="#" aria-label="Next"><i class="icon-arrow-right"></i></a></li>
+                    <li class="@(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a asp-action="Index"
+                           asp-route-page="@(Model.CurrentPage - 1)"
+                           asp-route-specialistId="@(Model.SelectedSpecialistId)"
+                           asp-route-search="@Model.Search"
+                           asp-route-minPrice="@Model.MinPrice"
+                           asp-route-maxPrice="@Model.MaxPrice"
+                           asp-route-tagId="@Model.SelectedTagId"
+                           aria-label="Previous">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="@(i == Model.CurrentPage ? "current" : "")">
+                            <a asp-action="Index"
+                               asp-route-page="@i"
+                               asp-route-specialistId="@(Model.SelectedSpecialistId)"
+                               asp-route-search="@Model.Search"
+                               asp-route-minPrice="@Model.MinPrice"
+                               asp-route-maxPrice="@Model.MaxPrice"
+                               asp-route-tagId="@Model.SelectedTagId">@i</a>
+                        </li>
+                    }
+
+                    <li class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a asp-action="Index"
+                           asp-route-page="@(Model.CurrentPage + 1)"
+                           asp-route-specialistId="@(Model.SelectedSpecialistId)"
+                           asp-route-search="@Model.Search"
+                           asp-route-minPrice="@Model.MinPrice"
+                           asp-route-maxPrice="@Model.MaxPrice"
+                           asp-route-tagId="@Model.SelectedTagId"
+                           aria-label="Next">
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
-            <!-- End .col-lg-12-->
         </div>
-        <!-- End .row-->
     </div>
-    <!-- End .container-->
 </section>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+    $(function () {
+        var initialMin = @(Model.MinPrice.HasValue? Model.MinPrice.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "0");
+        var initialMax = @(Model.MaxPrice.HasValue? Model.MaxPrice.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "1000");
+
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 1000,
+            values: [initialMin, initialMax],
+            slide: function (event, ui) {
+                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                $("#minPrice").val(ui.values[0]);
+                $("#maxPrice").val(ui.values[1]);
+            }
+        });
+
+        $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+            " - $" + $("#slider-range").slider("values", 1));
+        $("#minPrice").val($("#slider-range").slider("values", 0));
+        $("#maxPrice").val($("#slider-range").slider("values", 1));
+
+        var currentSort = '@(Model.SortOrder ?? "")';
+        document.querySelector('select[name="sortOrder"]').value = currentSort;
+    });
+</script>
+
+<style>
+    .widget-tags a.selected {
+        background-color: #007bff;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+        margin-right: 5px;
+        text-decoration: none;
+    }
+
+    .widget-tags a {
+        display: inline-block;
+        margin: 3px 5px;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        color: #555;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+        .widget-tags a:hover {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+    .pagination li.current a {
+        background-color: #007bff;
+        color: white;
+        pointer-events: none;
+    }
+
+    .pagination li.disabled a {
+        color: #ccc;
+        pointer-events: none;
+    }
+
+    .widget-categories a.selected {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+        padding: 6px 14px;
+        font-weight: 600;
+        border-radius: 4px;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+            color: white;
+        }
+
+    .products-sort {
+        margin-bottom: 15px;
+    }
+
+        .products-sort .select-holder select {
+            padding: 6px 10px;
+            font-size: 14px;
+        }
+</style>
