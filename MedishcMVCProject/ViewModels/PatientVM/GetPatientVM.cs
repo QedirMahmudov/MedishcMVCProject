@@ -16,5 +16,7 @@ namespace MedishcMVCProject.ViewModels
         public int PhoneNumber { get; set; }
         public string Email { get; set; }
         public List<PatientReport> Reports { get; set; }
+
+        public string? DoctorFullName { get; set; }
     }
 }

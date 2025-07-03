@@ -100,6 +100,34 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcUGF0aWVudFxVcGRhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/ProductCategory/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcUHJvZHVjdENhdGVnb3J5XENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/ProductCategory/List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcUHJvZHVjdENhdGVnb3J5XExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/ProductCategory/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcUHJvZHVjdENhdGVnb3J5XFVwZGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Product/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcUHJvZHVjdFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Product/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcUHJvZHVjdFxEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Product/List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcUHJvZHVjdFxMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Product/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcUHJvZHVjdFxVcGRhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/uvape/OneDrive/Desktop/Folders/MedilixMVC/MedishcMVCProject/MedishcMVCProject/Areas/admin/Views/Salary/List.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcYWRtaW5cVmlld3NcU2FsYXJ5XExpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

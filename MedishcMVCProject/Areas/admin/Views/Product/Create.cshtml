@@ -1,0 +1,99 @@
+﻿@using MedishcMVCProject.ViewModels.ProductVM
+@model CreateProductVM
+@{
+    int i = 0;
+}
+<div class="app-body">
+    <div class="row gx-3">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Create Product</h4>
+                    <p class="card-description">Product registration form</p>
+
+                    <form asp-action="Create" method="post" enctype="multipart/form-data" class="forms-sample">
+                        <div class="row gx-3">
+                            <!-- Main Image -->
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="form-group">
+                                    <label asp-for="MainPhoto">Main Image <span class="text-danger">*</span></label>
+                                    <input asp-for="MainPhoto" accept="image/*" class="form-control" type="file" />
+                                    <span class="text-danger" asp-validation-for="MainPhoto"></span>
+                                </div>
+                            </div>
+
+                            <!-- Name -->
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label" asp-for="Name">Name <span class="text-danger">*</span></label>
+                                    <input asp-for="Name" type="text" class="form-control" placeholder="Enter Product Name" />
+                                    <span class="text-danger" asp-validation-for="Name"></span>
+                                </div>
+                            </div>
+
+                            <!-- SKU -->
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label" asp-for="SKU">SKU <span class="text-danger">*</span></label>
+                                    <input asp-for="SKU" type="text" class="form-control" placeholder="Enter SKU" />
+                                    <span class="text-danger" asp-validation-for="SKU"></span>
+                                </div>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label" asp-for="Price">Price <span class="text-danger">*</span></label>
+                                    <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="Enter Price" />
+                                    <span class="text-danger" asp-validation-for="Price"></span>
+                                </div>
+                            </div>
+
+                            <!-- Category -->
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label" asp-for="CategoryId">Category <span class="text-danger">*</span></label>
+                                    <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(Model.ProductCategories, nameof(ProductCategory.Id), nameof(ProductCategory.Name)))">
+                                        <option selected disabled>Choose Category</option>
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="CategoryId"></span>
+                                </div>
+                            </div>
+
+                            <!-- Specialist -->
+                            <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label" asp-for="SpecialistId">Specialist <span class="text-danger">*</span></label>
+                                    <select asp-for="SpecialistId" class="form-select" asp-items="@(new SelectList(Model.Specialists, "Id", "Name"))">
+                                        <option selected disabled>Choose Specialist</option>
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="SpecialistId"></span>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-xxl-6 col-lg-8 col-sm-12">
+                                <div class="mb-3">
+                                    <label class="form-label" asp-for="Description">Description <span class="text-danger">*</span></label>
+                                    <textarea asp-for="Description" rows="5" class="form-control" placeholder="Enter Product Description"></textarea>
+                                    <span class="text-danger" asp-validation-for="Description"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="d-flex gap-2 justify-content-end mt-4">
+                            <a asp-action="List" class="btn btn-light">Cancel</a>
+                            <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

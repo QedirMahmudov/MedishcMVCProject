@@ -105,6 +105,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             Patient? patient = await _context.Patients
                 .Include(p => p.BloodGroup)
                 .Include(p => p.Disease)
+                .Include(p => p.Doctor)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (patient is null) return NotFound();
@@ -133,6 +134,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 Email = emailContact?.Value,
                 PhoneNumber = int.TryParse(phoneContact?.Value, out int phone) ? phone : 0,
                 Reports = reports,
+                DoctorFullName = patient.Doctor != null ? $"{patient.Doctor.Name} {patient.Doctor.Surname}" : "Not Found"
             };
 
             return View(vm);
