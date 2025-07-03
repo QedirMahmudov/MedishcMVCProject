@@ -235,7 +235,7 @@ Doctors #02 Section
                     <div class="team-member" data-hover="">
                         <div class="team-member-holder">
                             <div class="team-img">
-                                <a class="link" href="doctors-grid.html"></a><img src="~/assets/images/team/grid/@item.Image" alt="team member" />
+                                <a class="link" asp-controller="Doctor" asp-action="DoctorDetail" asp-route-id="@item.Id"></a><img src="~/assets/images/team/grid/@item.Image" alt="team member" />
                                 <div class="team-social"> <a href="javascript:void(0)"><i class="fab fa-facebook-f"> </i></a><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a><a href="javascript:void(0)"><i class="fas fa-envelope"></i></a><a href="javascript:void(0)"><i class="fas fa-phone-alt"></i></a></div>
                             </div>
                             <!-- End .team-img-->
@@ -247,7 +247,7 @@ Doctors #02 Section
                                 <div class="team-desc">
                                     <p>@item.MainDescription</p>
                                 </div>
-                                <div class="team-more"><a class="btn-line btn-line-inversed btn-line-before" href="#"> <span class="line"> <span></span></span><span>read more</span></a></div>
+                                <div class="team-more"><a class="btn-line btn-line-inversed btn-line-before" asp-controller="Doctor" asp-action="DoctorDetail" asp-route-id="@item.Id"> <span class="line"> <span></span></span><span>read more</span></a></div>
                             </div>
                             <!-- End .team-content -->
                         </div>

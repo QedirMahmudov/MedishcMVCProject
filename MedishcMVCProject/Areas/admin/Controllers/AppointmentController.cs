@@ -30,6 +30,9 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             List<Appointment> appointments;
 
+            DateTime currentDate = DateTime.Now;
+
+
             if (User.IsInRole(nameof(UserRole.Admin)))
             {
                 appointments = await _context.Appointments
@@ -54,6 +57,17 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             {
                 return Forbid();
             }
+
+
+            foreach (var appointment in appointments)
+            {
+                if (appointment.Date < currentDate)
+                {
+                    ModelState.AddModelError(string.Empty, "Keçmiş tarixə təyin etmək olmaz.");
+                    return View(appointments);
+                }
+            }
+
 
             return View(appointments);
         }

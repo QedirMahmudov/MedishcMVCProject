@@ -41,12 +41,11 @@
                                      class="img-7x rounded-circle mb-3">
                                 <h5>@doctorVM.Name @doctorVM.Surname</h5>
                                 <h6 class="text-truncate">@doctorVM.SpecialistName</h6>
-                                <p>8 Years Experience</p> @* Statik *@
                             </a>
                             <div class="rating-stars m-auto mb-3">
                                 <div class="readonly5"></div>
                             </div>
-                            <a href="book-appointment.html" class="btn btn-primary mb-2">
+                            <a asp-action="List" asp-controller="Appointment" class="btn btn-primary mb-2">
                                 Book Appointment
                             </a>
                             <a asp-action="Profile" asp-route-id="@doctorVM.Id" class="btn btn-success mb-2">

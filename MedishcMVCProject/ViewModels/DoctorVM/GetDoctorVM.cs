@@ -10,6 +10,8 @@ namespace MedishcMVCProject.ViewModels
         public string Surname { get; set; }
         public string? DegreeName { get; set; }
         public int? Review { get; set; }
+        public int PhoneNumber { get; set; }
+        public string Email { get; set; }
         public string MainDescription { get; set; }
         public string SpecialistName { get; set; }
         public List<PriceList>? PriceLists { get; set; }

@@ -18,7 +18,6 @@
                                 <h6>Hello I am,</h6>
                                 <h3>@Model.Name @Model.Surname</h3>
                                 <h6>@Model.DegreeName</h6>
-                                <h6>16 Years Experience Overall</h6> @* heleki static qalsin *@
                                 <div class="rating-stars">
                                     <div class="readonly5"></div>
                                 </div>
@@ -109,7 +108,12 @@
                             <p>
                                 @Model.MainDescription
                             </p>
-
+                            <span style="display: block;">
+                                <strong>Email:</strong> @(string.IsNullOrWhiteSpace(Model.Email) ? "Not Found" : Model.Email)
+                            </span>
+                            <span style="display: block;">
+                                <strong>Phone:</strong> @(Model.PhoneNumber == 0 ? "Not Found" : Model.PhoneNumber.ToString())
+                            </span>
                             <div class="">
                                 <h6>Specialist</h6>
                                 <div class="d-flex flex-wrap gap-2">
@@ -216,7 +220,7 @@
                                 }
                             </div>
 
-                            <a href="book-appointment.html" class="btn btn-primary mt-3">
+                            <a asp-action="List" asp-controller="Appointment" class="btn btn-primary mt-3">
                                 Book Appointment
                             </a>
                         </div>
@@ -237,7 +241,7 @@
                                     </span>
                                 }
                             </div>
-                            <a href="book-appointment.html" class="btn btn-primary">
+                        <a asp-action="List" asp-controller="Appointment" class="btn btn-primary">
                                 Book Appointment
                             </a>
                         </div>

@@ -9,11 +9,11 @@
             <div class="col-12 col-lg-6 offset-lg-3">
                 <div class="title">
                     <div class="title-heading">
-                        <h1>Ödəniş</h1>
+                        <h1>Payment</h1>
                     </div>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Ana Səhifə</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Ödəniş</li>
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Payment</li>
                     </ol>
                 </div>
             </div>
@@ -24,9 +24,6 @@
 <section class="shop shop-checkout bg-white" id="shop-checkout">
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <p class="cart-coupon">Endirim kuponu var? <a href="#">Buraya klikləyin</a></p>
-            </div>
         </div>
         <form class="checkoutForm mb-0" method="post" id="checkoutForm">
             @Html.AntiForgeryToken()
@@ -34,36 +31,36 @@
                 <div class="col-12 col-lg-6">
                     <div class="checkout-widget">
                         <div class="widget-title">
-                            <h5>Xəstə Məlumatları</h5>
+                            <h5>Patient Information</h5>
                         </div>
                         <div class="checkout-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label>Ad<span class="required">*</span></label>
+                                    <label>First Name<span class="required">*</span></label>
                                     <input class="form-control" type="text" name="firstName" required="" />
                                 </div>
                                 <div class="col-12">
-                                    <label>Soyad<span class="required">*</span></label>
+                                    <label>Last Name<span class="required">*</span></label>
                                     <input class="form-control" type="text" name="lastName" required="" />
                                 </div>
                                 <div class="col-12">
-                                    <label>Ünvan<span class="required">*</span></label>
-                                    <input class="form-control" type="text" name="address" placeholder="Ev ünvanınız" required="" />
+                                    <label>Address<span class="required">*</span></label>
+                                    <input class="form-control" type="text" name="address" placeholder="Your address" required="" />
                                 </div>
                                 <div class="col-12">
-                                    <label>Şəhər<span class="required">*</span></label>
+                                    <label>City<span class="required">*</span></label>
                                     <input class="form-control" type="text" name="city" required="" />
                                 </div>
                                 <div class="col-12">
-                                    <label>Ölkə<span class="required">*</span></label>
+                                    <label>Country<span class="required">*</span></label>
                                     <input class="form-control" type="text" name="country" required="" />
                                 </div>
                                 <div class="col-12">
-                                    <label>Poçt kodu<span class="required">*</span></label>
+                                    <label>Postal Code<span class="required">*</span></label>
                                     <input class="form-control" type="text" name="postcode" required="" />
                                 </div>
                                 <div class="col-12">
-                                    <label>Telefon<span class="required">*</span></label>
+                                    <label>Phone<span class="required">*</span></label>
                                     <input class="form-control" type="tel" name="phone" required="" />
                                 </div>
                                 <div class="col-12">
@@ -77,13 +74,13 @@
                 <div class="col-12 col-lg-6">
                     <div class="checkout-widget">
                         <div class="widget-title">
-                            <h5>Əlavə Məlumatlar</h5>
+                            <h5>Additional Information</h5>
                         </div>
                         <div class="checkout-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <label>Randevu Qeydləri (İstəyə görə)</label>
-                                    <textarea class="form-control" name="orderNotes" cols="30" rows="3" placeholder="Randevu ilə bağlı xüsusi qeydlər"></textarea>
+                                    <label>Appointment Notes (Optional)</label>
+                                    <textarea class="form-control" name="orderNotes" cols="30" rows="3" placeholder="Special notes about the appointment"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -95,14 +92,14 @@
         <div class="row">
             <div class="col-12">
                 <div class="your-order">
-                    <h5>Sizin Sifarişiniz</h5>
+                    <h5>Your Order</h5>
                     <div class="table-order">
                         <table>
                             <thead>
                                 <tr class="order-heading">
-                                    <th>Məhsul</th>
-                                    <th>Miqdar</th>
-                                    <th>Qiymət</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
                                 </tr>
                             </thead>
                             <tbody id="cart-items">
@@ -110,11 +107,11 @@
                             </tbody>
                             <tfoot>
                                 <tr class="cart-subtotal">
-                                    <td colspan="2">Ara məbləğ</td>
+                                    <td colspan="2">Subtotal</td>
                                     <td id="subtotal">$0.00</td>
                                 </tr>
                                 <tr class="cart-total">
-                                    <td colspan="2"><strong>Cəmi</strong></td>
+                                    <td colspan="2"><strong>Total</strong></td>
                                     <td id="total"><strong>$0.00</strong></td>
                                 </tr>
                             </tfoot>
@@ -130,20 +127,20 @@
                     <div class="payment-method">
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle"></i>
-                            Ödəniş Stripe vasitəsi ilə təhlükəsiz şəkildə həyata keçirilir.
+                            Payment is securely processed via Stripe.
                         </div>
                     </div>
                     <hr />
                     <div class="payment-conditions">
-                        <p class="message">Şəxsi məlumatlarınız sifarişi emal etmək, bu veb saytda təcrübənizi dəstəkləmək və <a href="#">məxfilik siyasəti</a>mizdə təsvir olunan digər məqsədlər üçün istifadə olunacaq.</p>
+                        <p class="message">Your personal data will be used to process the order, support your experience on this website, and for other purposes described in our <a href="#">privacy policy</a>.</p>
                         <div class="row no-gutters">
                             <div class="col-12 mb-3">
                                 <input type="checkbox" id="terms-checkbox" required />
-                                <label for="terms-checkbox"> Veb saytın <a href="#" target="_blank">Şərtlər və Qaydalarını</a> oxudum və razıyam <span class="required">*</span></label>
+                                <label for="terms-checkbox"> I have read and agree to the <a href="#" target="_blank">Terms and Conditions</a> of the website <span class="required">*</span></label>
                             </div>
                             <div class="col-12">
                                 <button id="checkout-button" class="btn btn--primary" type="button" disabled>
-                                    <i class="fa fa-credit-card"></i> Ödəniş et
+                                    <i class="fa fa-credit-card"></i> Make Payment
                                 </button>
                             </div>
                         </div>
@@ -153,6 +150,7 @@
         </div>
     </div>
 </section>
+
 
 @section Scripts {
     <script src="https://js.stripe.com/v3/"></script>

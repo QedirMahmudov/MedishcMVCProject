@@ -65,18 +65,7 @@
                     </div>
                 </div>
 
-                <div class="col-12">
-                    <div class="cart-product-action">
-                        <form class="form-inline">
-                            <input class="form-control" id="coupon" type="text" placeholder="Coupon Code" />
-                            <button class="btn btn--secondary btn-radius-right" type="submit">Apply Coupon</button>
-                        </form>
-                        <div>
-                            <button class="btn btn--secondary btn-radius-right" id="update-cart-btn">Update Cart</button>
-                            <a class="btn btn--primary btn-radius-right" asp-action="Checkout">Checkout</a>
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="col-12">
                     <div class="cart-total-amount">
@@ -96,7 +85,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <a class="btn btn--primary btn-radius-right" asp-controller="Shop" asp-action="Checkout">Proceed to Checkout</a>
+                        <a class="btn btn--primary btn-radius-right checkout-btn" asp-controller="Shop" asp-action="Checkout">Proceed to Checkout</a>
                     </div>
                 </div>
             </div>
@@ -276,3 +265,15 @@
             });
         </script>
 }
+
+
+<style>
+        .checkout-btn {
+            display: block; 
+            width: auto;
+            margin: 20px auto; 
+            padding: 10px 30px; 
+            text-align: center;
+        }
+
+ </style>

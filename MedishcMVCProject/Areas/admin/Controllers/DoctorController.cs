@@ -98,6 +98,13 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 .Include(d => d.WorkingHours)
                 .FirstOrDefaultAsync(d => d.Id == id);
 
+            List<ContactInfo> contactInfos = await _context.ContactInfos
+               .Where(c => c.OwnerType == OwnerType.Doctor && c.OwnerId == doctor.Id)
+               .ToListAsync();
+
+            ContactInfo? emailContact = contactInfos.FirstOrDefault(c => c.ContactType == ContactType.Email);
+            ContactInfo? phoneContact = contactInfos.FirstOrDefault(c => c.ContactType == ContactType.Phone);
+
             if (doctor is null) return NotFound();
             GetDoctorVM vm = new GetDoctorVM()
             {
@@ -108,6 +115,8 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 MainDescription = doctor.MainDescription,
                 DegreeName = doctor.Degree?.Name,
                 SpecialistName = doctor.Specialist?.Name,
+                Email = emailContact?.Value,
+                PhoneNumber = int.TryParse(phoneContact?.Value, out int phone) ? phone : 0,
                 WorkingHours = doctor.WorkingHours.Select(oh => new WorkingHourVM
                 {
                     DayOfWeek = oh.DayOfWeek,
@@ -308,7 +317,6 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 ModelState.AddModelError(nameof(doctorVM.Surname), "Surname cannot contain digits");
             }
 
-
             if (!ModelState.IsValid)
             {
                 return View(doctorVM);
@@ -321,6 +329,39 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             if (existedDoctor is null) return NotFound();
 
+            var contactInfos = await _context.ContactInfos
+                .Where(c => c.OwnerType == OwnerType.Doctor && c.OwnerId == existedDoctor.Id)
+                .ToListAsync();
+
+            var existingEmail = contactInfos.FirstOrDefault(c => c.ContactType == ContactType.Email);
+            if (existingEmail == null)
+            {
+                _context.ContactInfos.Add(new ContactInfo
+                {
+                    ContactType = ContactType.Email,
+                    Value = doctorVM.Email,
+                    OwnerType = OwnerType.Doctor,
+                    OwnerId = existedDoctor.Id
+                });
+            }
+            else if (existingEmail.Value != doctorVM.Email)
+            {
+                existingEmail.Value = doctorVM.Email;
+
+                AppUser? user = await _userManager.FindByIdAsync(existedDoctor.AppUserId);
+
+                if (user != null)
+                {
+                    user.Email = doctorVM.Email;
+                    var resultDoctor = await _userManager.UpdateAsync(user);
+
+                    if (!resultDoctor.Succeeded)
+                    {
+                        ModelState.AddModelError(string.Empty, "Email could not be updated in AspNetUsers.");
+                        return View(doctorVM);
+                    }
+                }
+            }
 
             if (doctorVM.MainPhoto is not null)
             {
@@ -335,12 +376,13 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                     ModelState.AddModelError(nameof(UpdateDoctorVM.MainPhoto), "File should be less than 1MB");
                     return View(doctorVM);
                 }
+
                 string newImage = await doctorVM.MainPhoto.CreateFileAsync(_env.WebRootPath, "assets", "images", "team", "full");
                 existedDoctor.Image.DeleteFile(_env.WebRootPath, "assets", "images", "team", "full");
                 existedDoctor.Image = newImage;
             }
-            bool result = doctorVM.Specialists.Any(c => c.Id == doctorVM.SpecialistId);
 
+            bool result = doctorVM.Specialists.Any(c => c.Id == doctorVM.SpecialistId);
             if (!result)
             {
                 ModelState.AddModelError(nameof(doctorVM.SpecialistId), "Specialist does not exist");
@@ -357,10 +399,9 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             existedDoctor.ReviewCount = doctorVM.ReviewCount;
             existedDoctor.ZodocRating = doctorVM.ZodocRating;
 
-            if (doctorVM.WorkingHours is not null && doctorVM.WorkingHours.Any())
+            if (doctorVM.WorkingHours != null && doctorVM.WorkingHours.Any())
             {
                 _context.WorkingHours.RemoveRange(existedDoctor.WorkingHours);
-
                 existedDoctor.WorkingHours = Enum.GetValues(typeof(DayOfWeekEnum))
                     .Cast<DayOfWeekEnum>()
                     .Select(day =>
@@ -376,15 +417,8 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                     }).ToList();
             }
 
-
-            List<ContactInfo>? contactInfos = await _context.ContactInfos
-                        .Where(c => c.OwnerType == OwnerType.Doctor && c.OwnerId == existedDoctor.Id)
-                        .ToListAsync();
-
-
             var contactValues = new List<(ContactType Type, string? Value)>
             {
-                (ContactType.Email, doctorVM.Email),
                 (ContactType.Phone, doctorVM.PhoneNumber),
                 (ContactType.Facebook, doctorVM.SocialMediaFacebook),
                 (ContactType.Twitter, doctorVM.SocialMediaTwitter)

@@ -1,4 +1,6 @@
-﻿<div class="app-body">
+﻿@model DashboardData
+
+<div class="app-body">
 
     <!-- Row starts -->
     <div class="row gx-3">
@@ -7,7 +9,7 @@
                 <div class="card-body">
                     <div class="py-4 px-3 text-white">
                         <h6>Good Morning,</h6>
-                        <h2>Dr. Patrick Kim</h2>
+                        <h2>@Model.FullName</h2>
                         <h5>Your schedule today.</h5>
                         <div class="mt-4 d-flex gap-3">
                             <div class="d-flex align-items-center">
@@ -15,7 +17,7 @@
                                     <i class="ri-surgical-mask-line fs-4"></i>
                                 </div>
                                 <div class="d-flex flex-column">
-                                    <h2 class="m-0 lh-1">9</h2>
+                                    <h2 class="m-0 lh-1">@Model.Patients</h2>
                                     <p class="m-0">Patients</p>
                                 </div>
                             </div>
@@ -166,7 +168,7 @@
                             <i class="ri-verified-badge-line fs-4 lh-1"></i>
                         </div>
                         <h6>Appointments</h6>
-                        <h2 class="text-primary m-0">639</h2>
+                        <h2 class="text-primary m-0">@Model.Appointments</h2>
                     </div>
                 </div>
             </div>
@@ -179,7 +181,7 @@
                             <i class="ri-stethoscope-line fs-4 lh-1"></i>
                         </div>
                         <h6>Doctors</h6>
-                        <h2 class="text-primary m-0">83</h2>
+                        <h2 class="text-primary m-0">@Model.Doctors</h2>
                     </div>
                 </div>
             </div>
@@ -192,7 +194,7 @@
                             <i class="ri-psychotherapy-line fs-4 lh-1"></i>
                         </div>
                         <h6>Staff</h6>
-                        <h2 class="text-primary m-0">296</h2>
+                        <h2 class="text-primary m-0">@Model.Staff</h2>
                     </div>
                 </div>
             </div>
