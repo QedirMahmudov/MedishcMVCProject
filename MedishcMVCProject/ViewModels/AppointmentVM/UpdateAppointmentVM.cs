@@ -5,6 +5,8 @@ namespace MedishcMVCProject.ViewModels
 {
     public class UpdateAppointmentVM
     {
+
+        [RegularExpression(@"^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$", ErrorMessage = "Please enter a valid email in lowercase.")]
         public string Email { get; set; } = null!;
         [Required]
         public int? SpecialistId { get; set; }

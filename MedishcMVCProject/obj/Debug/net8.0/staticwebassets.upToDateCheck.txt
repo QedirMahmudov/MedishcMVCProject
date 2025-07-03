@@ -415,7 +415,6 @@ wwwroot\assets\uploads\patientreports\e697ac20-b630-4615-98e6-97f01a03b321.pdf
 wwwroot\assets\uploads\patientreports\70fb49b8-6166-4034-b6a6-7edb3560c7e8.pdf
 wwwroot\assets\uploads\patientreports\fd36ad88-b6ec-4d4e-a6b5-76289e16c88a.pdf
 wwwroot\assets\images\staff\a69238e5-0482-4690-ae43-1cc3e866476b.jpg
-wwwroot\assets\images\staff\378796c1-9e17-4046-b358-839d00cef34c.jpg
 wwwroot\assets\images\patient\09972439-1afc-40f5-b4d9-287090a2164f.png
 wwwroot\assets\uploads\patientreports\9b26ef45-21ee-4c4f-a287-c609c53c554d.pdf
 wwwroot\assets\uploads\patientreports\3c27a684-5d1b-4d8e-88e3-9e9c8e0136f4.pdf
@@ -476,7 +475,14 @@ wwwroot\assets\images\patient\50b15b46-41bc-4cc5-bac8-1be9e467f842.png
 wwwroot\assets\uploads\patientreports\21d648ee-da35-4db5-a5ca-558a1aaa618a.pdf
 wwwroot\assets\uploads\patientreports\8a9f36a8-1caa-4913-aedf-b072bce419c5.pdf
 wwwroot\assets\images\shop\grid\b6d611f9-1e6c-4efe-9387-1d269d6b4d0d.png
-wwwroot\assets\images\team\full\a4036de7-0a41-47ae-923b-0bf011496837.png
+wwwroot\assets\images\team\full\277fb279-dace-4460-a2a3-2cfa1d921d6f.png
 wwwroot\assets\images\patient\0c25efd6-45b4-40af-a0d4-a7caf926a976.png
 wwwroot\assets\uploads\patientreports\8a032438-d2a0-4714-8dbf-4c7208a3d762.pdf
 wwwroot\assets\uploads\patientreports\d333d46c-2cd7-4c72-ab04-e301921d3468.pdf
+wwwroot\assets\uploads\patientreports\7337858c-1966-4edf-a37f-94b7c193da8c.pdf
+wwwroot\assets\uploads\patientreports\b14d5b95-113c-4be0-97fa-eb18c9267033.pdf
+wwwroot\assets\images\staff\ab4c5e49-035a-45cd-8e44-1fea11dc5ec2.png
+wwwroot\assets\images\staff\b170a41e-97c9-41af-aa25-e6d6d6e003c0.png
+wwwroot\assets\images\team\full\d7528348-177b-4674-93fb-338496e3a37d.png
+wwwroot\assets\images\team\full\f6eece1d-379e-40b5-83fe-65d4a36a10e1.png
+wwwroot\assets\images\team\full\919487ad-7eac-49a9-a0dd-5c938cde66b2.png

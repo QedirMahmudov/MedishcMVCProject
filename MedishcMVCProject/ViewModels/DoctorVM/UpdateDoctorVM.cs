@@ -7,8 +7,6 @@ namespace MedishcMVCProject.ViewModels
     public class UpdateDoctorVM
     {
         public string Image { get; set; }
-
-
         [MinLength(3, ErrorMessage = "Name must be minimum 3 characters long.")]
         [MaxLength(20, ErrorMessage = "Name should be less than 20 characters long")]
         public string Name { get; set; }
@@ -18,7 +16,9 @@ namespace MedishcMVCProject.ViewModels
         [Range(1, 100, ErrorMessage = "Age must be between 1 and 100")]
         public int Age { get; set; }
         public GenderEnum Gender { get; set; }
+        [RegularExpression(@"^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$", ErrorMessage = "Please enter a valid email in lowercase.")]
         public string Email { get; set; }
+        [RegularExpression(@"^(?:\+994|0)(50|51|55|70|77|99)[0-9]{7}$", ErrorMessage = "Please enter a valid phone number.")]
         public string PhoneNumber { get; set; }
         [Required]
         public int? SpecialistId { get; set; }

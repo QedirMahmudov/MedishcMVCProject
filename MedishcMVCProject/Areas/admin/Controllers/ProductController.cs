@@ -114,6 +114,12 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             vm.ProductCategories = await _context.ProductCategories.ToListAsync();
             vm.Specialists = await _context.Specialists.ToListAsync();
 
+            if (vm.MainPhoto == null)
+            {
+                ModelState.AddModelError(nameof(vm.MainPhoto), "Please select a photo");
+                return View(vm);
+            }
+
             if (!vm.MainPhoto.ValidateType("image/"))
             {
                 ModelState.AddModelError(nameof(vm.MainPhoto), "File type is incorrect");
@@ -127,6 +133,14 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             }
 
             if (!ModelState.IsValid) return View(vm);
+
+            bool skuExists = await _context.Products.AnyAsync(p => p.SKU == vm.SKU);
+            if (skuExists)
+            {
+                ModelState.AddModelError(nameof(vm.SKU), "SKU already exists. Please enter a unique SKU.");
+                return View(vm);
+            }
+
 
             bool categoryExists = await _context.ProductCategories.AnyAsync(c => c.Id == vm.CategoryId);
             bool specialistExist = await _context.Specialists.AnyAsync(c => c.Id == vm.SpecialistId);
@@ -211,6 +225,16 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 ModelState.AddModelError(nameof(vm.CategoryId), "Selected category does not exist");
                 return View(vm);
             }
+
+
+            bool skuExists = await _context.Products.AnyAsync(p => p.SKU == vm.SKU && p.Id != id);
+            if (skuExists)
+            {
+                ModelState.AddModelError(nameof(vm.SKU), "SKU already exists. Please enter a unique SKU.");
+                return View(vm);
+            }
+
+
 
             if (vm.MainPhoto is not null)
             {

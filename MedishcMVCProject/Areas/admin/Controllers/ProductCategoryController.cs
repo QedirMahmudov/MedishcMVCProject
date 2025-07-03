@@ -1,5 +1,6 @@
 ﻿using MedishcMVCProject.DAL;
 using MedishcMVCProject.Models;
+using MedishcMVCProject.Utilities.Helpers;
 using MedishcMVCProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -54,7 +55,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             var category = new ProductCategory
             {
-                Name = vm.CategoryName
+                Name = vm.CategoryName.Capitalize()
             };
 
             _context.ProductCategories.Add(category);

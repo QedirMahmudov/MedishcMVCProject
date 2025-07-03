@@ -105,251 +105,63 @@
         <!-- Row starts -->
         <!-- Row ends -->
         <!-- Row starts -->
-        <div class="row gx-3">
-           
-            <div class="col-xl-6 col-sm-12">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h5 class="card-title">Doctor Visits</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-outer">
-                            <div class="table-responsive">
-                                <table class="table align-middle truncate m-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Doctor</th>
-                                            <th>Date</th>
-                                            <th>Department</th>
-                                            <th>Reports</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <img src="/admin/images/user1.png" class="img-3x rounded-2" alt="Medical Dashboard"> Dr.
-                                                Hector
-                                            </td>
-                                            <td>20/05/2024</td>
-                                            <td>
-                                                Dentist
-                                            </td>
-                                            <td>
-                                                <div class="d-inline-flex gap-1">
-                                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                            data-bs-target="#viewReportsModal1">
-                                                        View Reports
-                                                    </button>
-                                                    <button class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-title="Download Report">
-                                                        <i class="ri-file-download-line"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="/admin/images/user5.png" class="img-3x rounded-2" alt="Medical Dashboard"> Dr.
-                                                Mitchel
-                                            </td>
-                                            <td>20/05/2024</td>
-                                            <td>
-                                                Urologist
-                                            </td>
-                                            <td>
-                                                <div class="d-inline-flex gap-1">
-                                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                            data-bs-target="#viewReportsModal1">
-                                                        View Reports
-                                                    </button>
-                                                    <button class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-title="Download Report">
-                                                        <i class="ri-file-download-line"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img src="/admin/images/user3.png" class="img-3x rounded-2" alt="Medical Dashboard"> Dr.
-                                                Fermin
-                                            </td>
-                                            <td>18/03/2024</td>
-                                            <td>
-                                                Surgeon
-                                            </td>
-                                            <td>
-                                                <div class="d-inline-flex gap-1">
-                                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                                            data-bs-target="#viewReportsModal1">
-                                                        View Reports
-                                                    </button>
-                                                    <button class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-title="Download Report">
-                                                        <i class="ri-file-download-line"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+            <div class="row gx-3">
+                <div class="col-sm-12">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="card-title">Reports</h5>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-6 col-sm-12">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h5 class="card-title">Reports</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-outer">
-                            <div class="table-responsive">
-                                <table class="table align-middle truncate m-0">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>File</th>
-                                            <th>Reports Link</th>
-                                            <th>Date</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                        @foreach (PatientReport report in Model.Reports)
-                                        {
-                                            count++;
+                        <div class="card-body">
+                            <div class="table-outer">
+                                <div class="table-responsive">
+                                    <table class="table align-middle truncate m-0">
+                                        <thead>
                                             <tr>
-                                                <td>@count</td>
-                                                <td>
-                                                    <div class="icon-box md bg-primary rounded-2">
-                                                        <i class="ri-file-excel-2-line"></i>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="~/assets/uploads/patientreports/@report.FileName" class="link-primary text-truncate" target="_blank">
-                                                        @report.FileName
-                                                    </a>
-                                                </td>
-                                                <td>@report.CreatedDate.ToString("MMM-dd, yyyy")</td>
-                                                <td>
-                                                    <div class="d-inline-flex gap-1">
-                                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delRow">
-                                                            <i class="ri-delete-bin-line"></i>
-                                                        </button>
-                                                        <a href="~/assets/uploads/patientreports/@report.FileName" class="btn btn-info btn-sm" data-bs-toggle="tooltip"
-                                                           data-bs-placement="top" data-bs-title="Download Report" download>
-                                                            <i class="ri-file-download-line"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
+                                                <th>#</th>
+                                                <th>File</th>
+                                                <th>Reports Link</th>
+                                                <th>Date</th>
+                                                <th>Actions</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (PatientReport report in Model.Reports)
+                                            {
+                                                count++;
+                                                <tr>
+                                                    <td>@count</td>
+                                                    <td>
+                                                        <div class="icon-box md bg-primary rounded-2">
+                                                            <i class="ri-file-excel-2-line"></i>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="~/assets/uploads/patientreports/@report.FileName" class="link-primary text-truncate" target="_blank">
+                                                            @report.FileName
+                                                        </a>
+                                                    </td>
+                                                    <td>@report.CreatedDate.ToString("MMM-dd, yyyy")</td>
+                                                    <td>
+                                                        <div class="d-inline-flex gap-1">
+                                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delRow">
+                                                                <i class="ri-delete-bin-line"></i>
+                                                            </button>
+                                                            <a href="~/assets/uploads/patientreports/@report.FileName" class="btn btn-info btn-sm" data-bs-toggle="tooltip"
+                                                               data-bs-placement="top" data-bs-title="Download Report" download>
+                                                                <i class="ri-file-download-line"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-xl-4 col-sm-6">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h5 class="card-title">Pharmacy</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="scroll350">
-                            <div class="text-center">
-                                <img class="img-fluid mb-3" src="/admin/images/reports.svg" style="width: 180px;"
-                                     alt="Hospital Admin Templates">
-                                <h2>$980</h2>
-                                <span class="d-block mb-1">Average Spending</span>
-                                <span class="d-block mb-2"><b>+20%</b> vs last month</span>
-                                <p class="m-0 opacity-75">
-                                    You can choose from over 1600 admin dashboard templates on Bootstrap
-                                    Gallery.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-sm-6">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h5 class="card-title">Timeline</h5>
-                    </div>
-                    <div class="card-body">
-
-                        <!-- Activity starts -->
-                        <div class="scroll350">
-                            <div class="activity-feed">
-                                <div class="feed-item">
-                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
-                                        An
-                                        Hour Ago
-                                    </span>
-                                    <div class="mb-1">
-                                        <a href="#" class="text-primary">Dr. Janie Mcdonald</a> - sent a new prescription.
-                                    </div>
-                                    <div class="mb-1">Medecine Name - <a href="#" class="text-danger">Amocvmillin</a></div>
-                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
-                                </div>
-                                <div class="feed-item">
-                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
-                                        An
-                                        Hour Ago
-                                    </span>
-                                    <div class="mb-1">
-                                        <a href="#" class="text-primary">Dr. Hector Banks</a> - uploaded a report.
-                                    </div>
-                                    <div class="mb-1">Report Name - <a href="#" class="text-danger">Lisymorpril</a></div>
-                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
-                                </div>
-                                <div class="feed-item">
-                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
-                                        An
-                                        Hour Ago
-                                    </span>
-                                    <div class="mb-1">
-                                        <a href="#" class="text-primary">Dr. Deena Cooley</a> - sent medecine details.
-                                    </div>
-                                    <div class="mb-1">Medecine Name - <a href="#" class="text-danger">Predeymsone</a></div>
-                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
-                                </div>
-                                <div class="feed-item">
-                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
-                                        An
-                                        Hour Ago
-                                    </span>
-                                    <div class="mb-1">
-                                        <a href="#" class="text-primary">Dr. Mitchel Alvarez</a> - added import files.
-                                    </div>
-                                    <div class="mb-1">File Name - <a href="#" class="text-danger">Naverreone</a></div>
-                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
-                                </div>
-                                <div class="feed-item">
-                                    <span class="feed-date pb-1" data-bs-toggle="tooltip" data-bs-title="Today 05:32:35">
-                                        An
-                                        Hour Ago
-                                    </span>
-                                    <div class="mb-1">
-                                        <a href="#" class="text-primary">Dr. Owen Scott</a> - reviewed your file.
-                                    </div>
-                                    <div class="mb-1">File Name - <a href="#" class="text-danger">Gabateyntin</a></div>
-                                    <a href="#!" class="text-dark">Payment Link <i class="ri-arrow-right-up-line"></i> </a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Activity ends -->
-
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Row ends -->
         <!-- Modal Delete Row -->
         <div class="modal fade" id="delRow" tabindex="-1" aria-labelledby="delRowLabel" aria-hidden="true">
@@ -498,3 +310,6 @@
         </div>
 
     </div>
+
+
+                                   

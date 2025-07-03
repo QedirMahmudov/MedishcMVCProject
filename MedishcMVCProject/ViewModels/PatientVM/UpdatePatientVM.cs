@@ -21,8 +21,9 @@ namespace MedishcMVCProject.ViewModels
 
         [Required(ErrorMessage = "Choose Gender!")]
         public GenderEnum? Gender { get; set; }
-
+        [RegularExpression(@"^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$", ErrorMessage = "Please enter a valid email in lowercase.")]
         public string Email { get; set; }
+        [RegularExpression(@"^(?:\+994|0)(50|51|55|70|77|99)[0-9]{7}$", ErrorMessage = "Please enter a valid phone number.")]
         public string PhoneNumber { get; set; }
         public string MainDescription { get; set; }
 

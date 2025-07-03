@@ -20,7 +20,6 @@ namespace MedishcMVCProject.ViewModels.ProductVM
         [MaxLength(1000, ErrorMessage = "Description must be less than 1000 characters.")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Please select an image.")]
         public IFormFile MainPhoto { get; set; }
 
         [Required(ErrorMessage = "Please select a category.")]

@@ -16,6 +16,7 @@ namespace MedishcMVCProject.ViewModels
         public int Age { get; set; }
         public GenderEnum Gender { get; set; }
         [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$", ErrorMessage = "Please enter a valid email in lowercase.")]
         public string? Email { get; set; }
         [MaxLength(100)]
         public string UserName { get; set; }
@@ -24,6 +25,7 @@ namespace MedishcMVCProject.ViewModels
         [DataType(DataType.Password)]
         [Compare(nameof(Password))]
         public string ConfirmPassword { get; set; }
+        [RegularExpression(@"^(?:\+994|0)(50|51|55|70|77|99)[0-9]{7}$", ErrorMessage = "Please enter a valid phone number.")]
         public string? PhoneNumber { get; set; }
         [Required]
         public int? SpecialistId { get; set; }
