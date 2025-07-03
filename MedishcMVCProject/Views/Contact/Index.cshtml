@@ -16,32 +16,34 @@ Contact Info Section
                             <div class="contact-body">
                                 <h5 class="card-heading">How can we help?</h5>
                                 <p class="card-desc">Please feel welcome to contact our friendly reception staff with any general or medical enquiry. Our doctors will receive or return calls.</p>
-                                <form class="contactForm" method="post" action="https://demo.zytheme.com/medisch/assets/php/contact.php">
+                                <form class="contactForm" method="post" action="@Url.Action("SubmitContactForm", "Contact")">
                                     <div class="row">
                                         <div class="col-12 col-md-12 col-lg-6">
-                                            <input class="form-control" type="text" name="contact-name" placeholder="Name" required="" />
+                                            <input class="form-control" type="text" name="Name" placeholder="Name" required="" />
                                         </div>
                                         <div class="col-12 col-md-6 col-lg-6">
-                                            <input class="form-control" type="text" name="contact-email" placeholder="Email" required="" />
+                                            <input class="form-control" type="text" name="Email" placeholder="Email" required="" />
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <div class="select-holder">
-                                                <select class="form-control">
+                                                <select class="form-control" name="Subject">
                                                     <option value="default">subject</option>
-                                                    <option value="AL">how to eat healthy ?</option>
-                                                    <option value="AK">wearing a mask importance </option>
+                                                    <option value="AL">How to eat healthy?</option>
+                                                    <option value="AK">Wearing a mask importance</option>
                                                 </select>
                                                 <div class="badge">subject</div>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6 col-lg-6">
-                                            <input class="form-control" type="text" name="contact-phone" placeholder="Phone" required="" />
+                                            <input class="form-control" type="text" name="Phone" placeholder="Phone" required="" />
                                         </div>
                                         <div class="col-12">
-                                            <textarea class="form-control" name="contact-message" cols="30" rows="2" placeholder="message" required=""></textarea>
+                                            <textarea class="form-control" name="Message" cols="30" rows="2" placeholder="message" required=""></textarea>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn--secondary btn-line btn-line-before btn--block"><span class="line"> <span> </span></span><span>submit request</span></button>
+                                            <button class="btn btn--secondary btn-line btn-line-before btn--block">
+                                                <span class="line"> <span> </span></span><span>submit request</span>
+                                            </button>
                                         </div>
                                         <div class="col-12">
                                             <div class="contact-result"></div>
@@ -131,3 +133,69 @@ Donations #1 Section
     </div>
     <!-- End .container-->
 </section>
+
+
+
+<script>
+           document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('.contactForm');
+        const submitBtn = form.querySelector('button');
+        const btnTextSpan = submitBtn.querySelector('span:last-child');
+        const originalText = btnTextSpan.textContent;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); 
+
+            btnTextSpan.textContent = 'Please wait...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+
+            fetch('@Url.Action("SubmitContactForm", "Contact")', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())  
+                .then(data => {
+                    if (data.success) {
+                        document.querySelector('.contact-result').innerHTML = '<div class="alert alert-success">Your message has been sent successfully!</div>';
+                        form.reset();
+                    } else {
+                        document.querySelector('.contact-result').innerHTML = '<div class="alert alert-danger">An error occurred. Please try again.</div>';
+                    }
+                })
+                .catch(error => {
+                    document.querySelector('.contact-result').innerHTML = '<div class="alert alert-danger">An error occurred. Please try again.</div>';
+                })
+                .finally(() => {
+                    btnTextSpan.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
+        });
+    });
+</script>
+
+<style>
+    .alert {
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+</style>
