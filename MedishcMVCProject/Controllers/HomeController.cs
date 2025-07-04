@@ -36,7 +36,7 @@ namespace MedishcMVCProject.Controllers
         {
             PharmacyHomeVM? vm = new PharmacyHomeVM
             {
-                Products = await _context.Products.Take(12).ToListAsync(),
+                Products = await _context.Products.Take(6).ToListAsync(),
                 Blogs = await _context.Blogs.Include(b => b.Author).Take(6).ToListAsync()
             };
 

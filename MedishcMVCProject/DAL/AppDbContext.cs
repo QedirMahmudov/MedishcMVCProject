@@ -95,6 +95,7 @@ namespace MedishcMVCProject.DAL
                 .HasOne(pt => pt.Tag)
                 .WithMany(t => t.ProductTags)
                 .HasForeignKey(pt => pt.TagId);
+
         }
     }
 

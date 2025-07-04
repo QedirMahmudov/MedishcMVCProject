@@ -23,8 +23,8 @@ namespace MedishcMVCProject.Areas.admin.Controllers
         public IActionResult List(string specialistName = null)
         {
             List<ContactInfo>? contactInfos = _context.ContactInfos
-                    .Where(ci => ci.OwnerType == OwnerType.Specialist)
-                    .ToList();
+                .Where(ci => ci.OwnerType == OwnerType.Specialist)
+                .ToList();
 
             List<Specialist> specialistEntities = _context.Specialists
                 .Include(s => s.Doctors)
@@ -34,17 +34,19 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             {
                 Id = s.Id,
                 DepartmentName = s.Name,
-                HeadDoctorName = s.HeadDoctor.Name,
-                HeadDoctorSurname = s.HeadDoctor.Surname,
-                Image = s.HeadDoctor.Image,
+                HeadDoctorName = s.HeadDoctor?.Name ?? "Unknown",
+                HeadDoctorSurname = s.HeadDoctor?.Surname ?? "Unknown",
+                Image = s.HeadDoctor?.Image ?? "default-image.jpg",
                 DepartmentEmail = contactInfos
-                    .FirstOrDefault(c => c.OwnerId == s.Id && c.ContactType == ContactType.Email)?.Value,
+                    .FirstOrDefault(c => c.OwnerId == s.Id && c.ContactType == ContactType.Email)?.Value ?? "No Email",
                 DepartmentPhoneNumber = contactInfos
-                    .FirstOrDefault(c => c.OwnerId == s.Id && c.ContactType == ContactType.Phone)?.Value
+                    .FirstOrDefault(c => c.OwnerId == s.Id && c.ContactType == ContactType.Phone)?.Value ?? "No Phone"
             }).ToList();
 
             if (!string.IsNullOrWhiteSpace(specialistName))
+            {
                 specialists = Helpers.FilterByText(specialists, s => s.DepartmentName, specialistName);
+            }
 
             return View(specialists);
         }

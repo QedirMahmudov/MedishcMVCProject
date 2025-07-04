@@ -13,7 +13,7 @@ namespace MedishcMVCProject.ViewModels
         public string MainDescription { get; set; }
         public string DiseaseName { get; set; }
         public string BloodName { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public List<PatientReport> Reports { get; set; }
 

@@ -302,6 +302,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
             return View(doctorVM);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Update(int? id, UpdateDoctorVM doctorVM)
         {
@@ -498,6 +499,17 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 .Where(ci => ci.OwnerType == OwnerType.Doctor && selectedIds.Contains(ci.OwnerId))
                 .ToListAsync();
 
+            var patients = await _context.Patients
+                .Where(p => selectedIds.Contains(p.DoctorId.Value))
+                .ToListAsync();
+
+            foreach (var patient in patients)
+            {
+                patient.DoctorId = null;
+            }
+
+            await _context.SaveChangesAsync();
+
             foreach (var doctor in doctors)
             {
                 doctor.Image.DeleteFile(_env.WebRootPath, "assets", "images", "team", "full");
@@ -505,6 +517,17 @@ namespace MedishcMVCProject.Areas.admin.Controllers
 
             _context.ContactInfos.RemoveRange(contactInfos);
             _context.Doctors.RemoveRange(doctors);
+
+
+            var specialists = await _context.Specialists
+                .Where(s => selectedIds.Contains(s.HeadDoctorId.Value))
+                .ToListAsync();
+
+            foreach (var specialist in specialists)
+            {
+                specialist.HeadDoctorId = null;
+            }
+
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Selected doctors deleted successfully.";

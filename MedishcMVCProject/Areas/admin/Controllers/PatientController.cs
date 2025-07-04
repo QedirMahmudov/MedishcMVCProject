@@ -89,7 +89,8 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 ContactInfo? phoneContact = contacts.FirstOrDefault(c => c.ContactType == ContactType.Phone);
 
                 patient.Email = emailContact?.Value;
-                patient.PhoneNumber = int.TryParse(phoneContact?.Value, out int phone) ? phone : 0;
+
+                patient.PhoneNumber = phoneContact?.Value;
             }
 
             patients = Helpers.FilterByText(patients, p => p.Name + " " + p.Surname, patientName);
@@ -132,7 +133,7 @@ namespace MedishcMVCProject.Areas.admin.Controllers
                 DiseaseName = patient.Disease.Name,
                 GenderName = patient.Gender.ToString(),
                 Email = emailContact?.Value,
-                PhoneNumber = int.TryParse(phoneContact?.Value, out int phone) ? phone : 0,
+                PhoneNumber = phoneContact?.Value,
                 Reports = reports,
                 DoctorFullName = patient.Doctor != null ? $"{patient.Doctor.Name} {patient.Doctor.Surname}" : "Not Found"
             };

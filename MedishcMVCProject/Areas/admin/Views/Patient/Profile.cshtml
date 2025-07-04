@@ -95,7 +95,7 @@
                                 <strong>Email:</strong> @(string.IsNullOrWhiteSpace(Model.Email) ? "Not Found" : Model.Email)
                             </span>
                             <span>
-                                <strong>Phone:</strong> @(Model.PhoneNumber == 0 ? "Not Found" : Model.PhoneNumber.ToString())
+                                <strong>Phone:</strong> @(string.IsNullOrEmpty(Model.PhoneNumber) ? "Not Found" : Model.PhoneNumber)
                             </span>
                         </div>
                     </div>
@@ -143,9 +143,7 @@
                                                     <td>@report.CreatedDate.ToString("MMM-dd, yyyy")</td>
                                                     <td>
                                                         <div class="d-inline-flex gap-1">
-                                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delRow">
-                                                                <i class="ri-delete-bin-line"></i>
-                                                            </button>
+                                                            
                                                             <a href="~/assets/uploads/patientreports/@report.FileName" class="btn btn-info btn-sm" data-bs-toggle="tooltip"
                                                                data-bs-placement="top" data-bs-title="Download Report" download>
                                                                 <i class="ri-file-download-line"></i>

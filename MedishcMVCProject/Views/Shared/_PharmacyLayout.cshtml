@@ -169,7 +169,7 @@
             </div>
             <!-- end .top-bar-->
             <nav class="navbar navbar-expand-xl navbar-sticky" id="primary-menu">
-                <a class="navbar-brand" href="index.html"><img class="logo logo-dark" src="~/assets/images/logo/logo-dark.svg" alt="medisch logo" /><img class="logo logo-mobile" src="~/assets/images/logo/logo-mobile.svg" alt="medisch logo" /></a>
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img class="logo logo-dark" src="~/assets/images/logo/logo-dark.svg" alt="medisch logo" /><img class="logo logo-mobile" src="~/assets/images/logo/logo-mobile.svg" alt="medisch logo" /></a>
                 <div class="module-holder module-holder-phone">
                     <!--  start module search  -->
                     <div class="module module-search float-left">
@@ -242,7 +242,6 @@
                                 <a class="dropdown-toggle" href="#">Pharmacy</a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a asp-controller="PharmacyAccount" asp-action="Login">Login</a></li>
-                                    <li class="nav-item"><a asp-controller="PharmacyAccount" asp-action="Register">Register</a></li>
                                 </ul>
                             }
                         </li>
@@ -257,7 +256,8 @@
                         </div>
                         <!--  end .module-search-->
                         <!-- start .module-contact-->
-                        <div class="module-contact"><a class="btn btn--secondary" href="doctors-timetable.html">doctors' timetable</a><a class="btn btn--primary btn-line btn-line-after" href="page-appointments.html"> <span>make appointment</span><span class="line"> <span></span></span></a></div>
+                        <div class="module-contact"><a class="btn btn--primary btn-line btn-line-after" asp-area="Admin" asp-controller="Appointment" asp-action="Appointments"> <span>make appointment</span><span class="line"> <span></span></span></a></div>
+
                     </div>
                     <!--  end .module-holder-->
                 </div>
